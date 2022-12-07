@@ -23,6 +23,7 @@ class backupmeenu {
      *
      * Description:
      *
+     * 
      * builds the Dynaminc dropdown menu
      * $table allows for passing in a MySQL table name for different menu tables.
      * $type is for the type of menu to display ie; topmenu, mainmenu, sidebar menu
