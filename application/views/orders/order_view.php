@@ -810,7 +810,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Delivery Date Time -->
 
                                                                             <!-- Writer name -->
-                                                                            <div class="col-lg-4" name="numberDrop" id="numberDropId" onChange="getButtons()">
+                                                                            <div class="col-lg-4" name="numberDrop<?php echo $obj['order_id']; ?>" id="numberDropId<?php echo $obj['order_id']; ?>" onChange="getButtons<?php echo $obj['order_id']; ?>()">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if ($role_id != '3') { ?>
                                                                                         <?php if ($obj['projectstatus'] == 'In Progress') { ?>
@@ -869,7 +869,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Writer price -->
 
                                                                             <!-- Writer deadline -->
-                                                                            <div class="col-lg-4 writer_deadline" name="numberDrop"  onChange="getButtons()">
+                                                                            <div class="col-lg-4 writer_deadline" >
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if (!empty($obj['writer_deadline'])) {
                                                                                         if (@$obj['writer_deadline'] != '1970-01-01') {
@@ -1047,9 +1047,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <!-- Order status -->
                                                                                 <div class="col-lg-4">
                                                                                     <div class="form-group has-warning m-b-40">
-                                                                                    <select class="form-control pages" name="projectstatus" onClick="getDropDown()">
-                                                                                   
-                                                                          <option value="Pending" <?php if ($projectstatus == 'Pending') {
+                                                                                    <select class="form-control pages projectstatus<?php echo $obj['order_id']; ?>" name="projectstatus" onClick="getDropDown<?php echo $obj['order_id']; ?>()">
+                                                                                        <option value="Pending" <?php if ($projectstatus == 'Pending') {
                                                                                                                         echo "selected";
                                                                                                                     } ?>>Pending</option>
                                                                                             <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
@@ -1088,9 +1087,23 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                         <label for="input10">Order status</label>
                                                                                     </div>
                                                                                 </div>
+                                                                                    <script>
+                                                                                            function getDropDown<?php echo $obj['order_id']; ?>() {
+                                                                                            var optionDrop = document.getElementsByClassName("projectstatus<?php echo $obj['order_id']; ?>");
+                                                                                            var numberDrop = document.getElementsByName("numberDrop<?php echo $obj['order_id']; ?>");
+
+                                                                                        if (optionDrop[0].value == "In Progress" || optionDrop[0].value == "Completed" || optionDrop[0].value == "Delivered" || optionDrop[0].value == "Feedback" || optionDrop[0].value == "Feedback Delivered" || optionDrop[0].value == "Cancelled"  || optionDrop[0].value == "Draft Ready"  || optionDrop[0].value == "Draft Delivered"){
+                                                                                                        numberDrop[0].style.display = "";
+                                                                                                        na.style.display = "none";
+
+                                                                                        }else if (optionDrop[0].value == "Pending" || optionDrop[0].value == "Other" || optionDrop[0].value == "initiated"){            
+                                                                                                        numberDrop[0].style.display = "none";
+                                                                                                        na.style.display = "block";
+                                                                                        }
+                                                                                    }
+                                                                                        </script>
                                                                             <?php } ?>
                                                                             <!-- / Project status -->
-
                                                                             <!-- Payment status -->
                                                                             <?php $paymentstatus = $obj['paymentstatus']; ?>
                                                                             <div class="col-lg-4">
@@ -1600,19 +1613,3 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 </script>
 
 
-
-<script>
-         function getDropDown() {
-         var optionDrop = document.getElementsByName("projectstatus");
-        var numberDrop = document.getElementsByName("numberDrop");
-
-    if (optionDrop[0].value == "In Progress" || optionDrop[0].value == "Completed" || optionDrop[0].value == "Delivered" || optionDrop[0].value == "Feedback" || optionDrop[0].value == "Feedback Delivered" || optionDrop[0].value == "Cancelled"  || optionDrop[0].value == "Draft Ready"  || optionDrop[0].value == "Draft Delivered"){
-                    numberDrop[0].style.display = "";
-                    na.style.display = "none";
-
-    }else if (optionDrop[0].value == "Pending" || optionDrop[0].value == "Other" || optionDrop[0].value == "initiated"){            
-                    numberDrop[0].style.display = "none";
-                    na.style.display = "block";
-    }
-}
-    </script>
