@@ -1031,7 +1031,9 @@ class Orders extends CI_Controller
 			"college_name",
 			"is_fail",
 		);
+     
 
+		
 		fputcsv($file, $header);
 		foreach ($expenses_data as $key => $line) {
 			$line['order_file_details'] = null;
@@ -1047,6 +1049,8 @@ class Orders extends CI_Controller
 		$this->load->library('excel');
 
 		$fileName = 'order-report-' . date('d-M-Y') . '.xlsx';
+
+
 
 		if ($this->input->post()) {
 			$conditions['customer_id'] = $this->input->post('customer_id');

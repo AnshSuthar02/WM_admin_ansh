@@ -1,3 +1,5 @@
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $current_page   = current_url();
@@ -219,7 +221,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     <div class="col-md-6 col-sm-6" style="text-align: right;">
                                         <label class="control-label" style="visibility: hidden;">Hidden</label>
                                         <br>
-                                        <a href="<?php echo base_url('Orders/ordersCSV'); ?>" class="btn btn-success" type="button" style="border:none; background-color: red; color:white;">
+                                        <a href="<?php echo base_url('index.php/Orders/ordersCSV'); ?>" class="btn btn-success" type="button" style="border:none; background-color: red; color:white;">
                                             Export
                                         </a>
                                     </div>
@@ -679,7 +681,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     <!-- modal-dialog modal-xl -->
                                                 </div>
                                                 <!-- / Payment Details Model -->
-                                                                                    
+
                                                 <!-- Update Order Model -->
                                                 <div class="modal fade bd-example-modal-xl" id="editModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-xl">
@@ -696,7 +698,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                             <!-- modal-header -->
                                                             <div class="modal-body">
                                                                 <div class="card-body">
-                                                                    
                                                                     <?php if($o_counts <= 10) { ?>
                                                                     <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
 
@@ -810,11 +811,12 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Delivery Date Time -->
 
                                                                             <!-- Writer name -->
-                                                                            <div class="col-lg-4" name="numberDrop<?php echo $obj['order_id']; ?>" id="numberDropId<?php echo $obj['order_id']; ?>" onChange="getButtons<?php echo $obj['order_id']; ?>()">
-                                                                                <div class="form-group has-warning m-b-40">
+                                                                            <div class="col-lg-4 box Other initiated">
+                                                                                <div class="form-group has-warning m-b-40  " >
                                                                                     <?php if ($role_id != '3') { ?>
                                                                                         <?php if ($obj['projectstatus'] == 'In Progress') { ?>
                                                                                             <select name="writer_name" class="form-control" required>
+                                                                                                <option value=""></option>
                                                                                                 <?php
                                                                                                 $teams = getWriterTeams();
                                                                                                 foreach ($teams as $team) {
@@ -868,7 +870,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Writer price -->
 
                                                                             <!-- Writer deadline -->
-                                                                            <div class="col-lg-4 writer_deadline" >
+                                                                            <div class="col-lg-4 writer_deadline">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if (!empty($obj['writer_deadline'])) {
                                                                                         if (@$obj['writer_deadline'] != '1970-01-01') {
@@ -993,7 +995,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 </div>
                                                                             </div>
                                                                             <!-- / Choose type of writing -->
-                                                                           
+
                                                                             <!-- Project status -->
                                                                             <?php $projectstatus = $obj['projectstatus']; ?>
                                                                             <?php if ($role_id != 1) { ?>
@@ -1030,10 +1032,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                                 <option value="Draft Delivered" <?php if ($projectstatus == 'Draft Delivered') {
                                                                                                                                     echo "selected";
                                                                                                                                 } ?>>Draft Delivered</option>
-                                                                                                <option value="Other" <?php if ($projectstatus == 'Other') {
+                                                                                                <option value="Other"  <?php if ($projectstatus == 'Other') {
                                                                                                                             echo "selected";
                                                                                                                         } ?>>Other</option>
-                                                                                                <option value="initiated" <?php if ($projectstatus == 'initiated') {
+                                                                                                <option value="initiated"  <?php if ($projectstatus == 'initiated') {
                                                                                                                                 echo "selected";
                                                                                                                             } ?>>initiated</option>
                                                                                             </select>
@@ -1046,8 +1048,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <!-- Order status -->
                                                                                 <div class="col-lg-4">
                                                                                     <div class="form-group has-warning m-b-40">
-                                                                                    <select class="form-control pages projectstatus<?php echo $obj['order_id']; ?>" name="projectstatus" onClick="getDropDown<?php echo $obj['order_id']; ?>()">
-                                                                                        <option value="Pending" <?php if ($projectstatus == 'Pending') {
+                                                                                        <select class="form-control pages" name="projectstatus" required>
+
+                                                                                            <option value="Pending" <?php if ($projectstatus == 'Pending') {
                                                                                                                         echo "selected";
                                                                                                                     } ?>>Pending</option>
                                                                                             <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
@@ -1077,35 +1080,31 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                             <option value="Other" <?php if ($projectstatus == 'Other') {
                                                                                                                         echo "selected";
                                                                                                                     } ?>>Other</option>
-                                                                                            <option value="initiated" <?php if ($projectstatus == 'initiated') {
+                                                                                            <option value="initiated" selected <?php if ($projectstatus == 'initiated') {
                                                                                                                             echo "selected";
                                                                                                                         } ?>>initiated</option>
-                                                                                   </select>
-                                                                                        
+                                                                                        </select>
                                                                                         <span class="bar"></span>
                                                                                         <label for="input10">Order status</label>
                                                                                     </div>
                                                                                 </div>
-
-
-
-
-                                                                                    <script>
-                                                                                            function getDropDown<?php echo $obj['order_id']; ?>() {
-                                                                                            var optionDrop = document.getElementsByClassName("projectstatus<?php echo $obj['order_id']; ?>");
-                                                                                            var numberDrop = document.getElementsByName("numberDrop<?php echo $obj['order_id']; ?>");
-                                                                                                if (optionDrop[0].value == "In Progress" || optionDrop[0].value == "Completed" || optionDrop[0].value == "Delivered" || optionDrop[0].value == "Feedback" || optionDrop[0].value == "Feedback Delivered" || optionDrop[0].value == "Cancelled"  || optionDrop[0].value == "Draft Ready"  || optionDrop[0].value == "Draft Delivered"){
-                                                                                                        numberDrop[0].style.display = "";
-                                                                                                        na.style.display = "none";
-
-                                                                                                }else if (optionDrop[0].value == "Pending" || optionDrop[0].value == "Other" || optionDrop[0].value == "initiated"){            
-                                                                                                        numberDrop[0].style.display = "none";
-                                                                                                        na.style.display = "block";
-                                                                                                  }
-                                                                                            }
-                                                                                    </script>
                                                                             <?php } ?>
                                                                             <!-- / Project status -->
+                                                                            <script>
+                                                                                $(document).ready(function(){
+                                                                                    $("select").change(function(){
+                                                                                        $(this).find("option:selected").each(function(){
+                                                                                            var optionValue = $(this).attr("value");
+                                                                                            if(optionValue){
+                                                                                                $(".box").not("." + optionValue).hide();
+                                                                                                $("." + optionValue).show();
+                                                                                            } else{
+                                                                                                $(".box").hide();
+                                                                                            }
+                                                                                        });
+                                                                                    }).change();
+                                                                                });
+                                                                                </script>
                                                                             <!-- Payment status -->
                                                                             <?php $paymentstatus = $obj['paymentstatus']; ?>
                                                                             <div class="col-lg-4">
@@ -1126,9 +1125,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Payment status -->
                                                                         </div>
                                                                         <!-- row -->
-                                                                                                                    
+
                                                                         <!-- Enter message -->
-                                                                        <div class="col-lg-12" >
+                                                                        <div class="col-lg-12">
                                                                             <div class="form-group has-warning m-b-40">
                                                                                 <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
                                                                                 <span class="bar"></span>
@@ -1136,13 +1135,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             </div>
                                                                         </div>
                                                                         <!-- Enter message -->
-                                                                     
-                                                                        
-                                                                    
-                                                                    
-                                                                        <div  >
-                                                                        <input type="text">
-                                                                        </div>
+
 
                                                                         <!-- Upload Files -->
                                                                         <div class="col-lg-12" style="display: none;">
@@ -1172,9 +1165,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                         </div>
 
                                                                     </form>
-                                                                                                                                                                                        
-                                                                    
-
                                                                     <?php } ?>
                                                                 </div>
                                                             </div>
@@ -1466,7 +1456,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success modal_approve_button" style="background-color: #168c56;">Submit</button>
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -1500,15 +1489,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
- 
 </div>
-
-
-
-    
- 
-
-
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 
@@ -1613,5 +1594,3 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
         });
     });
 </script>
-
-
