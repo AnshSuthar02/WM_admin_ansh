@@ -1375,12 +1375,11 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                          <?php
                                                                                             if ($obj['order_type'] == "Website")
                                                                                             {
-                                                                                                echo $name[4];
+                                                                                                 echo $name[4];
                                                                                             }
-                                                                                             else
-                                                                                            {
-                                                                                                echo $name[5];
-                                                                                            }
+                                                                                             else {
+                                                                                                 echo $name[5];
+                                                                                             }
                                                                                         ?>
                                                                                     </a>
                                                                                 </div>
@@ -1432,7 +1431,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                 <p>Are you sure, you want to delete Order <b><?php echo $obj['order_id']; ?> </b>? </p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-primary ">Submit</button>
+                                                                <button type="submit" class="btn btn-primary ">Delete</button>
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>

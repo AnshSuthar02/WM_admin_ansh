@@ -936,24 +936,30 @@ class Orders extends CI_Controller
 		redirect('/Orders/index', 'refresh');
 	}
 
-	public function deleteorder($id = null)
-	{
-		$ids = $this->input->post('ids');
-		if (!empty($ids)) {
-			$Datas = explode(',', $ids);
-			foreach ($Datas as $key => $id) {
-				$this->order_model->deleteorder($id);
-			}
-			echo $this->session->set_flashdata('success', 'Order deleted Successfully !');
-			redirect('/Orders/index', 'refresh');
-		} else {
+	// public function deleteorder($id = null)
+	// {
+	// 	$ids = $this->input->post('ids');
+	// 	if (!empty($ids)) {
+	// 		$Datas = explode(',', $ids);
+	// 		foreach ($Datas as $key => $id) {
+	// 			$this->order_model->deleteorder($id);
+	// 		}
+	// 		echo $this->session->set_flashdata('success', 'Order deleted Successfully !');
+	// 		redirect('/Orders/index', 'refresh');
+	// 	} else {
 
-			$id = $this->uri->segment('3');
-			$this->order_model->deleteorder($id);
-			$this->session->set_flashdata('success', 'Order deleted Successfully !');
+	// 		$id = $this->uri->segment('3');
+	// 		$this->order_model->deleteorder($id);
+	// 		$this->session->set_flashdata('success', 'Order deleted Successfully !');
+	// 		redirect('/Orders/index', 'refresh');
+	// 	}
+	// }
+
+	public function deleteorder($id){
+		$this -> db -> where('id', $id);
+		$this -> db -> delete('orders');
+		$this->session->set_flashdata('success', 'Order deleted Successfully !');
 			redirect('/Orders/index', 'refresh');
-			//$this->fetchcustomers(); //render the refreshed list.
-		}
 	}
 
 	public function deleteorderFile($id = null)

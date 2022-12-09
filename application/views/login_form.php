@@ -224,6 +224,14 @@
          top: 170px;
          position: relative;
       }
+    
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+
+}
    </style>
 </head>
 

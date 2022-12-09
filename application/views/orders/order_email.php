@@ -267,7 +267,12 @@ $current_page = current_url();
                                                                     <div class="col-md-8 col-sm-8 ">
                                                                         <label class="control-label">Uploaded File :</label>
                                                                         <div style="height: 10%;width: 100%;">
-                                                                            <a href="<?php echo base_url() . '/uploads/' . $file_details['file']; ?>" target="_blank"> <?= $file_details['file'] ?></a>
+                                                                            <?php $name = explode('/', $file_details['file']); ?>
+                                                                                <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
+                                                                                 <?php
+                                                                                   echo base_url() .'/uploads/'. $name[5];
+                                                                                ?>
+                                                                            </a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
