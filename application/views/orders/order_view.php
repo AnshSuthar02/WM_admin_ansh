@@ -1371,14 +1371,16 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <label class="control-label">Uploaded File :</label>
                                                                                 <div style="height: 10%;width: 100%;">
                                                                                     <?php $name = explode('/', $file_details['file']); ?>
-                                                                                    <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
-                                                                                        <?php
-
-                                                                                        if ($obj['order_type'] == "Website") {
-                                                                                            echo $name[4];
-                                                                                        } else {
-                                                                                            echo $name[5];
-                                                                                        }
+                                                                                        <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
+                                                                                         <?php
+                                                                                            if ($obj['order_type'] == "Website")
+                                                                                            {
+                                                                                                echo $name[4];
+                                                                                            }
+                                                                                             else
+                                                                                            {
+                                                                                                echo $name[5];
+                                                                                            }
                                                                                         ?>
                                                                                     </a>
                                                                                 </div>
