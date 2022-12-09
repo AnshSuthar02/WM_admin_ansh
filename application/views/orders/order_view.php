@@ -1370,9 +1370,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <div class="col-md-8">
                                                                                 <label class="control-label">Uploaded File :</label>
                                                                                 <div style="height: 10%;width: 100%;">
-                                                                                    <a href="<?php echo $file_details['file']; ?>" target="_blank">
+                                                                                    <?php $name = explode('/', $file_details['file']); ?>
+                                                                                    <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
                                                                                         <?php
-                                                                                        $name = explode('/', $file_details['file']);
 
                                                                                         if ($obj['order_type'] == "Website") {
                                                                                             echo $name[4];
