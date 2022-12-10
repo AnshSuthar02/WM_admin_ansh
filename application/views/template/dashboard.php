@@ -120,7 +120,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                 <!-- Column -->
                 <!-- Column -->
                 <div class="col-md-3 col-md-3">
-                    <a href="<?= base_url('index.php/Order/index'); ?>?customer_id=0&order_id=0&from_date=&upto_date=&order_date_filter=order_date&status=Pending&title=">
+                    <a href="<?= base_url('index.php/Order/index'); ?>?customer_id=0&order_id=0&from_date=&upto_date=&order_date_filter=order_date&status=Pending&title=    ">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-row">
