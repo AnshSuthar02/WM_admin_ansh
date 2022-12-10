@@ -197,28 +197,107 @@ class Orders extends CI_Controller
 		}
 	}
 
-	public function index()
+	// public function index()
+	// {
+	// 	$this->load->library("pagination");
+	// 	$config = array();
+	// 	$config["base_url"] = base_url() . "Orders/index";
+	// 	$config["total_rows"] = $this->order_model->TotalOrders();
+	// 	$config["per_page"] = 10;
+	// 	$config["uri_segment"] = 3;
+	// 	$data['Total_order'] = $this->order_model->TotalOrders();
+	// 	$config['num_tag_open'] = '<li>';
+	// 	$config['num_tag_close'] = '</li>';
+	// 	$config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
+	// 	$config['cur_tag_close'] = '</a></li>';
+	// 	$config['next_link'] = 'Next';
+	// 	$config['prev_link'] = 'Prev';
+	// 	$config['next_tag_open'] = '<li class="pg-next">';
+	// 	$config['next_tag_close'] = '</li>';
+	// 	$config['prev_tag_open'] = '<li class="pg-prev">';
+	// 	$config['prev_tag_close'] = '</li>';
+	// 	$config['first_tag_open'] = '<li>';
+	// 	$config['first_tag_close'] = '</li>';
+	// 	$config['last_tag_open'] = '<li>';
+	// 	$config['last_tag_close'] = '</li>';
+
+	// 	$this->pagination->initialize($config);
+
+	// 	$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+	// 	$data["links"] = $this->pagination->create_links();
+	// 	$role_id = $this->session->userdata['logged_in']['role_id'];
+	// 	$login_id = $this->session->userdata['logged_in']['id'];
+	// 	$data['title'] = 'Orders List';
+
+	// 	$data['all_customers'] = $this->order_model->getAllCustomers();
+	// 	$data['OrderIDs'] = $this->order_model->getOrderIDs();
+	// 	if ($this->input->get()) {
+	// 		if ($this->input->get('notify') == "yes") {
+	// 			$this->order_model->feedback__notify_update();
+	// 		}
+	// 		$conditions['per_page'] = $config["per_page"];
+	// 		$conditions['page'] = $page;
+	// 		$conditions['status'] = $this->input->get('status');
+	// 		$conditions['customer_id'] = $this->input->get('customer_id');
+	// 		$conditions['order_id'] = $this->input->get('order_id');
+	// 		$conditions['title'] = $this->input->get('title');
+	// 		$conditions['filter_check'] = $this->input->get('filter_check');
+	// 		$conditions['order_date_filter'] = $this->input->get('order_date_filter');
+	// 		$conditions['from_date'] = date('Y-m-d', strtotime($this->input->get('from_date')));
+	// 		$conditions['upto_date'] = date('Y-m-d', strtotime($this->input->get('upto_date')));
+	// 		$data['from_date'] = $this->input->get('from_date');
+	// 		$data['upto_date'] = $this->input->get('upto_date');
+	// 		$data['customer_id'] = $this->input->get('customer_id');
+	// 		$data['orders'] = $this->order_model->order_list_by_filter($conditions);
+	// 	} else {
+	// 		$online_order = 0;
+	// 		if ($role_id == 2) {
+	// 			$data['orders'] = $this->order_model->order_listnew($login_id, $config["per_page"], $page, $online_order);
+	// 		} else {
+	// 			$data['orders'] = $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
+	// 		}
+	// 	}
+
+	// 	$data['categories'] 		= $this->order_model->getCategories();
+	// 	$data['services'] 			= $this->order_model->getServices();
+	// 	$data['typeofpapers'] 		= $this->order_model->getTypeOfPaper();
+	// 	$data['pages'] 				= $this->order_model->getPagesList();
+	// 	$data['timelines'] 			= $this->order_model->getTimelines();
+	// 	$data['formattings'] 		= $this->order_model->getFormattings();
+	// 	$data['typeofwritings'] 	= $this->order_model->getWtittingTypes();
+	// 	$data['countries'] 			= $this->order_model->getCountries();
+	// 	$data['users'] 				= $this->order_model->getUsersList();
+	// 	$data['prefix'] 			= array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
+	// 	$data['o_counts'] 			= count($data['orders']);
+	// 	// pre($data);
+	// 	// die();
+	// 	$this->template->load('template', 'orders/order_view', $data);
+	// }
+	public function index() 
 	{
+		
 		$this->load->library("pagination");
+
 		$config = array();
 		$config["base_url"] = base_url() . "Orders/index";
 		$config["total_rows"] = $this->order_model->TotalOrders();
 		$config["per_page"] = 10;
 		$config["uri_segment"] = 3;
 		$data['Total_order'] = $this->order_model->TotalOrders();
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-		$config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
-		$config['cur_tag_close'] = '</a></li>';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Prev';
-		$config['next_tag_open'] = '<li class="pg-next">';
-		$config['next_tag_close'] = '</li>';
-		$config['prev_tag_open'] = '<li class="pg-prev">';
-		$config['prev_tag_close'] = '</li>';
-		$config['first_tag_open'] = '<li>';
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_open'] = '<li>';
+		$config['num_tag_open'] = '<li>'; 
+		$config['num_tag_close'] = '</li>'; 
+		$config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">'; 
+		$config['cur_tag_close'] = '</a></li>'; 
+		$config['next_link'] = 'Next'; 
+		$config['prev_link'] = 'Prev'; 
+		$config['next_tag_open'] = '<li class="pg-next">'; 
+		$config['next_tag_close'] = '</li>'; 
+		$config['prev_tag_open'] = '<li class="pg-prev">'; 
+		$config['prev_tag_close'] = '</li>'; 
+		$config['first_tag_open'] = '<li>'; 
+		$config['first_tag_close'] = '</li>'; 
+		$config['last_tag_open'] = '<li>'; 
 		$config['last_tag_close'] = '</li>';
 
 		$this->pagination->initialize($config);
@@ -226,53 +305,52 @@ class Orders extends CI_Controller
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
 		$data["links"] = $this->pagination->create_links();
-		$role_id = $this->session->userdata['logged_in']['role_id'];
-		$login_id = $this->session->userdata['logged_in']['id'];
+
+       
+	   
+		$role_id=$this->session->userdata['logged_in']['role_id'];
+		$login_id=$this->session->userdata['logged_in']['id'];
 		$data['title'] = 'Orders List';
-
-		$data['all_customers'] = $this->order_model->getAllCustomers();
-		$data['OrderIDs'] = $this->order_model->getOrderIDs();
-		if ($this->input->get()) {
-			if ($this->input->get('notify') == "yes") {
+		
+		$data['all_customers']=$this->order_model->getAllCustomers();
+		$data['OrderIDs']=$this->order_model->getOrderIDs();
+		//$data['categories']=$this->order_model->getCategories();
+		//$data['states']=$this->order_model->getStates();
+		//print_r($data['all_customers']); exit;
+		if($this->input->get())
+		{
+			if($this->input->get('notify')=="yes"){
 				$this->order_model->feedback__notify_update();
+				
 			}
-			$conditions['per_page'] = $config["per_page"];
-			$conditions['page'] = $page;
-			$conditions['status'] = $this->input->get('status');
-			$conditions['customer_id'] = $this->input->get('customer_id');
-			$conditions['order_id'] = $this->input->get('order_id');
-			$conditions['title'] = $this->input->get('title');
-			$conditions['filter_check'] = $this->input->get('filter_check');
-			$conditions['order_date_filter'] = $this->input->get('order_date_filter');
-			$conditions['from_date'] = date('Y-m-d', strtotime($this->input->get('from_date')));
-			$conditions['upto_date'] = date('Y-m-d', strtotime($this->input->get('upto_date')));
-			$data['from_date'] = $this->input->get('from_date');
-			$data['upto_date'] = $this->input->get('upto_date');
-			$data['customer_id'] = $this->input->get('customer_id');
-			$data['orders'] = $this->order_model->order_list_by_filter($conditions);
-		} else {
-			$online_order = 0;
-			if ($role_id == 2) {
-				$data['orders'] = $this->order_model->order_listnew($login_id, $config["per_page"], $page, $online_order);
-			} else {
-				$data['orders'] = $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
-			}
-		}
+			$conditions['per_page']=$config["per_page"];
+			$conditions['page']=$page;
+			$conditions['status']=$this->input->get('status');
+		 	$conditions['customer_id']=$this->input->get('customer_id');
+		 	$conditions['order_id']=$this->input->get('order_id');
+			$conditions['title']=$this->input->get('title');
+			$conditions['filter_check']=$this->input->get('filter_check');
+			$conditions['order_date_filter']=$this->input->get('order_date_filter');
+		 	//$conditions['categories_id']=$this->input->get('categories_id');
+		 	//$conditions['category_of_approval']=$this->input->get('category_of_approval');
+			$conditions['from_date']=date('Y-m-d',strtotime($this->input->get('from_date')));
+        	$conditions['upto_date']=date('Y-m-d',strtotime($this->input->get('upto_date')));
+			
+			$data['from_date']=$this->input->get('from_date');
+        	$data['upto_date']=$this->input->get('upto_date');
+           $data['orders'] = $this->order_model->order_list_by_filter($conditions);
+		   // print_r($data['orders']); exit;
 
-		$data['categories'] 		= $this->order_model->getCategories();
-		$data['services'] 			= $this->order_model->getServices();
-		$data['typeofpapers'] 		= $this->order_model->getTypeOfPaper();
-		$data['pages'] 				= $this->order_model->getPagesList();
-		$data['timelines'] 			= $this->order_model->getTimelines();
-		$data['formattings'] 		= $this->order_model->getFormattings();
-		$data['typeofwritings'] 	= $this->order_model->getWtittingTypes();
-		$data['countries'] 			= $this->order_model->getCountries();
-		$data['users'] 				= $this->order_model->getUsersList();
-		$data['prefix'] 			= array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
-		$data['o_counts'] 			= count($data['orders']);
-		// pre($data);
-		// die();
-		$this->template->load('template', 'orders/order_view', $data);
+		}else{
+			if($role_id == 2){
+				$data['orders'] = $this->order_model->order_listnew($login_id,$config["per_page"], $page);
+			}else{
+				$data['orders'] = $this->order_model->order_listnew(null,$config["per_page"], $page);
+		 	}
+		 }
+		 
+
+		$this->template->load('template','orders/order_view',$data);
 	}
 
 	public function online_orders()
