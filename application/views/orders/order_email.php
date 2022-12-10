@@ -267,13 +267,19 @@ $current_page = current_url();
                                                                     <div class="col-md-8 col-sm-8 ">
                                                                         <label class="control-label">Uploaded File :</label>
                                                                         <div style="height: 10%;width: 100%;">
-                                                                            <?php $name = explode('/', $file_details['file']); ?>
-                                                                                <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
-                                                                                 <?php
-                                                                                   echo base_url() .'/uploads/'. $name[5];
-                                                                                ?>
-                                                                            </a>
-                                                                        </div>
+                                                                                    <?php $name = explode('/', $file_details['file']); ?>
+                                                                                        <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
+                                                                                         <?php
+                                                                                            if ($obj['order_type'] == "Website")
+                                                                                            {
+                                                                                                 echo $name[4];
+                                                                                            }
+                                                                                             else {
+                                                                                                 echo $name[5];
+                                                                                             }
+                                                                                        ?>
+                                                                                    </a>
+                                                                                </div>
                                                                     </div>
                                                                 </div>
                                                                 <hr>
