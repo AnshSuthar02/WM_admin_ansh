@@ -1,263 +1,4 @@
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-$current_page   = current_url();
-$data           = explode('?', $current_page);
-$role_id        = $this->session->userdata['logged_in']['role_id'];
-?>
-
-<style>
-    fieldset.scheduler-border {
-        border-radius: 8px;
-        border: 2px groove #ddd !important;
-        padding: 0 1.4em 1.4em 1.4em !important;
-        margin: 0 0 1.5em 0 !important;
-        -webkit-box-shadow: 0px 0px 0px 0px #000;
-        box-shadow: 0px 0px 0px 0px #000;
-        margin-top: 30px !important;
-    }
-
-    legend.scheduler-border {
-        text-align: left !important;
-        width: auto;
-        margin-top: -30px;
-        margin-left: 15px;
-        color: #144277;
-        font-size: 17px;
-        margin-bottom: 0px;
-        border: none;
-        background: #fff;
-        padding: 15px;
-    }
-
-    label:not(.form-check-label):not(.custom-file-label) {
-        font-weight: 700;
-    }
-
-    .col-md-6 {
-        margin-bottom: 10px;
-    }
-
-    .page-titles {
-        margin: 0 !important;
-    }
-
-    .card-body {
-        padding: 0 !important;
-    }
-</style>
-
-<!-- Page wrapper  -->
-<!-- ============================================================== -->
-<div class="page-wrapper">
-    <!-- ============================================================== -->
-    <!-- Container fluid  -->
-    <!-- ============================================================== -->
-    <div class="container-fluid">
-
-        <?php if ($this->session->flashdata('success')) : ?>
-            <div class="alert alert-success alert-dismissible">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
-                    <span aria-hidden="true"></span>
-                </button>
-                <h3 class="text-success">
-                    <i class="fa fa-check-circle"></i> Success
-                </h3>
-                <?php echo $this->session->flashdata('success'); ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->session->flashdata('failed')) : ?>
-            <div class="alert alert-warning alert-dismissible">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
-                    <span aria-hidden="true"></span>
-                </button>
-                <h3 class="text-warning">
-                    <i class="fa fa-exclamation-triangle"></i> Warning
-                </h3>
-                <?php echo $this->session->flashdata('failed'); ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- ============================================================== -->
-        <!-- Bread crumb and right sidebar toggle -->
-        <!-- ============================================================== -->
-        <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
-                <h4 class="text-themecolor">Orders List</h4>
-                <?php
-                $params   = $_SERVER['QUERY_STRING'];
-                $fullURL  = $current_page . '?' . $params;
-                $_SESSION['fullURL'] = $fullURL;
-                ?>
-            </div>
-            <div class="col-md-7 align-self-center text-end">
-                <div class="d-flex justify-content-end align-items-center">
-                    <ol class="breadcrumb justify-content-end">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">Order List</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Bread crumb and right sidebar toggle -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Start Page Content -->
-        <!-- ============================================================== -->
-        <div class="row">
-
-            <!-- Start : Filters -->
-            <div class="accordion" id="accordionExample">
-                <div class="card m-b-0">
-                    <div class="card-body">
-                        <form method="get" id="filterForm">
-                            <div class="row">
-                                <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5') {  ?>
-                                    <div class="col-md-3 col-sm-3">
-                                        <select name="customer_id" class="form-control select2 customers">
-                                            <option value="0"> Select customer name</option>
-                                            <?php
-                                            if ($all_customers) : ?>
-                                                <?php
-                                                foreach ($all_customers as $value) : ?>
-                                                    <?php
-                                                    if (isset($customer_id) && !empty($customer_id) && $value['id'] == $customer_id) : ?>
-                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?> <?= $value['email'] ?> <?= $value['mobile_no'] ?></option>
-                                                    <?php else : ?>
-                                                        <option value="<?= $value['id'] ?>"><?= $value['name'] ?> <?= $value['email'] ?> <?= $value['mobile_no'] ?></option>
-                                                    <?php endif;   ?>
-                                                <?php endforeach;  ?>
-                                            <?php else : ?>
-                                                <option value="0">No result</option>
-                                            <?php endif; ?>
-                                        </select>
-                                    </div>
-                                <?php } ?>
-
-                                <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5') { ?>
-                                    <div class="col-md-3 col-sm-3">
-                                        <select name="order_id" class="form-control select2 ">
-                                            <option value="0"> Search By Order Id</option>
-                                            <?php
-                                            if ($OrderIDs) : ?>
-                                                <?php
-                                                foreach ($OrderIDs as $value) : ?>
-
-                                                    <option value="<?= $value['order_id'] ?>"><?= $value['order_id'] ?></option>
-                                                <?php endforeach;  ?>
-                                            <?php else : ?>
-                                                <option value="0">No result</option>
-                                            <?php endif; ?>
-                                        </select>
-                                    </div>
-                                <?php } ?>
-
-                                <div class="col-md-3 col-sm-3">
-                                    <input type="text" data-date-formate="dd-mm-yyyy" name="from_date" class="form-control mdate" value="<?php echo @$from_date; ?>" placeholder="From Date">
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    <input type="text" data-date-formate="dd-mm-yyyy" name="upto_date" class="form-control mdate" value="<?php echo @$upto_date; ?>" placeholder="Upto Date">
-                                </div>
-                            </div>
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div class="row mt-3">
-                                    <div class="col-md-3 col-sm-3">
-                                        <select class="form-control" name="order_date_filter">
-                                            <option value="order_date">Order Date</option>
-                                            <option value="delivery_date">Delivery Date</option>
-                                            <option value="writer">Writer deadline</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <select class="form-control" name="status">
-                                            <option value="">Select Order Status</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="In Progress">In Progress</option>
-                                            <option value="Completed">Completed</option>
-                                            <option value="Delivered">Delivered</option>
-                                            <option value="Feedback">Feedback</option>
-                                            <option value="Feedback Delivered">Feedback Delivered</option>
-                                            <option value="Cancelled">Cancelled</option>
-                                            <option value="Draft Ready">Draft Ready</option>
-                                            <option value="Draft Delivered">Draft Delivered</option>
-                                            <option value="Other">Other</option>
-                                            <option value="initiated">initiated</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <select class="form-control" name="filter_check">
-                                            <option value="title">Title</option>
-                                            <option value="writer">Writer Name</option>
-                                            <option value="college">College Name</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <input type="text" name="title" class="form-control" value="" placeholder="Title, College, Writer">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
-                                    <br>
-
-                                    <input type="submit" class="btn btn-primary" value="Search" />
-
-                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
-
-                                    <a href="<?php echo $data[0] ?>" class="btn btn-danger"> Reset</a>
-
-                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
-
-                                    <button style="background-color: green; color:white;" id="headingOne" class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Show Filters
-                                    </button>
-                                </div>
-
-                                <?php if ($role_id == 1) { ?>
-                                    <div class="col-md-6 col-sm-6" style="text-align: right;">
-                                        <label class="control-label" style="visibility: hidden;">Hidden</label>
-                                        <br>
-                                        <a href="<?php echo base_url('index.php/Orders/ordersCSV'); ?>" class="btn btn-success" type="button" style="border:none; background-color: red; color:white;">
-                                            Export
-                                        </a>
-                                    </div>
-                                <?php } ?>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Closed : Filters -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="demo-foo-addrow" class="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size="7">
-                                <thead>
-                                    <tr>
-                                        <th style="white-space: nowrap;"> #</th>
-                                        <th style="white-space: nowrap;"> Order Code</th>
-                                        <th style="white-space: nowrap;"> Order Date</th>
-                                        <th style="white-space: nowrap;"> Delivery Date</th>
-                                        <th style="white-space: nowrap;"> Title</th>
-                                        <th style="white-space: nowrap;"> Status</th>
-                                        <th style="white-space: nowrap;"> Words</th>
-                                        <th style="white-space: nowrap;"> Amount</th>
-                                        <th style="white-space: nowrap;"> Paid </th>
-                                        <th style="white-space: nowrap;"> Due </th>
-                                        <?php if ($role_id != 2) { ?>
-                                            <th style="white-space: nowrap;"> Writer Name</th>
-                                            <th style="white-space: nowrap;"> Writer Deadline</th>
-                                        <?php } ?>
-                                        <th style="white-space: nowrap;"> Action </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+    <tbody>
                                     <?php
 
                                     $i = 1;
@@ -364,11 +105,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                                             <!-- Action Buttons -->
                                             <td style="white-space: nowrap;">
-
                                                 <a class="btn btn-xs btn-info btn-sm m-1" data-bs-toggle="modal" data-bs-target="#view<?php echo $obj['id']; ?>">
                                                     <i style="color:#fff;" class="fa fa-eye"></i>
                                                 </a>
-
                                                 <?php if ($role_id == 1) { ?>
                                                     <!-- <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" class="btn btn-xs btn-dark btn-sm m-1">
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
@@ -681,7 +420,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     <!-- modal-dialog modal-xl -->
                                                 </div>
                                                 <!-- / Payment Details Model -->
-
+                                                                                    
                                                 <!-- Update Order Model -->
                                                 <div class="modal fade bd-example-modal-xl" id="editModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-xl">
@@ -698,6 +437,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                             <!-- modal-header -->
                                                             <div class="modal-body">
                                                                 <div class="card-body">
+                                                                    
                                                                     <?php if($o_counts <= 10) { ?>
                                                                     <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
 
@@ -811,12 +551,11 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Delivery Date Time -->
 
                                                                             <!-- Writer name -->
-                                                                            <div class="col-lg-4 box Other initiated">
-                                                                                <div class="form-group has-warning m-b-40  " >
+                                                                            <div class="col-lg-4" name="numberDrop<?php echo $obj['order_id']; ?>" id="numberDropId<?php echo $obj['order_id']; ?>" onChange="getButtons<?php echo $obj['order_id']; ?>()">
+                                                                                <div class="form-group has-warning m-b-40">
                                                                                     <?php if ($role_id != '3') { ?>
                                                                                         <?php if ($obj['projectstatus'] == 'In Progress') { ?>
                                                                                             <select name="writer_name" class="form-control" required>
-                                                                                                <option value=""></option>
                                                                                                 <?php
                                                                                                 $teams = getWriterTeams();
                                                                                                 foreach ($teams as $team) {
@@ -870,7 +609,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Writer price -->
 
                                                                             <!-- Writer deadline -->
-                                                                            <div class="col-lg-4 writer_deadline">
+                                                                            <div class="col-lg-4 writer_deadline" >
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if (!empty($obj['writer_deadline'])) {
                                                                                         if (@$obj['writer_deadline'] != '1970-01-01') {
@@ -995,7 +734,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 </div>
                                                                             </div>
                                                                             <!-- / Choose type of writing -->
-
+                                                                           
                                                                             <!-- Project status -->
                                                                             <?php $projectstatus = $obj['projectstatus']; ?>
                                                                             <?php if ($role_id != 1) { ?>
@@ -1032,10 +771,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                                 <option value="Draft Delivered" <?php if ($projectstatus == 'Draft Delivered') {
                                                                                                                                     echo "selected";
                                                                                                                                 } ?>>Draft Delivered</option>
-                                                                                                <option value="Other"  <?php if ($projectstatus == 'Other') {
+                                                                                                <option value="Other" <?php if ($projectstatus == 'Other') {
                                                                                                                             echo "selected";
                                                                                                                         } ?>>Other</option>
-                                                                                                <option value="initiated"  <?php if ($projectstatus == 'initiated') {
+                                                                                                <option value="initiated" <?php if ($projectstatus == 'initiated') {
                                                                                                                                 echo "selected";
                                                                                                                             } ?>>initiated</option>
                                                                                             </select>
@@ -1048,9 +787,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <!-- Order status -->
                                                                                 <div class="col-lg-4">
                                                                                     <div class="form-group has-warning m-b-40">
-                                                                                        <select class="form-control pages" name="projectstatus" required>
-
-                                                                                            <option value="Pending" <?php if ($projectstatus == 'Pending') {
+                                                                                    <select class="form-control pages projectstatus<?php echo $obj['order_id']; ?>" name="projectstatus" onClick="getDropDown<?php echo $obj['order_id']; ?>()">
+                                                                                        <option value="Pending" <?php if ($projectstatus == 'Pending') {
                                                                                                                         echo "selected";
                                                                                                                     } ?>>Pending</option>
                                                                                             <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
@@ -1080,31 +818,35 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                             <option value="Other" <?php if ($projectstatus == 'Other') {
                                                                                                                         echo "selected";
                                                                                                                     } ?>>Other</option>
-                                                                                            <option value="initiated" selected <?php if ($projectstatus == 'initiated') {
+                                                                                            <option value="initiated" <?php if ($projectstatus == 'initiated') {
                                                                                                                             echo "selected";
                                                                                                                         } ?>>initiated</option>
-                                                                                        </select>
+                                                                                   </select>
+                                                                                        
                                                                                         <span class="bar"></span>
                                                                                         <label for="input10">Order status</label>
                                                                                     </div>
                                                                                 </div>
+
+
+
+
+                                                                                    <script>
+                                                                                            function getDropDown<?php echo $obj['order_id']; ?>() {
+                                                                                            var optionDrop = document.getElementsByClassName("projectstatus<?php echo $obj['order_id']; ?>");
+                                                                                            var numberDrop = document.getElementsByName("numberDrop<?php echo $obj['order_id']; ?>");
+                                                                                                if (optionDrop[0].value == "In Progress" || optionDrop[0].value == "Completed" || optionDrop[0].value == "Delivered" || optionDrop[0].value == "Feedback" || optionDrop[0].value == "Feedback Delivered" || optionDrop[0].value == "Cancelled"  || optionDrop[0].value == "Draft Ready"  || optionDrop[0].value == "Draft Delivered"){
+                                                                                                        numberDrop[0].style.display = "";
+                                                                                                        na.style.display = "none";
+
+                                                                                                }else if (optionDrop[0].value == "Pending" || optionDrop[0].value == "Other" || optionDrop[0].value == "initiated"){            
+                                                                                                        numberDrop[0].style.display = "none";
+                                                                                                        na.style.display = "block";
+                                                                                                  }
+                                                                                            }
+                                                                                    </script>
                                                                             <?php } ?>
                                                                             <!-- / Project status -->
-                                                                            <script>
-                                                                                $(document).ready(function(){
-                                                                                    $("select").change(function(){
-                                                                                        $(this).find("option:selected").each(function(){
-                                                                                            var optionValue = $(this).attr("value");
-                                                                                            if(optionValue){
-                                                                                                $(".box").not("." + optionValue).hide();
-                                                                                                $("." + optionValue).show();
-                                                                                            } else{
-                                                                                                $(".box").hide();
-                                                                                            }
-                                                                                        });
-                                                                                    }).change();
-                                                                                });
-                                                                                </script>
                                                                             <!-- Payment status -->
                                                                             <?php $paymentstatus = $obj['paymentstatus']; ?>
                                                                             <div class="col-lg-4">
@@ -1125,9 +867,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Payment status -->
                                                                         </div>
                                                                         <!-- row -->
-
+                                                                                                                    
                                                                         <!-- Enter message -->
-                                                                        <div class="col-lg-12">
+                                                                        <div class="col-lg-12" >
                                                                             <div class="form-group has-warning m-b-40">
                                                                                 <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
                                                                                 <span class="bar"></span>
@@ -1135,7 +877,13 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             </div>
                                                                         </div>
                                                                         <!-- Enter message -->
-
+                                                                     
+                                                                        
+                                                                    
+                                                                    
+                                                                        <div  >
+                                                                        <input type="text">
+                                                                        </div>
 
                                                                         <!-- Upload Files -->
                                                                         <div class="col-lg-12" style="display: none;">
@@ -1165,6 +913,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                         </div>
 
                                                                     </form>
+                                                                                                                                                                                        
+                                                                    
+
                                                                     <?php } ?>
                                                                 </div>
                                                             </div>
@@ -1232,7 +983,180 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                             <!-- / Modal -->
 
                                             <!-- View Modal -->
-                                            
+                                            <div class="modal fade" id="view<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title"><?php echo $obj['order_id']; ?> Details </h4>
+                                                            <button type="button" class="close btn" data-bs-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"> Customer Details <?= $obj['c_name'] ?></legend>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Customer Name :</label>
+                                                                                <span> <?php echo $obj['c_name']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Email :</label>
+                                                                                <span> <?php echo $obj['c_email']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Mobile :</label>
+                                                                                <span> <?php echo '+' . $obj['countrycode'] . ' - ' . $obj['c_mobile']; ?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"> Order Details</legend>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Type :</label>
+                                                                                <span> <?php echo $obj['order_type']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Project Title:</label>
+                                                                                <span> <?php echo $obj['title']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Id :</label>
+                                                                                <span> <?php echo $obj['order_id']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Date :</label>
+                                                                                <span> <?php echo date('d-M-Y', strtotime($obj['order_date'])); ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Delivery Date :</label>
+                                                                                <span> <?php echo date('d-M-Y', strtotime($obj['delivery_date'])); ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Service :</label>
+                                                                                <span> <?php echo $obj['services']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Formatting:</label>
+                                                                                <span> <?php echo $obj['formatting']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Paper:</label>
+                                                                                <span> <?php echo $obj['typeofpaper']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Writting:</label>
+                                                                                <span> <?php echo $obj['typeofwritting']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Pages:</label>
+                                                                                <span> <?php echo $obj['pages']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Deadline:</label>
+                                                                                <span> <?php echo $obj['deadline']; ?> Day</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Discount % :</label>
+                                                                                <span> <?php echo $obj['discount_per']; ?> %</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Final Amount:</label>
+                                                                                <span> <?php echo $obj['amount']; ?> &#163;</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Paid Amount:</label>
+                                                                                <span> <?php echo $obj['received_amount']; ?> &#163;</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Due Amount:</label>
+                                                                                <span>
+                                                                                    <?php
+                                                                                    if (!isset($obj['amount']) && empty($obj['amount'])) {
+                                                                                        $obj['amount'] = 0;
+                                                                                    }
+                                                                                    echo (int)$obj['amount'] - (int)$obj['received_amount'];
+                                                                                    ?>
+                                                                                    &#163;
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Payment Status:</label>
+                                                                                <span> <?php echo $obj['paymentstatus']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Project Status:</label>
+                                                                                <span> <?php echo $obj['projectstatus']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Message:</label>
+                                                                                <span> <?php echo $obj['message']; ?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+                                                            <fieldset class="scheduler-border">
+                                                                <legend class="scheduler-border"> Documents Details</legend>
+                                                                <?php
+                                                                if (!empty($obj['order_file_details'])) {
+                                                                    $j = 1;
+                                                                    foreach ($obj['order_file_details'] as  $file_details) {  ?>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label><?= $j ?></label>
+                                                                            </div>
+                                                                            <div class="col-md-8">
+                                                                                <label class="control-label">Uploaded File :</label>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <?php $name = explode('/', $file_details['file']); ?>
+                                                                                        <a href="<?php echo base_url() .'/uploads/'. $name[5];?>" target="_blank">
+                                                                                         <?php
+                                                                                            if ($obj['order_type'] == "Website")
+                                                                                            {
+                                                                                                 echo $name[4];
+                                                                                            }
+                                                                                             else {
+                                                                                                 echo $name[5];
+                                                                                             }
+                                                                                        ?>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                <?php $j++;
+                                                                    }
+                                                                } ?>
+                                                            </fieldset>
+                                                            <?php if ($obj['projectstatus'] == 'Completed') { ?>
+                                                                <fieldset class="scheduler-border">
+                                                                    <legend class="scheduler-border"> Completed Assignment File </legend>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="col-md-4 col-sm-4">
+                                                                                <label> Uploaded File from Assignmentinneed.com </label>
+                                                                            </div>
+                                                                            <div class="col-md-8 col-sm-8 ">
+                                                                                <label class="control-label"> File :</label>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <a href="<?php echo base_url() . '/uploads/' . $obj['assignment_file']; ?>" target="_blank"> <?= $obj['assignment_file'] ?></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                                </fieldset>
+                                                            <?php } ?>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <!-- / Modal -->
 
                                             <!-- Delete Modal -->
@@ -1248,7 +1172,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                 <p>Are you sure, you want to delete Order <b><?php echo $obj['order_id']; ?> </b>? </p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-primary ">Submit</button>
+                                                                <button type="submit" class="btn btn-primary ">Delete</button>
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
@@ -1284,6 +1208,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success modal_approve_button" style="background-color: #168c56;">Submit</button>
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -1298,127 +1223,194 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     <?php $i++;
                                     } ?>
                                 </tbody>
-                            </table>
 
-                            <?php if ($role_id == 1 || $role_id == 2) { ?>
-                                <?php if (empty($from_date)) { ?>
-                                    <div class="pagination">
-                                        <?php echo $links; ?> </p>
-                                    </div>
-                                <?php } ?>
-                            <?php } ?>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
-</div>
-<!-- ============================================================== -->
-<!-- End Container fluid  -->
 
-<!-- Start : Models -->
 
-<!-- Closed : Models -->
 
-<script src="<?php echo base_url(); ?>assets/node_modules/jquery/dist/jquery.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.read_order').on('click', function(e) {
-            var current = $(this);
-            id = $(this).attr('order_id');
-            $.ajax({
-                url: "<?php echo base_url(); ?>index.php/Orders/readorder/" + id,
-                cache: false,
-                success: function(response) {
-                    current.css("font-weight", "");
-                }
-            });
-        });
-        jQuery('#master').on('click', function(e) {
-            if ($(this).is(':checked', true)) {
-                $(".sub_chk").prop('checked', true);
-            } else {
-                $(".sub_chk").prop('checked', false);
-            }
-        });
-        jQuery('.delete_all').on('click', function(e) {
-            var allVals = [];
-            $(".sub_chk:checked").each(function() {
-                allVals.push($(this).val());
-            });
-            if (allVals.length <= 0) {
-                alert("Please select row.");
-            } else {
-                WRN_PROFILE_DELETE = "Are you sure you want to delete all selected customers?";
-                var check = confirm(WRN_PROFILE_DELETE);
-                if (check == true) {
-                    var join_selected_values = allVals.join(",");
-                    $.ajax({
-                        type: "POST",
-                        url: "<?php echo base_url(); ?>index.php/Orders/deleteorder",
-                        cache: false,
-                        data: 'ids=' + join_selected_values,
-                        success: function(response) {
-                            $(".successs_mesg").html(response);
-                            location.reload();
-                        }
-                    });
 
-                }
-            }
-        });
 
-        $(document).on('click', '.mark_as_failed', function() {
-            var row_id = $(this).closest("tr").find('.row_id').val();
-            swal({
-                title: "Are you sure?",
-                text: "Mark this order as failed job!",
-                icon: "warning",
-                buttons: [
-                    'No, cancel it!',
-                    'Yes, I am sure!'
-                ],
-                dangerMode: true,
-            }).then(function(isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        type: "POST",
-                        url: '<?php echo base_url(); ?>index.php/Orders/markAsFailed',
-                        data: {
-                            row_id: row_id,
-                        },
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                } else {
-                    // window.location.reload();
-                }
-            });
-        });
-    });
-</script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        var base_url = '<?php echo base_url(); ?>';
-        $(document).on('change', '.category', function() {
-            var category_id = $('.category').find('option:selected').val();
-            $.ajax({
-                type: "POST",
-                url: "<?php echo base_url('index.php/Customers/getcustomerByCategory/') ?>" + category_id,
-                dataType: 'html',
-                success: function(response) {
-                    $(".customers").html(response);
-                    $('.select2').select2();
-                }
-            });
-        });
-    });
-</script>
+
+
+
+
+
+
+
+
+
+                                <div class="modal fade" id="view<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title"><?php echo $obj['order_id']; ?> Details </h4>
+                                                            <button type="button" class="close btn" data-bs-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"> Customer Details <?= $obj['c_name'] ?></legend>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Customer Name :</label>
+                                                                                <span> <?php echo $obj['c_name']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Email :</label>
+                                                                                <span> <?php echo $obj['c_email']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Mobile :</label>
+                                                                                <span> <?php echo '+' . $obj['countrycode'] . ' - ' . $obj['c_mobile']; ?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"> Order Details</legend>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Type :</label>
+                                                                                <span> <?php echo $obj['order_type']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Project Title:</label>
+                                                                                <span> <?php echo $obj['title']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Id :</label>
+                                                                                <span> <?php echo $obj['order_id']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Date :</label>
+                                                                                <span> <?php echo date('d-M-Y', strtotime($obj['order_date'])); ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Delivery Date :</label>
+                                                                                <span> <?php echo date('d-M-Y', strtotime($obj['delivery_date'])); ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Service :</label>
+                                                                                <span> <?php echo $obj['services']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Formatting:</label>
+                                                                                <span> <?php echo $obj['formatting']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Paper:</label>
+                                                                                <span> <?php echo $obj['typeofpaper']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Writting:</label>
+                                                                                <span> <?php echo $obj['typeofwritting']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Pages:</label>
+                                                                                <span> <?php echo $obj['pages']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Deadline:</label>
+                                                                                <span> <?php echo $obj['deadline']; ?> Day</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Discount % :</label>
+                                                                                <span> <?php echo $obj['discount_per']; ?> %</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Final Amount:</label>
+                                                                                <span> <?php echo $obj['amount']; ?> &#163;</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Paid Amount:</label>
+                                                                                <span> <?php echo $obj['received_amount']; ?> &#163;</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Due Amount:</label>
+                                                                                <span>
+                                                                                    <?php
+                                                                                    if (!isset($obj['amount']) && empty($obj['amount'])) {
+                                                                                        $obj['amount'] = 0;
+                                                                                    }
+                                                                                    echo (int)$obj['amount'] - (int)$obj['received_amount'];
+                                                                                    ?>
+                                                                                    &#163;
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Payment Status:</label>
+                                                                                <span> <?php echo $obj['paymentstatus']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Project Status:</label>
+                                                                                <span> <?php echo $obj['projectstatus']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Message:</label>
+                                                                                <span> <?php echo $obj['message']; ?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+                                                            <fieldset class="scheduler-border">
+                                                                <legend class="scheduler-border"> Documents Details</legend>
+                                                                <?php
+                                                                if (!empty($obj['order_file_details'])) {
+                                                                    $j = 1;
+                                                                    foreach ($obj['order_file_details'] as  $file_details) {  ?>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label><?= $j ?></label>
+                                                                            </div>
+                                                                            <div class="col-md-8">
+                                                                                <label class="control-label">Uploaded File :</label>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <a href="<?php echo $file_details['file']; ?>" target="_blank">
+                                                                                        <?php
+                                                                                        $name = explode('/', $file_details['file']);
+
+                                                                                        if ($obj['order_type'] == "Website") {
+                                                                                            echo $name[4];
+                                                                                        } else {
+                                                                                            echo $name[5];
+                                                                                        }
+                                                                                        ?>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                <?php $j++;
+                                                                    }
+                                                                } ?>
+                                                            </fieldset>
+                                                            <?php if ($obj['projectstatus'] == 'Completed') { ?>
+                                                                <fieldset class="scheduler-border">
+                                                                    <legend class="scheduler-border"> Completed Assignment File </legend>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="col-md-4 col-sm-4">
+                                                                                <label> Uploaded File from Assignmentinneed.com </label>
+                                                                            </div>
+                                                                            <div class="col-md-8 col-sm-8 ">
+                                                                                <label class="control-label"> File :</label>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <a href="<?php echo base_url() . '/uploads/' . $obj['assignment_file']; ?>" target="_blank"> <?= $obj['assignment_file'] ?></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                                </fieldset>
+                                                            <?php } ?>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
