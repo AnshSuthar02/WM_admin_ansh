@@ -412,9 +412,9 @@ class Order_model extends CI_Model
 		foreach ($picture as  $value) :
 			if($_SERVER['HTTP_HOST']=='localhost')
 			{
-				$value = "http://localhost/wm_admin/uploads/" . $value;
+				$value = "http://localhost/wm/uploads/" . $value;
 			} else {
-				$value = "https://assignnmentinneed.com/terms/uploads/" . $value;
+				$value = "https://assignnmentinneed.com/admin/uploads/" . $value;
 			}
 			$this->db->set('detail_id', $order_id);
 			$this->db->set('u_id', $user_id);
@@ -1110,7 +1110,7 @@ class Order_model extends CI_Model
 		date_default_timezone_set("Europe/London");
 		$updated_on = date("Y-m-d H:i:s");
 		foreach ($picture as  $value) :
-			$value = "https://assignnmentinneed.com/terms/uploads/" . $value;
+			$value = "https://assignnmentinneed.com/admin/uploads/" . $value;
 			$this->db->set('order_id', $old_id);
 			$this->db->set('file_path', $value);
 			$this->db->set('updated_on', $updated_on);

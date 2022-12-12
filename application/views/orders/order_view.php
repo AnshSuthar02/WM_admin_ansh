@@ -545,7 +545,182 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     </div>
                                                 </div>
                                                 <!-- / More Buttons Modal -->
+                                            
+                                                <!-- View Modal -->
+                                            <div class="modal fade" id="view<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title"><?php echo $obj['order_id']; ?> Details </h4>
+                                                            <button type="button" class="close btn" data-bs-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"> Customer Details <?= $obj['c_name'] ?></legend>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Customer Name :</label>
+                                                                                <span> <?php echo $obj['c_name']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Email :</label>
+                                                                                <span> <?php echo $obj['c_email']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Mobile :</label>
+                                                                                <span> <?php echo '+' . $obj['countrycode'] . ' - ' . $obj['c_mobile']; ?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"> Order Details</legend>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Type :</label>
+                                                                                <span> <?php echo $obj['order_type']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Project Title:</label>
+                                                                                <span> <?php echo $obj['title']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Id :</label>
+                                                                                <span> <?php echo $obj['order_id']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Order Date :</label>
+                                                                                <span> <?php echo date('d-M-Y', strtotime($obj['order_date'])); ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Delivery Date :</label>
+                                                                                <span> <?php echo date('d-M-Y', strtotime($obj['delivery_date'])); ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Service :</label>
+                                                                                <span> <?php echo $obj['services']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Formatting:</label>
+                                                                                <span> <?php echo $obj['formatting']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Paper:</label>
+                                                                                <span> <?php echo $obj['typeofpaper']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Type Of Writting:</label>
+                                                                                <span> <?php echo $obj['typeofwritting']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Pages:</label>
+                                                                                <span> <?php echo $obj['pages']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Deadline:</label>
+                                                                                <span> <?php echo $obj['deadline']; ?> Day</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Discount % :</label>
+                                                                                <span> <?php echo $obj['discount_per']; ?> %</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Final Amount:</label>
+                                                                                <span> <?php echo $obj['amount']; ?> &#163;</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Paid Amount:</label>
+                                                                                <span> <?php echo $obj['received_amount']; ?> &#163;</span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Due Amount:</label>
+                                                                                <span>
+                                                                                    <?php
+                                                                                    if (!isset($obj['amount']) && empty($obj['amount'])) {
+                                                                                        $obj['amount'] = 0;
+                                                                                    }
+                                                                                    echo (int)$obj['amount'] - (int)$obj['received_amount'];
+                                                                                    ?>
+                                                                                    &#163;
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Payment Status:</label>
+                                                                                <span> <?php echo $obj['paymentstatus']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Project Status:</label>
+                                                                                <span> <?php echo $obj['projectstatus']; ?></span>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label class="control-label">Message:</label>
+                                                                                <span> <?php echo $obj['message']; ?></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+                                                            <fieldset class="scheduler-border">
+                                                                <legend class="scheduler-border"> Documents Details</legend>
+                                                                <?php
+                                                                if (!empty($obj['order_file_details'])) {
+                                                                    $j = 1;
+                                                                    foreach ($obj['order_file_details'] as  $file_details) {  ?>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label><?= $j ?></label>
+                                                                            </div>
+                                                                            <div class="col-md-8">
+                                                                                <label class="control-label">Uploaded File :</label>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <a href="<?php echo $file_details['file']; ?>" target="_blank">
+                                                                                        <?php
+                                                                                        $name = explode('/', $file_details['file']);
 
+                                                                                        if ($obj['order_type'] == "Website") {
+                                                                                            echo $name[4];
+                                                                                        } else {
+                                                                                            echo $name[5];
+                                                                                        }
+                                                                                        ?>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                <?php $j++;
+                                                                    }
+                                                                } ?>
+                                                            </fieldset>
+                                                            <?php if ($obj['projectstatus'] == 'Completed') { ?>
+                                                                <fieldset class="scheduler-border">
+                                                                    <legend class="scheduler-border"> Completed Assignment File </legend>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="col-md-4 col-sm-4">
+                                                                                <label> Uploaded File from Assignmentinneed.com </label>
+                                                                            </div>
+                                                                            <div class="col-md-8 col-sm-8 ">
+                                                                                <label class="control-label"> File :</label>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <a href="<?php echo base_url() . '/uploads/' . $obj['assignment_file']; ?>" target="_blank"> <?= $obj['assignment_file'] ?></a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                                </fieldset>
+                                                            <?php } ?>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- / Modal -->
                                                 <!-- Payment Details Model -->
                                                 <div class="modal fade bd-example-modal-xl" id="paymentModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-xl">
@@ -601,6 +776,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                     </tr>
                                                                                 <?php } ?>
                                                                             </tbody>
+                                                                            
                                                                         </table>
                                                                     </div>
 
