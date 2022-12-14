@@ -50,6 +50,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
 <!-- Page wrapper  -->
 <?php include('template/css.php') ?>
+<?php include('template/header.php') ?>
 <!-- ============================================================== -->
 <div class="page-wrapper">
     <!-- ============================================================== -->

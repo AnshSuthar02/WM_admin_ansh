@@ -1353,6 +1353,6 @@ class Orders extends CI_Controller
 	}
 	public function NewOrders()
 	{
-		$this->load->view('orders/new_orders');
+		$this->load->view('new_orders');
 	}
 }
