@@ -112,7 +112,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
             <div class="accordion" id="accordionExample">
                 <div class="card m-b-0">
                     <div class="card-body">
-                        <form method="get" id="filterForm" action="<?php echo base_url() ?>Orders/online_orders ">
+                    
+                        <form method="get" id="filterForm" action="<?php echo base_Url() ?>Orders/online_order ">
                             <div class="row">
                                 <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5') {  ?>
                                     <div class="col-md-3 col-sm-3">
@@ -371,7 +372,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     <!-- <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" class="btn btn-xs btn-dark btn-sm m-1">
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
                                                     </a> -->
-                                                    <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModal<?= $obj['id'] ?>" title="Order Edit">
+                                                    <a type="button" class="btn btn-xs btn-dark btn-sm m-1"  href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>"title="Order Edit">
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
                                                     </a>
                                                 <?php } ?>
@@ -542,7 +543,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                         </div>
                                                     </div>
                                                 </div>
-                                                  <!-- View Modal -->
+                                                <!-- / More Buttons Modal -->
+                                            
+                                                <!-- View Modal -->
                                             <div class="modal fade" id="view<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <!-- Modal content-->
@@ -717,8 +720,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 </div>
                                             </div>
                                             <!-- / Modal -->
-                                              <!-- Payment Details Model -->
-                                              <div class="modal fade bd-example-modal-xl" id="paymentModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <!-- Payment Details Model -->
+                                                <div class="modal fade bd-example-modal-xl" id="paymentModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-xl">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -853,30 +856,13 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     <!-- modal-dialog modal-xl -->
                                                 </div>
                                                 <!-- / Payment Details Model -->
-                                                 <!-- Delete Modal -->
-                                            <div class="modal fade" id="delete<?php echo $obj['id']; ?>" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/deleteorder/<?php echo $obj['id']; ?>">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title"> Delete Order </h4>
-                                                                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p>Are you sure, you want to delete Order <b><?php echo $obj['order_id']; ?> </b>? </p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-primary ">Submit</button>
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <!-- / Modal -->
-                                            
-                                             <!-- Download Modal -->
-                                             <div class="modal fade" id="download<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
+
+
+                                            </td>
+                                            <!-- / Action Buttons -->
+
+                                            <!-- Download Modal -->
+                                            <div class="modal fade" id="download<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
@@ -928,6 +914,33 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 </div>
                                             </div>
                                             <!-- / Modal -->
+
+                                            <!-- View Modal -->
+                                            
+                                            <!-- / Modal -->
+
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="delete<?php echo $obj['id']; ?>" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/deleteorder/<?php echo $obj['id']; ?>">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title"> Delete Order </h4>
+                                                                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure, you want to delete Order <b><?php echo $obj['order_id']; ?> </b>? </p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-primary ">Submit</button>
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <!-- / Modal -->
+
                                             <!-- Approve Modal -->
                                             <div class="modal fade" id="approve<?php echo $obj['id']; ?>" role="dialog">
                                                 <div class="modal-dialog">
@@ -964,7 +977,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 </div>
                                             </div>
                                             <!-- / Modal -->
-                                            
                                         </tr>
 
                                     <?php $i++;
