@@ -329,4 +329,10 @@ class Employees extends CI_Controller
 		$data['result'] = $this->employee->getById($id);
 		$this->template->load('template', 'employee/myprofile', $data);
 	}
+
+	public function profile(){
+		$this->load->model('Employee');
+		$emp = $this->Employee->getEmployee();
+		$this->load->view('template/dashboard',$emp);
+	}
 }

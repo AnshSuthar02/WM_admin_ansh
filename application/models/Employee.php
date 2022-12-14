@@ -168,4 +168,10 @@ class Employee extends CI_Model
 			return true;
 		}
 	}
+
+	public function getEmployee()
+	{
+		$query = $this->db->get('employees');
+		return $query->result();
+	}
 }
