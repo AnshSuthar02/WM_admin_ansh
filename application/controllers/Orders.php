@@ -533,7 +533,7 @@ class Orders extends CI_Controller
 		$data['title'] = 'All Your Orders Details ';
 		$uid = $this->uri->segment('3');
 		$data['orders'] = $this->order_model->getOrdersByEmail($uid);
-		$this->template->load('template', 'orders/`order_email`', $data);
+		$this->template->load('template', 'orders/order_email', $data);
 	}
 
 	public function edit($id)
