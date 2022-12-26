@@ -876,7 +876,7 @@ class Orders extends CI_Controller
 					<br/><br/>
 					In case, you have any concern, please do let us know.<br/><br/>
 					<div style="border: 1px solid #ccc;padding: 20px;">
-					Your log in details are as follows <a href="https://www.assignnmentinneed.com/terms/" target="_blank">(link)</a><br/><br/>
+					Your log in details are as follows <a href="https://www.assignnmentinneed.com/admin/" target="_blank">(link)</a><br/><br/>
 					<b> User name: </b> ' . $email_to . '<br/><br/>
 					<b> Password: </b> ' . $pass[0] . '@123(unless you change the password)
 					</div>
