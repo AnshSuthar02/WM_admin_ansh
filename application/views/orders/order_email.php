@@ -360,7 +360,7 @@ $current_page = current_url();
                         data: 'ids=' + join_selected_values,
                         success: function(response) {
                             $(".successs_mesg").html(response);
-                            // location.reload();
+                            location.reload();
                         }
                     });
                 }
