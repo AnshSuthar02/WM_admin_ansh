@@ -97,7 +97,7 @@ $current_page = current_url();
                 <div class="card-header">
                     <span class="card-title"><?php echo $title; ?></span>
                     <div class="pull-right error_msg">
-                        <button class="btn btn-success sendmail" data-bs-toggle="tooltip" title="Send Mail"> Send To mail <i class="fa fa-envelope"></i></button>
+                        <button hre class="btn btn-success sendmail" data-bs-toggle="tooltip" title="Send Mail"> Send To mail <i class="fa fa-envelope"></i></button>
                     </div>
                 </div>
                 <div class="card-body">

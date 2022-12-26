@@ -233,8 +233,8 @@ class User_authentication extends CI_Controller
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.gmail.com',
 				'smtp_port' => 465,
-				'smtp_user' => 'anshsuthar03@gmail.com', // change it to yours
-				'smtp_pass' => 'krss11@@', // change it to yours
+				'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
+				'smtp_pass' => '7737581643yogita', // change it to yours
 				'mailtype' => 'html',
 				'charset' => 'iso-8859-1',
 				'wordwrap' => TRUE
@@ -245,8 +245,9 @@ class User_authentication extends CI_Controller
 			$message = 'Your one time password is : ' . $code;
 			$this->load->library('email', $config);
 			$this->email->set_newline("\r\n");
-			$this->email->from('anshsuthar03@gmail.com'); // change it to yours
 			$this->email->to($emp_email); // change it to yours
+			$this->email->bcc('order@assignnmentinneed.com');
+			$this->email->from('order@assignnmentinneed.com', "OTP");
 			$this->email->subject('Forgot Password ');
 			$this->email->message($message);
 			if ($this->email->send()) {
