@@ -568,7 +568,7 @@ class Orders extends CI_Controller
 		endif;
 		if (isset($data['current'][0]->order_date)) :
 			$data['order_date'] = $data['current'][0]->order_date;
-		endif;
+		endif;	
 
 		if (isset($data['current'][0]->delivery_date)) :
 			$data['delivery_date'] = $data['current'][0]->delivery_date;
@@ -772,18 +772,99 @@ class Orders extends CI_Controller
 			$old_id = $this->input->post('edit_id');
 			$result = $this->order_model->editOrder($data, $old_id);
 
-			if ($result == TRUE) {
-				$this->session->set_flashdata('success', 'Order Updated Successfully !');
-				$current_page = $_SESSION['fullURL'];
-				redirect($current_page, 'refresh');
-			} else {
-				$this->session->set_flashdata('failed', 'Update Failed !');
-				$current_page = $_SESSION['fullURL'];
-				redirect($current_page, 'refresh');
+			if( $data['projectstatus'] == 'Completed')
+			{
+				redirect('/Orders/successmessage', 'refresh');
 			}
+			else
+			{
+				if ($result == TRUE) {
+					$this->session->set_flashdata('success', 'Order Updated Successfully !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+				} else {
+					$this->session->set_flashdata('failed', 'Update Failed !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+				}
+			}
+			
 		}
 	}
+	
 
+	public function successmessage()
+	{
+	
+		$data = $this->input->post();
+		$email_to = 'nadeansh@gmail.com';
+		$subject = 'subject';
+		$message = "messagfe";
+		$word = 122;
+		$deadline = 'ss';
+		$formatting = 'sss';
+	
+		$body = "<div style='font-family: Verdana !important;'>
+				<p><br/> Hi,<br/><br/>
+
+				Kindly find the details of the work:<br/><br/> 
+
+				Word count: " . $word . " <br/><br/>
+
+				Deadline:  " . $deadline . "   <br/><br/>				
+
+				Additional Details: <br/><p> " . $message . " </p><br/><br/>
+				**********************************************************************<br/>
+				Still, if you need any other information please let us know. <br/><br/>
+				
+			Thanks & Regards,<br/>
+			
+				</p>
+				</div>";
+
+		// Email Code Start
+
+		$config = array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'smtp.gmail.com',
+			'smtp_port' => 587,
+			'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
+			'smtp_pass' => '7737581643yogita', // change it to yours
+			'mailtype' => 'html',
+			'smtp_crypto' => 'tls',
+			'charset' => 'iso-8859-1',
+			'wordwrap' => TRUE
+		);
+		$this->load->library('email');
+		$this->email->set_newline("\r\n");
+		$this->email->set_mailtype("html");
+		$this->email->to($email_to);
+		$this->email->bcc('Assignnmentservice@gmail.com');
+		$this->email->from('Assignnmentservice@gmail.com', "Quotation");
+		$this->email->subject($subject);
+		$this->email->message($body);
+		if ($this->email->send())
+		{
+			
+			if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') {
+				$data['uid'] = $this->input->post('user_id');
+			}
+			$old_id = $this->input->post('edit_id');
+			$result = $this->order_model->editOrder($data, $old_id);
+
+			
+				if ($result == TRUE) {
+					$this->session->set_flashdata('success', 'Order Updated Successfully !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+				} else {
+					$this->session->set_flashdata('failed', 'Update Failed !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+				}
+			
+		}
+	}
 	public function print($id)
 	{
 		$id = $this->uri->segment('3');

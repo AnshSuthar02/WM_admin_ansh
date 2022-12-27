@@ -193,12 +193,15 @@ class Employees extends CI_Controller
 		$password_news = explode('@', $emails);
 		$password_new = $password_news[0] . '@123';
 		$password = $password_new;
+		// print_r($password); exit;
+
 		if ($this->form_validation->run() == FALSE) {
 			if (isset($this->session->userdata['logged_in'])) {
 				redirect('/Employees/add');
 			} else {
 				$this->load->view('login_form');
 			}
+			
 		} else {
 			$loginId = $this->session->userdata['logged_in']['id'];
 			/*$config['upload_path']          = './uploads/';

@@ -512,6 +512,11 @@ $data = explode('?', $currentURL);
                                                                 Call
                                                             </button>
                                                         </div>
+                                                         <?php if ($role_id == 1) { ?>
+                                                            <div style="margin-right: 2px;">
+                                                                <a class="btn btn-xs btn-dark deleteLead btn-sm m-1" title="Delete lead">D</a>
+                                                            </div>
+                                                        <?php } ?>
                                                     </div>
                                                 </td>
                                         </form>
