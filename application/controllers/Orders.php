@@ -94,6 +94,67 @@ class Orders extends CI_Controller
 		$this->template->load('template', 'feedbackall', $data);
 	}
 
+	// public function emailindusial()
+	// {
+	// 	$data = $this->input->post();
+	// 	// print_r($data); exit;
+	// 	$email_to = $data['to'];
+	// 	$subject = $data['subject'];
+	// 	$message = $data['message'];
+	// 	$word = $data['word'];
+	// 	$deadline = $data['deadline'];
+	// 	$formatting = $data['formatting'];
+	// 	$files = $data['files'];
+	// 	$body = "<div style='font-family: Verdana !important;'>
+	// 			<p><br/> Hi,<br/><br/>
+
+	// 			Kindly find the details of the work:<br/><br/> 
+
+	// 			Word count: " . $word . " <br/><br/>
+
+	// 			Deadline:  " . $deadline . "   <br/><br/>				
+
+	// 			Additional Details: <br/><p> " . $message . " </p><br/><br/>
+	// 			**********************************************************************<br/>
+	// 			Still, if you need any other information please let us know. <br/><br/>
+				
+	// 		Thanks & Regards,<br/>
+			
+	// 			</p>
+	// 			</div>";
+
+	// 	// Email Code Start
+
+	// 	$config = array(
+	// 		'protocol' => 'smtp',
+	// 		'smtp_host' => 'smtp.gmail.com',
+	// 		'smtp_port' => 587,
+	// 		'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
+	// 		'smtp_pass' => '7737581643yogita', // change it to yours
+	// 		'mailtype' => 'html',
+	// 		'smtp_crypto' => 'tls',
+	// 		'charset' => 'iso-8859-1',
+	// 		'wordwrap' => TRUE
+	// 	);
+	// 	$this->load->library('email');
+	// 	$this->email->set_newline("\r\n");
+	// 	$this->email->set_mailtype("html");
+	// 	$this->email->to($email_to);
+	// 	$this->email->bcc('Assignnmentservice@gmail.com');
+	// 	$this->email->from('Assignnmentservice@gmail.com', "Quotation");
+	// 	$this->email->subject($subject);
+	// 	$this->email->message($body);
+	// 	foreach ($files as $image) {
+	// 		$this->email->attach($image);
+	// 	}
+	// 	if ($this->email->send()) {
+	// 		redirect('/Orders/index', 'refresh');
+	// 		$this->session->set_flashdata('success', 'Mail Send Succesfully');
+	// 	} else {
+	// 		redirect('/Orders/index', 'refresh');
+	// 		$this->session->set_flashdata('failed', 'mail send failed please try again !');
+	// 	}
+	// }
 	public function emailindusial()
 	{
 		$data = $this->input->post();
@@ -140,19 +201,21 @@ class Orders extends CI_Controller
 		$this->email->set_newline("\r\n");
 		$this->email->set_mailtype("html");
 		$this->email->to($email_to);
-		$this->email->bcc('Assignnmentservice@gmail.com');
-		$this->email->from('Assignnmentservice@gmail.com', "Quotation");
+		$this->email->bcc('order@assignnmentinneed.com');
+		$this->email->from('order@assignnmentinneed.com', "Quotation");
 		$this->email->subject($subject);
 		$this->email->message($body);
 		foreach ($files as $image) {
 			$this->email->attach($image);
 		}
 		if ($this->email->send()) {
-			redirect('/Orders/index', 'refresh');
-			$this->session->set_flashdata('success', 'Mail Send Succesfully');
+				$this->session->set_flashdata('success', 'Mail Send Successfully !');
+		    	$current_page = $_SESSION['fullURL'];
+		    	redirect($current_page, 'refresh');
 		} else {
-			redirect('/Orders/index', 'refresh');
-			$this->session->set_flashdata('failed', 'mail send failed please try again !');
+			$this->session->set_flashdata('failed', 'Mail Send failed please try again !');
+		    	$current_page = $_SESSION['fullURL'];
+		    	redirect($current_page, 'refresh');
 		}
 	}
 
