@@ -830,7 +830,7 @@ class Orders extends CI_Controller
 				'referal' => @$this->input->post('referal'),
 				'edited_by' => $this->session->userdata['logged_in']['id'],
 				'college_name' => $this->input->post('college_name'),
-				'received_amount' => $this->input->post('received_amount'),
+				// 'received_amount' => $this->input->post('received_amount'),
 				'uname' => $this->input->post('uname'),
 				// 'u_mail' => $this->input->post('u_mail'),
 				'flag' => '0',
@@ -848,14 +848,20 @@ class Orders extends CI_Controller
 				$user_email = $result[0]['email'];
 				$name = $result[0]['name'];
 
-				// $result = $query->result_array();
-				// print_r($name); exit;
+				
 				$name = $data['uname'];
 				$title = $data['title'];
 				$oid = $data['order_id'];
 				$amount =  $data['amount'];
-			$bp =  $data['amount']-(float)$data['received_amount'];	
-			print_r($name); exit;
+
+
+				$query2 = $this->db->get_where("orders", array("order_id" => $oid ));
+				$result2 = $query2->result_array();
+				$paid = $result2[0]['received_amount'];
+				// $result = $query->result_array();
+				// print_r($paid); exit;
+			$bp =  $data['amount']-$paid;	
+			print_r($bp); exit;
 			$email_to = $user_email;
 	   		 $subject = 'UID';
 	

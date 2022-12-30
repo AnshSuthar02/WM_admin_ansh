@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <h3 class="login-box-msg"> OTP Verify </h3>
       <div class="" 
       >
-        <?php echo validation_errors();?>
+        <!-- <?php echo validation_errors();?>
         
         <?php if($success_mesg):?>
           <div style="background-color: #1295AB;color: #fff; width: 100%;padding: 10px;margin-bottom: 10px;    padding-left: 40px;" class="error_mesg"><?php echo $success_mesg; ?>
@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                <i class="fa fa-close" id="close" style="padding-left: 80px;"></i>
             </div>
       <?php endif; ?>
-    </div>
+    </div> -->
 
       <form action="<?php echo base_url() ;?>index.php/User_authentication/otpVerify" method="post">
         <div class="input-group mb-3">

@@ -219,27 +219,46 @@ class User_authentication extends CI_Controller
 		$this->load->view('old_pages/forgot_password');
 	}
 
-	public function EmailVerify()
-	{
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$email = $this->input->post('email');
-		$result = $this->login_database->verify_email($email);
-		if (!empty($result)) {
+	public function EmailVerify() {
+// 	$data =[];
+// 	$data['error_message']='';
+// 	$data['success_mesg']='';
 
-			$emp_email = $result[0]->email;
-			$emp_mobile = $result[0]->mobile_no;
-			$id = $result[0]->id;
-			$config = array(
-				'protocol' => 'smtp',
-				'smtp_host' => 'ssl://smtp.gmail.com',
-				'smtp_port' => 465,
-				'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
-				'smtp_pass' => '7737581643yogita', // change it to yours
-				'mailtype' => 'html',
-				'charset' => 'iso-8859-1',
-				'wordwrap' => TRUE
-			);
-			$this->load->helper('string');
+	$this->form_validation->set_rules('email', 'Email', 'required');
+	$email=$this->input->post('email');
+	$result=$this->login_database->verify_email($email);
+	//print_r($result[0]->email);exit;
+	if(!empty($result)){
+
+		$emp_email=$result[0]->email;
+		$emp_mobile=$result[0]->mobile_no;
+		$id=$result[0]->id;
+
+		//$data['success_mesg']='Email is verified.';
+		$config = Array(
+		  'protocol' => 'mail',
+		  'smtp_host' => 'smtp.gmail.com',
+		  'smtp_port' => 587,
+		  'smtp_user' => 'anshsuthar03@gmail.com', // change it to yours
+		  'smtp_pass' => 'krss11@@', // change it to yours
+		  'mailtype' => 'html',
+		  'charset' => 'iso-8859-1',
+		  'wordwrap' => TRUE
+		);
+// 		$this->load->helper('string');
+// 		$code= random_string('numeric', 6);
+
+// 		//$code='123456';
+//         $message = 'Your one time password is : '.$code;
+//         $this->load->library('email', $config);
+// 	    $this->email->set_newline("\r\n");
+	  
+// 		$this->email->from('order@assignnmentinneed.com', "OTP");
+// 		$this->email->subject('Forgot Password ');
+// 	    $this->email->message($message);
+	    
+	    
+	    $this->load->helper('string');
 			$code = random_string('numeric', 6);
 
 			$message = 'Your one time password is : ' . $code;
@@ -250,24 +269,35 @@ class User_authentication extends CI_Controller
 			$this->email->from('order@assignnmentinneed.com', "OTP");
 			$this->email->subject('Forgot Password ');
 			$this->email->message($message);
-			if ($this->email->send()) {
-				$data = array(
-					'forgot_code' => $code
-				);
-				$this->login_database->updateOtp($data, $id);
-				$data['email'] = $emp_email;
-				$data['id'] = $id;
-				$data['success_mesg'] = ' OTP is sent to your registered mail id .';
-				$this->load->view('otp_verify', $data);
-			} else {
-				show_error($this->email->print_debugger());
-			}
-		} else {
-			$this->session->set_flashdata('failed', 'Email is not registered with us,please try with another registered email');
-			redirect('User_authentication/ForgotPassword', 'refresh');
-		}
-	}
+	   // print_r($message); exit;
+	    if($this->email->send())
+	    {
+	    	$data = array(
+			'forgot_code' => $code
+			);
+	    	$this->login_database->updateOtp($data,$id);
+	    	$data['email']=$emp_email;
+	    	$data['id']=$id;
+	    	//$this->session->set_flashdata('success', 'OTP is sent to your registered mail id');
+	    	// $data['success_mesg']=' OTP is sent to your registered mail id .';
+	    	$this->session->set_flashdata('success', 'OTP is sent to your registered mail id ');
+	     	$this->load->view('old_pages/otp_verify',$data);
+	    }
+	   	else
+	    {
+	    	$this->session->set_flashdata('failed', 'Email sending failed');
+	    	redirect('User_authentication/ForgotPassword','refresh');
+	     // $data['error_message']=$this->email->print_debugger();
+	    }
 
+
+	}
+	else{
+		$this->session->set_flashdata('failed', 'Email is not registered with us,please try with another registered email');
+		redirect('User_authentication/ForgotPassword','refresh');
+	}
+	
+	}
 	public function otpVerify()
 	{
 		$this->form_validation->set_rules('otp', 'OTP', 'required');
