@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $base = base_url();
@@ -27,7 +28,17 @@ if (isset($this->session->userdata['logged_in'])) {
     header("location: login");
 }
 ?>
+<style>
+@media screen and (max-device-width:640px), screen and (max-width:992px)
 
+  {
+
+    .hide-mb
+    {
+      display: none;
+    }
+  }
+</style>
 <body class="skin-default-dark fixed-layout">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -78,8 +89,8 @@ if (isset($this->session->userdata['logged_in'])) {
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item mt-3">
-                            <a href="<?php echo $hyperlink_orders; ?>" class="btn btn-md btn-info float-left">
+                        <li class="nav-item mt-3 hide-mb">
+                            <a href="<?php echo $hyperlink_orders; ?>" class="btn btn-md btn-info float-left" >
                                 Place New Order
                             </a>
                         </li>

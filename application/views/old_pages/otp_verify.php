@@ -91,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div> -->
           <!-- /.col -->
           <div class="col-12">
-            <button type="submit" class="btn  btn-block btn-flat" style="background-color: #355fa9  ;color:#fff;"> Submit</button>
+            <button type="submit" class="btn  btn-block btn-flat" style="background-color: #355fa9  ;color:#fff;">Submit</button>
           </div>
           <!-- /.col -->
         </div>

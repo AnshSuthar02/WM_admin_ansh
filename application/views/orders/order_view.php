@@ -46,6 +46,33 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     .card-body {
         padding: 0 !important;
     }
+
+
+ 
+</style>
+
+<style>
+@media screen and (max-device-width:640px), screen and (max-width:992px)
+
+  {
+
+    .hide-mb
+    {
+      display: none;
+    }
+
+    
+  }
+
+  
+</style>
+<style>
+    @media (min-width: 992px) and (max-width : 50000px)
+    {
+        .show{
+    display: none;
+  }
+    }
 </style>
 
 <!-- Page wrapper  -->
@@ -112,8 +139,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
             <div class="accordion" id="accordionExample">
                 <div class="card m-b-0">
                     <div class="card-body">
-                    
+                    <?php if($role_id != '2') { ?>
                         <form method="get" id="filterForm" action="<?php echo base_Url() ?>index.php/Orders/online_ordersp">
+                       
                             <div class="row">
                                 <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5') {  ?>
                                     <div class="col-md-3 col-sm-3">
@@ -229,6 +257,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                             </div>
                         </form>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -240,21 +269,23 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                             <table id="demo-foo-addrow" class="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size="7">
                                 <thead>
                                     <tr>
-                                        <th style="white-space: nowrap;"> #</th>
-                                        <th style="white-space: nowrap;"> Order Code</th>
-                                        <th style="white-space: nowrap;"> Order Date</th>
-                                        <th style="white-space: nowrap;"> Delivery Date</th>
-                                        <th style="white-space: nowrap;"> Title</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> #</th>
+                                        <th style=""> Order Code</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Order Date</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Delivery Date</th>
+                                        <th style="white-space: nowrap;" > Title</th>
                                         <th style="white-space: nowrap;"> Status</th>
-                                        <th style="white-space: nowrap;"> Words</th>
-                                        <th style="white-space: nowrap;"> Amount</th>
-                                        <th style="white-space: nowrap;"> Paid </th>
-                                        <th style="white-space: nowrap;"> Due </th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Words</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Amount</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Paid </th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Due </th>
                                         <?php if ($role_id != 2) { ?>
-                                            <th style="white-space: nowrap;"> Writer Name</th>
-                                            <th style="white-space: nowrap;"> Writer Deadline</th>
+                                            <th style="white-space: nowrap;" class="hide-mb"> Writer Name</th>
+                                            <th style="white-space: nowrap;" class="hide-mb"> Writer Deadline</th>
                                         <?php } ?>
-                                        <th style="white-space: nowrap;"> Action </th>
+                                        
+                                        <th style="white-space: nowrap; " class="show" >  <i class="fa fa-check btn bg-primary" style="font-size: 15px;"></i> </th>
+                                        <th style="white-space: nowrap;" class="hide-mb">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -263,16 +294,16 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     foreach ($orders as $obj) { ?>
                                         <tr <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order" order_id="<?= $obj['id'] ?>">
                                             <input type="hidden" class="row_id" value="<?= $obj['id'] ?>">
-                                            <td>
+                                            <td class="hide-mb">
                                                 <?php echo $i; ?>
                                             </td>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="size">
                                                 <?php echo $obj['order_id']; ?>
                                             </td>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo date('d-M-Y', strtotime($obj['order_date'])); ?>
                                             </td>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php
                                                 echo date('d-M-Y', strtotime($obj['delivery_date']));
                                                 if (isset($obj['delivery_time']) && !empty($obj['delivery_time'])) {
@@ -284,7 +315,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 <?php echo $obj['title']; ?>
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" >
                                                 <?php
                                                 if ($obj['projectstatus'] == 'Pending') {
                                                     $color = "#ff8acc";
@@ -309,7 +340,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 </span>
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php
                                                     $data = $obj['pages'];
                                                     $data1 = explode(' (', $data);
@@ -322,7 +353,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 ?>
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo @$obj['amount']; ?> &#163;
                                             </td>
 
@@ -331,11 +362,11 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 $obj['amount'] = 0;
                                             }
                                             ?>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo @$obj['received_amount']; ?> &#163;
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php
                                                 if (!isset($obj['amount']) && empty($obj['amount'])) {
                                                     $obj['amount'] = 0;
@@ -347,10 +378,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                                             <?php
                                             if ($role_id != 2) { ?>
-                                                <td>
+                                                <td class="hide-mb">
                                                     <?php echo $obj['writer_name']; ?>
                                                 </td>
-                                                <td>
+                                                <td class="hide-mb">
                                                     <?php if (($obj['writer_deadline'] != '1970-01-01') and (!empty($obj['writer_deadline']))) {
                                                         echo date('d-M-Y', strtotime($obj['writer_deadline']));
                                                     }  ?>
@@ -362,9 +393,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                             <td style="display:none;"><?php echo $obj['c_email']; ?></td>
 
                                             <!-- Action Buttons -->
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" >
 
-                                                <a class="btn btn-xs btn-info btn-sm m-1" data-bs-toggle="modal" data-bs-target="#view<?php echo $obj['id']; ?>">
+                                                <a class="btn btn-xs btn-info btn-sm m-1 hide-mb" data-bs-toggle="modal" data-bs-target="#view<?php echo $obj['id']; ?> " >
                                                     <i style="color:#fff;" class="fa fa-eye"></i>
                                                 </a>
 
@@ -376,6 +407,483 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
                                                     </a>
                                                 <?php } ?>
+                                                  <!-- Update Order Model -->
+                                                  <div class="modal fade bd-example-modal-xl" id="editModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h3 class="modal-title" id="exampleModalLabel">
+                                                                    <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" target="_blank">
+                                                                        <i class="fa fa-external-link"></i>
+                                                                    </a>
+                                                                    Update Order <span style="color:lightsalmon"> Order ID : <?= $obj['order_id'] ?> </span>
+                                                                </h3>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <!-- modal-header -->
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+                                                                    <?php if($o_counts <= 10) { ?>
+                                                                    <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
+
+                                                                        <?php if ($role_id != '2') { ?>
+                                                                            <?php if (@$referal == 'No') { ?>
+                                                                                <!-- blank -->
+                                                                            <?php } ?>
+                                                                        <?php } else { ?>
+                                                                            <input type="hidden" name="referal" value="<?= @$referal ?>">
+                                                                        <?php } ?>
+
+                                                                        <input type="hidden" name="backurl" value="<?= $current_page ?>">
+                                                                        <input type="hidden" name="edit_id" value="<?= $obj['id'] ?>">
+                                                                        <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
+                                                                        <input type="text" style="display:none;" name="order_type" value="Back-End">
+
+                                                                        <div class="row">
+
+                                                                            <!-- Select Customer -->
+                                                                            <?php if ($role_id != '2') {  ?>
+                                                                                <?php if ($role_id == '1') {  ?>
+                                                                                    <div class="col-lg-4">
+                                                                                        <div class="form-group has-warning m-b-40">
+                                                                                            <?php echo form_dropdown('user_id', $users, $obj['uid'], '', 'required="required"') ?>
+                                                                                            <span class="bar"></span>
+                                                                                            <label for="input10">Select customer</label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <?php } else { ?>
+                                                                                    <div class="col-lg-4">
+                                                                                        <div class="form-group has-warning m-b-40">
+                                                                                            <input type="text" value="<?php if (isset($obj['c_name']) && !empty($obj['c_name'])) {
+                                                                                                                            echo $obj['c_name'];
+                                                                                                                        } ?>" class="form-control" id="input10" readonly>
+                                                                                            <span class="bar"></span>
+                                                                                            <label for="input10">Select customer</label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <?php } ?>
+                                                                            <?php } else { ?>
+                                                                                <input type="text" style="display:none;" name="user_id" value="<?= @$obj['uid'] ?>">
+                                                                            <?php } ?>
+                                                                            <!-- Select Customer -->
+
+                                                                            <!-- Project Title -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <input type="text" class="form-control" name="title" value="<?= $obj['title'] ?>" required="required">
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Project title</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Project Title -->
+
+                                                                            <!-- Select pages -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <input type="text" class="form-control pages" name="pages" value="<?= $obj['pages'] ?>" required="required">
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Select pages</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Select pages -->
+
+                                                                            <!-- Order total -->
+                                                                            <div class="col-lg-4" hidden>
+                                                                                <div class="form-group has-warning">
+                                                                                    <input type="text" name="actualorder" class="actualorder form-control" id="input10" value="<?php echo $obj['amount']; ?>">
+                                                                                    <span class="bar"></span>
+                                                                                    <strike class="actualorder" style="font-size: 22px;color:red;"></strike>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Order total -->
+
+                                                                            <!-- Price -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning">
+                                                                                    <?php if ($role_id != '2') {  ?>
+                                                                                        <input type="text" name="order_total" class="form-control order_total" value="<?php echo $obj['amount']; ?>" required>
+                                                                                    <?php } else { ?>
+                                                                                        <input type="hidden" name="order_total" class="order_total" value="<?php echo $obj['amount']; ?>">
+                                                                                    <?php } ?>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Price </label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Price -->
+
+                                                                            <!-- Delivery Date Time -->
+                                                                            <div class="col-lg-4" style="display: flex;">
+                                                                                <div class="col-6">
+                                                                                    <div class="form-group has-warning m-b-40">
+                                                                                        <input type="text" class="form-control second delivery_date mdate" name="delivery_date" value="<?php echo  date("Y-m-d", strtotime($obj['delivery_date'])); ?>">
+                                                                                        <span class="bar"></span>
+                                                                                        <label for="input10">Delivery date</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <!-- blank -->
+                                                                                </div>
+                                                                                <div class="col-4">
+                                                                                    <div class="form-group has-warning m-b-40">
+                                                                                        <input type="text" class="form-control timepicker" name="delivery_time" value="<?php if (isset($obj['delivery_time']) && !empty($obj['delivery_time'])) {
+                                                                                                                                                                            echo $obj['delivery_time'];
+                                                                                                                                                                        } ?>">
+                                                                                        <span class="bar"></span>
+                                                                                        <label for="input10">Time</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Delivery Date Time -->
+
+                                                                            <!-- Writer name -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <?php if ($role_id != '3') { ?>
+                                                                                        <?php if ($obj['projectstatus'] == 'In Progress') { ?>
+                                                                                            <select name="writer_name" class="form-control" required>
+                                                                                                <option value=""></option>
+                                                                                                <?php
+                                                                                                $teams = getWriterTeams();
+                                                                                                foreach ($teams as $team) {
+                                                                                                ?>
+                                                                                                    <option <?php if (@$obj['writer_name'] == $team) {
+                                                                                                                echo "selected";
+                                                                                                            } ?> value="<?= $team ?>">
+                                                                                                        <?= $team ?>
+                                                                                                    </option>
+                                                                                                <?php } ?>
+                                                                                            </select>
+                                                                                            <span class="bar"></span>
+                                                                                            <label for="input10">Writer name (Select team)</label>
+                                                                                        <?php } else { ?>
+                                                                                            <select name="writer_name" class="form-control">
+                                                                                                <option value=""></option>
+                                                                                                <?php
+                                                                                                $teams = getWriterTeams();
+                                                                                                foreach ($teams as $team) {
+                                                                                                ?>
+                                                                                                    <option <?php if (@$obj['writer_name'] == $team) {
+                                                                                                                echo "selected";
+                                                                                                            } ?> value="<?= $team ?>">
+                                                                                                        <?= $team ?>
+                                                                                                    </option>
+                                                                                                <?php } ?>
+                                                                                            </select>
+                                                                                            <span class="bar"></span>
+                                                                                            <label for="input10">Writer name (Select team)</label>
+                                                                                        <?php } ?>
+
+                                                                                    <?php } else { ?>
+                                                                                        <input type="hidden" name="writer_name" id="input10" class="form-control writer_name" value="<?= @$obj['writer_name'] ?>" />
+                                                                                    <?php } ?>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Writer name -->
+
+                                                                            <!-- Writer price -->
+                                                                            <div class="col-lg-4" style="display: none;">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <?php if ($role_id != '3') { ?>
+                                                                                        <input type="text" name="writer_price" class="form-control writer_price" value="<?= @$obj['writer_price'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" />
+                                                                                    <?php } else { ?>
+                                                                                        <input type="hidden" name="writer_price" class="form-control writer_price" value="<?= @$obj['writer_price'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" />
+                                                                                    <?php } ?>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Writer price</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Writer price -->
+
+                                                                            <!-- Writer deadline -->
+                                                                            <div class="col-lg-4 writer_deadline">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <?php if (!empty($obj['writer_deadline'])) {
+                                                                                        if (@$obj['writer_deadline'] != '1970-01-01') {
+                                                                                            $writer_deadlinenew = date("Y-m-d", strtotime(@$obj['writer_deadline']));
+                                                                                        } else {
+                                                                                            $writer_deadlinenew = date("Y-m-d");
+                                                                                        }
+                                                                                    } else {
+                                                                                        $writer_deadlinenew = date("Y-m-d");
+                                                                                    } ?>
+
+                                                                                    <input type="text" class="form-control mdate" name="writer_deadline" value="<?php if (isset($writer_deadlinenew) && !empty($writer_deadlinenew)) {
+                                                                                                                                                                    echo $writer_deadlinenew;
+                                                                                                                                                                } ?>">
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Writer deadline</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Writer deadline -->
+
+                                                                            <!-- College Name -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <input type="text" class="form-control" id="input10" name="college_name" value="<?= @$obj['college_name'] ?>">
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">College name</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / College Name -->
+
+                                                                            <!-- Order Date -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <input type="text" class="form-control first mdate" name="order_date" value="<?php echo date('Y-m-d', strtotime($obj['order_date'])); ?>">
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Order date</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Order Date -->
+
+                                                                            <!-- Formatting & Citation Style -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <select class="form-control " name="formatting">
+                                                                                        <option value=""></option>
+                                                                                        <?php
+                                                                                        foreach ($formattings as $key => $value) {
+                                                                                            if ($obj['formatting'] == $value['formatting_name']) {
+                                                                                        ?>
+                                                                                                <option value="<?= $value['formatting_name'] ?>" selected><?= $value['formatting_name'] ?></option>
+                                                                                            <?php } else { ?>
+                                                                                                <option value="<?= $value['formatting_name'] ?>"><?= $value['formatting_name'] ?></option>
+
+                                                                                        <?php  }
+                                                                                        } ?>
+                                                                                    </select>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Formatting style</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Formatting & Citation Style -->
+
+                                                                            <!-- Choose type of service -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <select class="form-control typeofservice" name="typeofservice">
+                                                                                        <option value=""></option>
+                                                                                        <?php
+                                                                                        foreach ($services as $key => $value) {
+                                                                                            if ($obj['services'] == $value['service_name']) {
+                                                                                        ?>
+                                                                                                <option value="<?= $value['service_name'] ?>" typservice="<?= $value['factor'] ?>" selected><?= $value['service_name'] ?> </option>
+                                                                                            <?php } else { ?>
+                                                                                                <option value="<?= $value['service_name'] ?>" typservice="<?= $value['factor'] ?>"><?= $value['service_name'] ?></option>
+                                                                                        <?php  }
+                                                                                        } ?>
+                                                                                    </select>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Choose type of service</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Choose type of service -->
+
+                                                                            <!-- Choose type of paper -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <select class="form-control typeofpaper" name="typeofpaper">
+                                                                                        <option value=""></option>
+                                                                                        <?php
+                                                                                        foreach ($typeofpapers as $key => $value) {
+                                                                                            if ($obj['typeofpaper'] == $value['paper_type']) {
+                                                                                        ?>
+                                                                                                <option value="<?= $value['paper_type'] ?>" selected typpaper="<?= $value['factor'] ?>"><?= $value['paper_type'] ?></option>
+                                                                                            <?php } else { ?>
+                                                                                                <option value="<?= $value['paper_type'] ?>" typpaper="<?= $value['factor'] ?>"><?= $value['paper_type'] ?></option>
+                                                                                        <?php  }
+                                                                                        } ?>
+                                                                                    </select>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Choose type of paper</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Choose type of paper -->
+
+                                                                            <!-- Choose type of writing -->
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <select class="form-control typeofwritting" name="typeofwritting">
+                                                                                        <option value=""></option>
+                                                                                        <?php
+                                                                                        foreach ($typeofwritings as $key => $value) {
+                                                                                            if ($obj['typeofwritting'] == $value['type_of_writing']) {
+                                                                                        ?>
+                                                                                                <option value="<?= $value['type_of_writing'] ?>" selected typwrtg="<?= $value['factor'] ?>"><?= $value['type_of_writing'] ?></option>
+                                                                                            <?php } else { ?>
+                                                                                                <option value="<?= $value['type_of_writing'] ?>" typwrtg="<?= $value['factor'] ?>"><?= $value['type_of_writing'] ?></option>
+                                                                                        <?php  }
+                                                                                        } ?>
+                                                                                    </select>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Choose type of writing</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Choose type of writing -->
+
+                                                                            <!-- Project status -->
+                                                                            <?php $projectstatus = $obj['projectstatus']; ?>
+                                                                            <?php if ($role_id != 1) { ?>
+                                                                                <?php if ($projectstatus != 'Cancelled') { ?>
+                                                                                    <!-- Order status -->
+                                                                                    <div class="col-lg-4">
+                                                                                        <div class="form-group has-warning m-b-40">
+                                                                                            <select class="form-control pages" name="projectstatus" required>
+
+                                                                                                <option value="Pending" <?php if ($projectstatus == 'Pending') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Pending</option>
+                                                                                                <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>In Progress</option>
+                                                                                                <option value="Completed" <?php if ($projectstatus == 'Completed') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>Completed</option>
+                                                                                                <option value="Delivered" <?php if ($projectstatus == 'Delivered') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>Delivered</option>
+                                                                                                <option value="Feedback" <?php if ($projectstatus == 'Feedback') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>Feedback</option>
+                                                                                                <option value="Feedback Delivered" <?php if ($projectstatus == 'Feedback Delivered') {
+                                                                                                                                        echo "selected";
+                                                                                                                                    } ?>>Feedback Delivered</option>
+                                                                                                <option value="Cancelled" <?php if ($projectstatus == 'Cancelled') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>Cancelled</option>
+                                                                                                <option value="Draft Ready" <?php if ($projectstatus == 'Draft Ready') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>Draft Ready</option>
+                                                                                                <option value="Draft Delivered" <?php if ($projectstatus == 'Draft Delivered') {
+                                                                                                                                    echo "selected";
+                                                                                                                                } ?>>Draft Delivered</option>
+                                                                                                <option value="Other" <?php if ($projectstatus == 'Other') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Other</option>
+                                                                                                <option value="initiated" <?php if ($projectstatus == 'initiated') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>initiated</option>
+                                                                                            </select>
+                                                                                            <span class="bar"></span>
+                                                                                            <label for="input10">Order status</label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <?php } ?>
+                                                                            <?php } else { ?>
+                                                                                <!-- Order status -->
+                                                                                <div class="col-lg-4">
+                                                                                    <div class="form-group has-warning m-b-40">
+                                                                                        <select class="form-control pages" name="projectstatus" required>
+
+                                                                                            <option value="Pending" <?php if ($projectstatus == 'Pending') {
+                                                                                                                        echo "selected";
+                                                                                                                    } ?>>Pending</option>
+                                                                                            <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>In Progress</option>
+                                                                                            <option value="Completed" <?php if ($projectstatus == 'Completed') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Completed</option>
+                                                                                            <option value="Delivered" <?php if ($projectstatus == 'Delivered') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Delivered</option>
+                                                                                            <option value="Feedback" <?php if ($projectstatus == 'Feedback') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Feedback</option>
+                                                                                            <option value="Feedback Delivered" <?php if ($projectstatus == 'Feedback Delivered') {
+                                                                                                                                    echo "selected";
+                                                                                                                                } ?>>Feedback Delivered</option>
+                                                                                            <option value="Cancelled" <?php if ($projectstatus == 'Cancelled') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Cancelled</option>
+                                                                                            <option value="Draft Ready" <?php if ($projectstatus == 'Draft Ready') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>Draft Ready</option>
+                                                                                            <option value="Draft Delivered" <?php if ($projectstatus == 'Draft Delivered') {
+                                                                                                                                echo "selected";
+                                                                                                                            } ?>>Draft Delivered</option>
+                                                                                            <option value="Other" <?php if ($projectstatus == 'Other') {
+                                                                                                                        echo "selected";
+                                                                                                                    } ?>>Other</option>
+                                                                                            <option value="initiated" <?php if ($projectstatus == 'initiated') {
+                                                                                                                            echo "selected";
+                                                                                                                        } ?>>initiated</option>
+                                                                                        </select>
+                                                                                        <span class="bar"></span>
+                                                                                        <label for="input10">Order status</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <?php } ?>
+                                                                            <!-- / Project status -->
+
+                                                                            <!-- Payment status -->
+                                                                            <?php $paymentstatus = $obj['paymentstatus']; ?>
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <select class="form-control" name="paymentstatus" required>
+                                                                                        <option value="Pending" <?php if ($paymentstatus == 'Pending') {
+                                                                                                                    echo "selected";
+                                                                                                                } ?>>Pending</option>
+
+                                                                                        <option value="Completed" <?php if ($paymentstatus == 'Completed') {
+                                                                                                                        echo "selected";
+                                                                                                                    } ?>>Completed</option>
+                                                                                    </select>
+                                                                                    <span class="bar"></span>
+                                                                                    <label for="input10">Payment status</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- / Payment status -->
+                                                                        </div>
+                                                                        <!-- row -->
+
+                                                                        <!-- Enter message -->
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                                <span class="bar"></span>
+                                                                                <label for="input10">Enter message</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Enter message -->
+
+
+                                                                        <!-- Upload Files -->
+                                                                        <div class="col-lg-12" style="display: none;">
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <fieldset>
+                                                                                    <legend> <b>Upload Files </b></legend>
+                                                                                    <div class="table-responsive">
+                                                                                        <table id="maintable" class="table">
+                                                                                            <thead style="background-color: #355fa9;color: #ffffff;">
+                                                                                                <tr>
+                                                                                                    <th style="width:5%;">S.No.</th>
+                                                                                                    <th style="width:90%;"> Upload File</th>
+                                                                                                    <th style="width:5%;" > Action</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody id="mainbody">
+                                                                                                <!-- js -->
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </fieldset>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <button type="submit" class="btn btn-primary btn-block">Update</button>
+                                                                        </div>
+
+                                                                    </form>
+                                                                    <?php } ?>
+                                                                </div>
+                                                            </div>
+                                                            <!-- modal-body -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- / Update Order Model -->
 
                                                 <?php if ($role_id != 2) { ?>
 
@@ -396,8 +904,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                 <i style="color:#fff;" class="fa fa-edit"></i>
                                                             </a> -->
                                                             <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModal<?= $obj['id'] ?>" title="Order Edit">
-                                                                <i style="color:#fff;" class="fa fa-edit"></i>
-                                                            </a>
+                                                        <i style="color:#fff;" class="fa fa-edit"></i>
+                                                    </a>
                                                         <?php } ?>
                                                     <?php } ?>
 
@@ -419,14 +927,14 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 <?php } ?>
 
                                                 <!-- Mark Job Failed -->
-                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_failed" title="Mark as failed job" style="background-color:tomato;">
+                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_failed hide-mb" title="Mark as failed job" style="background-color:tomato;">
                                                     <i style="color:#fff;" class="fa fa-close"></i>
                                                 </a>
                                                 <!-- / Mark Job Failed -->
 
                                                 <!-- Button trigger modal -->
-                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $obj['id'] ?>" title="More buttons">
-                                                    <i style="color:#fff;" class="fa fa-list"></i>
+                                                <a type="button" class=" btn-xs btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#exampleModal<?= $obj['id'] ?>" title="More buttons">
+                                                    <i style="color:#fff; " class="fa fa-list"></i>
                                                 </a>
                                                 <!-- Button trigger modal -->
 
