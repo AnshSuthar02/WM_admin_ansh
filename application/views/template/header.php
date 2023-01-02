@@ -37,6 +37,19 @@ if (isset($this->session->userdata['logged_in'])) {
     {
       display: none;
     }
+
+    .colo {
+        background-color: black;
+    }
+    .logo-mb
+    {
+        width: 25px;
+    }
+        .logo-mb2
+        {
+            width: 60% !important;
+        }
+
   }
 </style>
 <body class="skin-default-dark fixed-layout">
@@ -57,11 +70,11 @@ if (isset($this->session->userdata['logged_in'])) {
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
         <header class="topbar">
-            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark colo" >
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-header" style="text-align:center;">
+                <div class="navbar-header logo-mb" style="text-align:center;">
                     <!-- <div class="user-profile" style="margin-top: 5px !important;">
                         <div class="user-pro-body">
                             <div>
@@ -69,7 +82,7 @@ if (isset($this->session->userdata['logged_in'])) {
                             </div>
                         </div>
                     </div> -->
-                    <img src="<?php echo base_url(); ?>uploads/logo-white.png" alt="" class="img-circle" style="width: 32%; background-color: #0c58b0;">
+                    <img src="https://www.assignnmentinneed.com/admin/uploads/logo-white.png" alt="" class="img-circle logo-mb2" style="width: 32%; background-color: #0c58b0;">
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -128,8 +141,8 @@ if (isset($this->session->userdata['logged_in'])) {
                                                 </div>
                                             </a>
                                             <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="btn btn-info btn-circle text-white"><i class="ti-settings"></i></div>
+                                            <a href="javascript:void(0)" class="hide-mb">
+                                                <div class="btn btn-info btn-circle text-white hide-mb"><i class="ti-settings"></i></div>
                                                 <div class="mail-contnet">
                                                     <h5>Settings</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span>
                                                 </div>
@@ -313,7 +326,7 @@ if (isset($this->session->userdata['logged_in'])) {
                         <!-- ============================================================== -->
                         <!-- End mega menu -->
                         <!-- ============================================================== -->
-                        <li class="nav-item right-side-toggle">
+                        <li class="nav-item right-side-toggle hide-mb">
                             <a class="nav-link  waves-effect waves-light" href="javascript:void(0)">
                                 <i class="ti-settings"></i>
                             </a>

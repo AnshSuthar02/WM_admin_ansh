@@ -48,21 +48,32 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     }
 
 
-    @media screen and (max-device-width:640px), screen and (max-width:700px)
-
-{
-
-  .hide-mb
-  {
-    display: none;
-  }
-  
-}
-
-
-
+ 
 </style>
 
+<style>
+@media screen and (max-device-width:640px), screen and (max-width:992px)
+
+  {
+
+    .hide-mb
+    {
+      display: none;
+    }
+
+    
+  }
+
+  
+</style>
+<style>
+    @media (min-width: 992px) and (max-width : 50000px)
+    {
+        .show{
+    display: none;
+  }
+    }
+</style>
 
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
@@ -273,12 +284,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                             <th style="white-space: nowrap;" class="hide-mb"> Writer Deadline</th>
                                         <?php } ?>
                                         
-                                        <?php if($role_id == '2') { ?>
                                         <th style="white-space: nowrap; " class="show" >  <i class="fa fa-check btn bg-primary" style="font-size: 15px;"></i> </th>
-                                        
-                                        <?php } else { ?>
                                         <th style="white-space: nowrap;" class="hide-mb">Action</th>
-                                        <?php  } ?>
                                     </tr>
                                 </thead>
                                 <tbody>

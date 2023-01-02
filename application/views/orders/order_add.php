@@ -88,13 +88,13 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         </div>
                                     </div>
                                 <?php } else { ?>
-                                    <div class="col-lg-4 d-none">
+                                    <!-- <div class="col-lg-4">
                                         <div class="form-group has-warning">
                                             <input type="text" name="discount_per" class="form-control discount_per" value="40" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" readonly="readonly" />
                                             <span class="bar"></span>
                                             <label for="input10">Enter discount</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 <?php } ?>
 
                                 <!-- Order total -->
@@ -107,22 +107,23 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                 </div>
 
                                 <!-- Price after applying coupon -->
+                                <?php if($role_id != '2') { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning">
                                         <?php if ($role_id != '2') {  ?>
                                             <input type="text" name="order_total" class="order_total form-control" value="" required>
-                                            <input type="text" style="display:none;" name="no_of_days" class="no_of_days form-control" value="">
-                                        <span class="bar"></span>
-                                        <label for="input10">Price after applying coupon</label>
-                                        <strike class="actualorder" style="font-size: 22px;color:red;"></strike>
                                         <?php } else { ?>
                                             <input type="text" style="display:none;" name="order_total" class="order_total form-control" value="">
                                         <?php } ?>
-                                       
+                                        <input type="text" style="display:none;" name="no_of_days" class="no_of_days form-control" value="">
+                                        <span class="bar"></span>
+                                        <label for="input10">Price after applying coupon</label>
+                                        <strike class="actualorder" style="font-size: 22px;color:red;"></strike>
                                         <!-- <span class="ordershow" style="font-size: 22px;color:green;"> </span> -->
                                         <!-- <i style="font-size: 18px;color:green;" class="fa fa-check"></i> -->
                                     </div>
                                 </div>
+                                <?php } ?>
 
                                 <!-- Delivery Date -->
                                 <div class="col-lg-4" style="display: flex;">
@@ -146,6 +147,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                 </div>
 
                                 <!-- Order Date -->
+                                <?php if($role_id != '2') { ?> 
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <input type="text" class="form-control first mdate" name="order_date" placeholder="" value="<?php echo date('Y-m-d'); ?>">
@@ -153,9 +155,9 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         <label for="input10">Order date</label>
                                     </div>
                                 </div>
+                                <?php } ?>
 
                                 <!-- College Name -->
-                                <?php if($role_id != '2')  {?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <input type="text" class="form-control" name="college_name" placeholder="">
@@ -163,10 +165,8 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         <label for="input10">College name</label>
                                     </div>
                                 </div>
-                                <?php } ?>
 
                                 <!-- Formatting & Citation Style -->
-
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <select class="form-control " name="formatting" required="required">
@@ -200,8 +200,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         <label for="input10">Choose type of service</label>
                                     </div>
                                 </div>
-                                <?php } ?> 
-
+                                <?php } ?>
                                 <!-- Choose type of paper -->
                                 <?php if($role_id != '2') { ?>
                                 <div class="col-lg-4">
@@ -221,6 +220,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                 </div>
                                 <?php } ?>
                                 <!-- Choose type of writing -->
+                                <?php if($role_id != '2') { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <select class="form-control typeofwritting" name="typeofwritting" required="required">
@@ -236,6 +236,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         <label for="input10">Choose type of writing</label>
                                     </div>
                                 </div>
+                                <?php } ?>
 
                                 <!-- Enter message -->
                                 <div class="col-lg-12">
