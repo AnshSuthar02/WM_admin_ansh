@@ -94,7 +94,68 @@ class Orders extends CI_Controller
 		$this->template->load('template', 'feedbackall', $data);
 	}
 
-public function emailindusial()
+	// public function emailindusial()
+	// {
+	// 	$data = $this->input->post();
+	// 	// print_r($data); exit;
+	// 	$email_to = $data['to'];
+	// 	$subject = $data['subject'];
+	// 	$message = $data['message'];
+	// 	$word = $data['word'];
+	// 	$deadline = $data['deadline'];
+	// 	$formatting = $data['formatting'];
+	// 	$files = $data['files'];
+	// 	$body = "<div style='font-family: Verdana !important;'>
+	// 			<p><br/> Hi,<br/><br/>
+
+	// 			Kindly find the details of the work:<br/><br/> 
+
+	// 			Word count: " . $word . " <br/><br/>
+
+	// 			Deadline:  " . $deadline . "   <br/><br/>				
+
+	// 			Additional Details: <br/><p> " . $message . " </p><br/><br/>
+	// 			**********************************************************************<br/>
+	// 			Still, if you need any other information please let us know. <br/><br/>
+				
+	// 		Thanks & Regards,<br/>
+			
+	// 			</p>
+	// 			</div>";
+
+	// 	// Email Code Start
+
+	// 	$config = array(
+	// 		'protocol' => 'smtp',
+	// 		'smtp_host' => 'smtp.gmail.com',
+	// 		'smtp_port' => 587,
+	// 		'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
+	// 		'smtp_pass' => '7737581643yogita', // change it to yours
+	// 		'mailtype' => 'html',
+	// 		'smtp_crypto' => 'tls',
+	// 		'charset' => 'iso-8859-1',
+	// 		'wordwrap' => TRUE
+	// 	);
+	// 	$this->load->library('email');
+	// 	$this->email->set_newline("\r\n");
+	// 	$this->email->set_mailtype("html");
+	// 	$this->email->to($email_to);
+	// 	$this->email->bcc('Assignnmentservice@gmail.com');
+	// 	$this->email->from('Assignnmentservice@gmail.com', "Quotation");
+	// 	$this->email->subject($subject);
+	// 	$this->email->message($body);
+	// 	foreach ($files as $image) {
+	// 		$this->email->attach($image);
+	// 	}
+	// 	if ($this->email->send()) {
+	// 		redirect('/Orders/index', 'refresh');
+	// 		$this->session->set_flashdata('success', 'Mail Send Succesfully');
+	// 	} else {
+	// 		redirect('/Orders/index', 'refresh');
+	// 		$this->session->set_flashdata('failed', 'mail send failed please try again !');
+	// 	}
+	// }
+	public function emailindusial()
 	{
 		$data = $this->input->post();
 		// print_r($data); exit;
@@ -573,7 +634,7 @@ public function emailindusial()
 		endif;
 		if (isset($data['current'][0]->order_date)) :
 			$data['order_date'] = $data['current'][0]->order_date;
-		endif;
+		endif;	
 
 		if (isset($data['current'][0]->delivery_date)) :
 			$data['delivery_date'] = $data['current'][0]->delivery_date;
@@ -743,7 +804,7 @@ public function emailindusial()
 					}
 				}
 			}
-
+				
 			$data = array(
 				'order_id' => $this->input->post('order_id'),
 				'delivery_date' => date('Y-m-d', strtotime($this->input->post('delivery_date'))),
@@ -770,6 +831,8 @@ public function emailindusial()
 				'edited_by' => $this->session->userdata['logged_in']['id'],
 				'college_name' => $this->input->post('college_name'),
 				// 'received_amount' => $this->input->post('received_amount'),
+				'uname' => $this->input->post('uname'),
+				// 'u_mail' => $this->input->post('u_mail'),
 				'flag' => '0',
 			);
 			if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') {
@@ -777,196 +840,33 @@ public function emailindusial()
 			}
 			$old_id = $this->input->post('edit_id');
 			$result = $this->order_model->editOrder($data, $old_id);
-			// echo $result; exit;
-			// echo "<pre>"; print_r($old_id); exit;
-// 			if ($result == TRUE) {
-// 				$this->session->set_flashdata('success', 'Order Updated Successfully !');
-// 				$current_page = $_SESSION['fullURL'];
-// 				redirect($current_page, 'refresh');
-// 			} else {
-// 				$this->session->set_flashdata('failed', 'Update Failed !');
-// 				$current_page = $_SESSION['fullURL'];
-// 				redirect($current_page, 'refresh');
-// 			}
-			if($data['projectstatus'] == 'Delivered')
+
+			if( $data['projectstatus'] == 'Completed')
 			{
-				
 				$query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
 				$result = $query->result_array();
 				$user_email = $result[0]['email'];
-			   
-			   
-			    $title = $data['title'];
-			     $oid = $data['order_id'];
+				$name = $result[0]['name'];
 
-				$com_file = $this->db->get_where("completed_orders", array("order_id" => $oid ));
-				$result3 = $com_file->result_array();
-				print_r($result3); exit;
-
-			     
-			    $query2 = $this->db->get_where("orders", array("order_id" => $oid ));
-				$result2 = $query2->result_array();
 				
-				$paid = $result2[0]['received_amount'];
-				// $result = $query->result_array();
-				// print_r($paid); exit;
-		    	$bp =  $data['amount']-$paid;	
-			    $amount =  $data['amount'];
-			     
-				$email_to = $user_email;
-	            $subject = $oid;
-	            $name = $result[0]['name'];
-	           //  print_r($user_email); exit;
-	
-	$body = "<div style='font-family: Verdana !important;'>
-				<p><br/> Hi <b>$name</b>,<br/><br/>
+				$name = $data['uname'];
+				$title = $data['title'];
+				$oid = $data['order_id'];
+				$amount =  $data['amount'];
 
-				Greetings of the day. Hope you are doing well.<br/><br/> 
 
-				This email is regarding the current assignment <b> $title </b>, order code<b> $oid </b>, is ready.<br/><br/>
-
-				You can proceed with the balance payment of<b> £  $bp </b>in order to deliver the work.<br/>	<br/>		
-
-				We will be waiting for your reply. <br/>
-				
-			Thanks & Regards,<br/>
-			Assignnmentinneed.com<br/>
-			Email: order@assignnmentinneed.com<br/>
-			Whatsapp No: +44 7459420438<br/>
-                        +44  7826233106
-			
-				</p>
-				</div>";
-		// Email Code Start
-
-		$config = array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'smtp.gmail.com',
-			'smtp_port' => 587,
-			'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
-			'smtp_pass' => '7737581643yogita', // change it to yours
-			'mailtype' => 'html',
-			'smtp_crypto' => 'tls',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
-		);
-		$this->load->library('email');
-		$this->email->set_newline("\r\n");
-		$this->email->set_mailtype("html");
-		$this->email->to($email_to);
-		$this->email->bcc('order@assignnmentinneed.com');
-		$this->email->from('order@assignnmentinneed.com', "Completed");
-		$this->email->subject($subject);
-		$this->email->message($body);
-		if ($this->email->send())
-		{
-			$this->session->set_flashdata('success', 'Mail send & Order Updated Successfully !');
-			$current_page = $_SESSION['fullURL'];
-			redirect($current_page, 'refresh');
-			
-		}
-	}
-            elseif ( $data['projectstatus'] == 'Completed')
-			{
-			    $query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
-				$result = $query->result_array();
-				$user_email = $result[0]['email'];
-			   
-			   
-			    $title = $data['title'];
-			     $oid = $data['order_id'];
-			     
-			    $query2 = $this->db->get_where("orders", array("order_id" => $oid ));
+				$query2 = $this->db->get_where("orders", array("order_id" => $oid ));
 				$result2 = $query2->result_array();
 				$paid = $result2[0]['received_amount'];
 				// $result = $query->result_array();
 				// print_r($paid); exit;
-		    	$bp =  $data['amount']-$paid;	
-			    $amount =  $data['amount'];
-			     
-				$email_to = $user_email;
-	            $subject = $oid;
-	            $name = $result[0]['name'];
-	           //  print_r($user_email); exit;
+			$bp =  $data['amount']-$paid;	
+			print_r($bp); exit;
+			$email_to = $user_email;
+	   		 $subject = 'UID';
 	
-	$body = "<div style='font-family: Verdana !important;'>
-				<p><br/> Hi <b>$name</b>,<br/><br/>
-
-				Greetings of the day. Hope you are doing well.<br/><br/> 
-
-				This email is regarding the current assignment <b> $title </b>, order code<b> $oid </b>, is ready.<br/><br/>
-
-				You can proceed with the balance payment of<b> £  $bp </b>in order to deliver the work.<br/>	<br/>		
-
-				We will be waiting for your reply. <br/>
-				
-			Thanks & Regards,<br/>
-			Assignnmentinneed.com<br/>
-			Email: order@assignnmentinneed.com<br/>
-			Whatsapp No: +44 7459420438<br/>
-                        +44  7826233106
-			
-				</p>
-				</div>";
-		// Email Code Start
-
-		$config = array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'smtp.gmail.com',
-			'smtp_port' => 587,
-			'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
-			'smtp_pass' => '7737581643yogita', // change it to yours
-			'mailtype' => 'html',
-			'smtp_crypto' => 'tls',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
-		);
-		$this->load->library('email');
-		$this->email->set_newline("\r\n");
-		$this->email->set_mailtype("html");
-		$this->email->to($email_to);
-		$this->email->bcc('order@assignnmentinneed.com');
-		$this->email->from('order@assignnmentinneed.com', "Completed");
-		$this->email->subject($subject);
-		$this->email->message($body);
-		if ($this->email->send())
-		{
-			$this->session->set_flashdata('success', 'Mail send & Order Updated Successfully !');
-			$current_page = $_SESSION['fullURL'];
-			redirect($current_page, 'refresh');
-			
-		}
-		
-		else {
-			$this->session->set_flashdata('failed', 'Mail not send !');
-			$current_page = $_SESSION['fullURL'];
-			redirect($current_page, 'refresh');		}
-			}
-			else
-			{
-				if ($result == TRUE) {
-					$this->session->set_flashdata('success', 'Order Updated Successfully !');
-					$current_page = $_SESSION['fullURL'];
-					redirect($current_page, 'refresh');
-				} else {
-					$this->session->set_flashdata('failed', 'Update Failed !');
-					$current_page = $_SESSION['fullURL'];
-					redirect($current_page, 'refresh');
-				}
-			}
-
-		}
-	}
-
-        	public function successmessage()
-	{
-	
-	    
-		$email_to = 'nadeansh@gmail.com';
-	    $subject = 'UID';
-	
-	$body = "<div style='font-family: Verdana !important;'>
-				<p><br/> Hi,Ansh<br/><br/>
+			$body = "<div style='font-family: Verdana !important;'>
+				<p><br/> Hi,dear<br/><br/>
 
 				Greetings of the day. Hope you are doing well.<br/><br/> 
 
@@ -1014,10 +914,42 @@ public function emailindusial()
 		}
 		
 		else {
-		    echo "Failed Send Mail";
+			$this->session->set_flashdata('success', 'Order Updated Successfully !');
+		
+			
+		    $this->session->set_flashdata('failed', 'Email Send Error Please try again!');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+		}
+				
+			}
+			else
+			{
+				if ($result == TRUE) {
+					$this->session->set_flashdata('success', 'Order Updated Successfully !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+				} else {
+					// exit;	
+					$this->session->set_flashdata('failed', 'Update Failed !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+				}
+			}
+			
 		}
 	}
+	
+	
+	public function successmessage()
+	{
+		
 
+	
+     	//   print_r($result); exit;
+
+
+	}
 	public function print($id)
 	{
 		$id = $this->uri->segment('3');
@@ -1071,7 +1003,7 @@ public function emailindusial()
 			foreach ($result as $key => $value) {
 				$email_to =	$value['c_email'];
 				$pass = explode('@', $email_to);
-		(float)$total += (float)$value['amount'];
+				$total += $value['amount'];
 				$body .= '<tr>
 							<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">' . ++$z . '</td>
 							<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">' . $value['typeofpaper'] . '</td>
@@ -1085,7 +1017,7 @@ public function emailindusial()
 			}
 			$body .= '<tr>
 						<td colspan="6" align="right" style="border: 1px solid #dddddd;padding: 8px;">Total</td>
-						<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;"> £ ' .$total . ' </td>
+						<td style="border: 1px solid #dddddd;text-align: left;padding: 8px;"> £ ' . $total . ' </td>
 					</tr>';
 			$body .= '</tbody></table> <br><br/>
 					In order to confirm the order kindly make the partial payment so we can start working on the assignments. The bank details are as follows: <br/><br/>
@@ -1110,9 +1042,9 @@ public function emailindusial()
 					<br/><br/>
 					In case, you have any concern, please do let us know.<br/><br/>
 					<div style="border: 1px solid #ccc;padding: 20px;">
-					Your log in details are as follows <a href="https://www.assignnmentinneed.com/admin" target="_blank">(link)</a><br/><br/>
+					Your log in details are as follows <a href="https://www.assignnmentinneed.com/admin/" target="_blank">(link)</a><br/><br/>
 					<b> User name: </b> ' . $email_to . '<br/><br/>
-					<b> Password: </b>  user@123(unless you change the password)
+					<b> Password: </b> ' . $pass[0] . '@123(unless you change the password)
 					</div>
 					<br/><br/>
 					We will look forward to getting your reply.<br/><br/>
@@ -1121,7 +1053,7 @@ public function emailindusial()
 					Email: order@assignnmentinneed.com<br/>
 					Whatsapp No: +447459420438<br/>
 					Contact no: +447520626128  <br/> 
-				</div>';
+					</div>';
 
 
 			$config = array(
@@ -1150,7 +1082,6 @@ public function emailindusial()
 				$this->db->where('id', $_POST['ids']);
 				$this->db->update('orders', $upData);
 				redirect('/Orders/index', 'refresh');
-				// redirect($this->uri->uri_string('/Orders/index', 'refresh'));
 			} else {
 				echo $this->session->set_flashdata('failed', 'Email sending failed ! Please Try again');
 				redirect('/Orders/Emails/11', 'refresh');
@@ -1585,5 +1516,9 @@ public function emailindusial()
 		$this->db->update('orders', $data);
 		return true;
 		die();
+	}
+	public function NewOrders()
+	{
+		$this->load->view('new_orders');
 	}
 }

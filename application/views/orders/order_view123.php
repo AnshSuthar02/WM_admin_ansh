@@ -1,3 +1,5 @@
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $current_page   = current_url();
@@ -44,7 +46,23 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     .card-body {
         padding: 0 !important;
     }
+
+
+    @media screen and (max-device-width:640px), screen and (max-width:700px)
+
+{
+
+  .hide-mb
+  {
+    display: none;
+  }
+  
+}
+
+
+
 </style>
+
 
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
@@ -53,7 +71,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     <!-- Container fluid  -->
     <!-- ============================================================== -->
     <div class="container-fluid">
-
         <?php if ($this->session->flashdata('success')) : ?>
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
@@ -111,7 +128,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
             <div class="accordion" id="accordionExample">
                 <div class="card m-b-0">
                     <div class="card-body">
-                        <form method="get" id="filterForm">
+                    <?php if($role_id != '2') { ?>
+                        <form method="get" id="filterForm" action="<?php echo base_Url() ?>index.php/Orders/online_ordersp">
+                       
                             <div class="row">
                                 <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5') {  ?>
                                     <div class="col-md-3 col-sm-3">
@@ -227,6 +246,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                             </div>
                         </form>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -238,41 +258,45 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                             <table id="demo-foo-addrow" class="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size="7">
                                 <thead>
                                     <tr>
-                                        <th style="white-space: nowrap;"> #</th>
-                                        <th style="white-space: nowrap;"> Order Code</th>
-                                        <th style="white-space: nowrap;"> Order Date</th>
-                                        <th style="white-space: nowrap;"> Delivery Date</th>
-                                        <th style="white-space: nowrap;"> Title</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> #</th>
+                                        <th style=""> Order Code</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Order Date</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Delivery Date</th>
+                                        <th style="white-space: nowrap;" > Title</th>
                                         <th style="white-space: nowrap;"> Status</th>
-                                        <th style="white-space: nowrap;"> Words</th>
-                                        <th style="white-space: nowrap;"> Amount</th>
-                                        <th style="white-space: nowrap;"> Paid </th>
-                                        <th style="white-space: nowrap;"> Due </th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Words</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Amount</th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Paid </th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Due </th>
                                         <?php if ($role_id != 2) { ?>
-                                            <th style="white-space: nowrap;"> Writer Name</th>
-                                            <th style="white-space: nowrap;"> Writer Deadline</th>
+                                            <th style="white-space: nowrap;" class="hide-mb"> Writer Name</th>
+                                            <th style="white-space: nowrap;" class="hide-mb"> Writer Deadline</th>
                                         <?php } ?>
-                                        <th style="white-space: nowrap;"> Action </th>
+                                        
+                                        <?php if($role_id == '2') { ?>
+                                        <th style="white-space: nowrap; " class="show" >  <i class="fa fa-check btn bg-primary" style="font-size: 15px;"></i> </th>
+                                        
+                                        <?php } else { ?>
+                                        <th style="white-space: nowrap;" class="hide-mb">Action</th>
+                                        <?php  } ?>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-
                                     $i = 1;
                                     foreach ($orders as $obj) { ?>
-                                
                                         <tr <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order" order_id="<?= $obj['id'] ?>">
                                             <input type="hidden" class="row_id" value="<?= $obj['id'] ?>">
-                                            <td>
+                                            <td class="hide-mb">
                                                 <?php echo $i; ?>
                                             </td>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="size">
                                                 <?php echo $obj['order_id']; ?>
                                             </td>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo date('d-M-Y', strtotime($obj['order_date'])); ?>
                                             </td>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php
                                                 echo date('d-M-Y', strtotime($obj['delivery_date']));
                                                 if (isset($obj['delivery_time']) && !empty($obj['delivery_time'])) {
@@ -284,7 +308,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 <?php echo $obj['title']; ?>
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" >
                                                 <?php
                                                 if ($obj['projectstatus'] == 'Pending') {
                                                     $color = "#ff8acc";
@@ -309,20 +333,20 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 </span>
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php
-                                                $data = $obj['pages'];
-                                                $data1 = explode(' (', $data);
-                                                @$data_new = explode(' ', $data1['1']);
-                                                if (isset($data_new['0']) && !empty($data_new['0'])) {
-                                                    echo $data_new['0'];
-                                                } else {
-                                                    echo $obj['pages'];
-                                                }
+                                                    $data = $obj['pages'];
+                                                    $data1 = explode(' (', $data);
+                                                    @$data_new = explode(' ', $data1['1']);
+                                                    if (isset($data_new['0']) && !empty($data_new['0'])) {
+                                                        echo $data_new['0'];
+                                                    } else {
+                                                        echo $obj['pages'];
+                                                    }
                                                 ?>
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo @$obj['amount']; ?> &#163;
                                             </td>
 
@@ -331,11 +355,11 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 $obj['amount'] = 0;
                                             }
                                             ?>
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo @$obj['received_amount']; ?> &#163;
                                             </td>
 
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php
                                                 if (!isset($obj['amount']) && empty($obj['amount'])) {
                                                     $obj['amount'] = 0;
@@ -347,10 +371,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                                             <?php
                                             if ($role_id != 2) { ?>
-                                                <td>
+                                                <td class="hide-mb">
                                                     <?php echo $obj['writer_name']; ?>
                                                 </td>
-                                                <td>
+                                                <td class="hide-mb">
                                                     <?php if (($obj['writer_deadline'] != '1970-01-01') and (!empty($obj['writer_deadline']))) {
                                                         echo date('d-M-Y', strtotime($obj['writer_deadline']));
                                                     }  ?>
@@ -362,9 +386,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                             <td style="display:none;"><?php echo $obj['c_email']; ?></td>
 
                                             <!-- Action Buttons -->
-                                            <td style="white-space: nowrap;">
+                                            <td style="white-space: nowrap;" >
 
-                                                <a class="btn btn-xs btn-info btn-sm m-1" data-bs-toggle="modal" data-bs-target="#view<?php echo $obj['id']; ?>">
+                                                <a class="btn btn-xs btn-info btn-sm m-1 hide-mb" data-bs-toggle="modal" data-bs-target="#view<?php echo $obj['id']; ?> " >
                                                     <i style="color:#fff;" class="fa fa-eye"></i>
                                                 </a>
 
@@ -372,317 +396,12 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     <!-- <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" class="btn btn-xs btn-dark btn-sm m-1">
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
                                                     </a> -->
-                                                    <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModal<?= $obj['id'] ?>" title="Order Edit">
+                                                    <a type="button" class="btn btn-xs btn-dark btn-sm m-1"  href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>"title="Order Edit">
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
                                                     </a>
                                                 <?php } ?>
-
-                                                <?php if ($role_id != 2) { ?>
-
-                                                    <?php
-                                                    if (isset($obj['quotation_status']) && $obj['quotation_status'] == 1) {
-                                                        $btn_class = 'success';
-                                                    } else {
-                                                        $btn_class = 'danger';
-                                                    }
-                                                    ?>
-                                                    <a class="btn btn-xs btn-<?= $btn_class ?> btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/Emails/<?php echo $obj['uid']; ?>">
-                                                        <i class="fa fa-envelope"></i>
-                                                    </a>
-
-                                                    <?php if (($obj['projectstatus'] != 'Feedback Delivered') || ($obj['paymentstatus'] != 'Completed')) { ?>
-                                                        <?php if ($role_id == 3 || $role_id == 4 || $role_id == 5) { ?>
-                                                            <!-- <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" class="btn btn-xs btn-dark btn-sm m-1">
-                                                                <i style="color:#fff;" class="fa fa-edit"></i>
-                                                            </a> -->
-                                                            <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModal<?= $obj['id'] ?>" title="Order Edit">
-                                                                <i style="color:#fff;" class="fa fa-edit"></i>
-                                                            </a>
-                                                        <?php } ?>
-                                                    <?php } ?>
-
-                                                    <?php if ($obj['paymentstatus'] != 'Completed') { ?>
-                                                        <!-- <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" class="btn btn-xs btn-light btnPayment m-1" title="Add Payment" style="background-color: red;">
-                                                            <i style="color:#fff;" class="fa fa-money"></i>
-                                                        </a> -->
-                                                        <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#paymentModal<?= $obj['id'] ?>" title="Order Payment" style="background-color: red;">
-                                                            <i style="color:#fff;" class="fa fa-money"></i>
-                                                        </a>
-                                                    <?php } ?>
-
-                                                    <?php if ($obj['projectstatus'] == 'Pending' || $obj['projectstatus'] == 'Cancelled') { ?>
-                                                        <a class="btn btn-xs btn-warning btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/callstatus/<?php echo $obj['id']; ?>">
-                                                            <i style="color:#fff;" class="fa fa-phone"></i>
-                                                        </a>
-                                                    <?php } ?>
-
-                                                <?php } ?>
-
-                                                <!-- Mark Job Failed -->
-                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_failed" title="Mark as failed job" style="background-color:tomato;">
-                                                    <i style="color:#fff;" class="fa fa-close"></i>
-                                                </a>
-                                                <!-- / Mark Job Failed -->
-
-                                                <!-- Button trigger modal -->
-                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $obj['id'] ?>" title="More buttons">
-                                                    <i style="color:#fff;" class="fa fa-list"></i>
-                                                </a>
-                                                <!-- Button trigger modal -->
-
-                                                <!-- More Buttons Modal -->
-                                                <div class="modal fade" id="exampleModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">More Buttons</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <?php if ($role_id == 1) { ?>
-                                                                    <a style="color:#fff;" class="btn btn-xs btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#duplicate<?php echo $obj['id']; ?>">
-                                                                        <i class="fa fa-first-order" aria-hidden="true"></i>
-                                                                    </a>
-
-                                                                    <a href="<?php echo base_url(); ?>index.php/Orders/indusialemail/<?php echo $obj['id']; ?>" style="color:#fff;" class="btn btn-xs btn-warning btn-sm">
-                                                                        <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
-                                                                    </a>
-
-                                                                    <!-- <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" class="btn btn-xs btn-light btnPayment m-1" title="Add Payment" style="background-color: red;">
-                                                                        <i style="color:#fff;" class="fa fa-money"></i>
-                                                                    </a> -->
-                                                                    <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#paymentModal<?= $obj['id'] ?>" title="Order Payment" style="background-color: red;">
-                                                                        <i style="color:#fff;" class="fa fa-money"></i>
-                                                                    </a>
-
-                                                                    <!-- Duplicate row modal -->
-                                                                    <div class="modal fade" id="duplicate<?php echo $obj['id']; ?>" role="dialog">
-                                                                        <div class="modal-dialog">
-                                                                            <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/duplicate/<?php echo $obj['id']; ?>">
-                                                                                <!-- Modal content-->
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h4 class="modal-title">Confirm Header </h4>
-                                                                                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <p>Are you sure, you want to create duplicate Order ? </p>
-                                                                                    </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="submit" class="btn btn-primary ">Submit</button>
-                                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-
-                                                                <?php } ?>
-
-                                                                <?php if ($role_id == 2) { ?>
-                                                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" title="Download File" data-bs-target="#download<?php echo $obj['id']; ?>"><i class="fa fa-download"></i></button>
-                                                                <?php } ?>
-
-                                                                <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/feedback/<?php echo $obj['id']; ?>">
-                                                                    <i style="color:#fff;" class="fa fa-comments"></i>
-                                                                </a>
-
-                                                                <?php if ($role_id != 2) { ?>
-
-                                                                    <?php if (($obj['projectstatus'] == 'Delivered') ||  ($obj['projectstatus'] == 'Feedback Delivered') || ($obj['projectstatus'] == 'Draft Delivered')) { ?>
-                                                                        <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/UploadOrder/<?php echo $obj['id']; ?>">
-                                                                            <i style="color:#fff;" class="fa fa-check"></i>
-                                                                        </a>
-                                                                    <?php }
-                                                                    ?>
-
-                                                                    <a class="btn btn-xs  btn-secondary btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/callstatus/<?php echo $obj['id']; ?>">
-                                                                        <i style="color:#fff;" class="fa fa-phone"></i>
-                                                                    </a>
-
-                                                                    <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/EditOrderFile/<?php echo $obj['id']; ?>">
-                                                                        <i style="color:#fff;" class="fa fa-upload"></i>
-                                                                    </a>
-
-                                                                    <?php if ($role_id != 1) { ?>
-                                                                        <a style="color:#fff;" class="btn btn-xs btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#duplicate<?php echo $obj['id']; ?>">
-                                                                            <i class="fa fa-first-order" aria-hidden="true"></i>
-                                                                        </a>
-
-                                                                        <!-- Duplicate row modal -->
-                                                                        <div class="modal fade" id="duplicate<?php echo $obj['id']; ?>" role="dialog">
-                                                                            <div class="modal-dialog">
-                                                                                <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/duplicate/<?php echo $obj['id']; ?>">
-                                                                                    <!-- Modal content-->
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h4 class="modal-title">Confirm Header </h4>
-                                                                                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <p>Are you sure, you want to create duplicate Order ? </p>
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="submit" class="btn btn-primary ">Submit</button>
-                                                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    <?php } ?>
-
-                                                                    <?php if ($role_id == 1) { ?>
-                                                                        <a class="btn btn-xs btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete<?php echo $obj['id']; ?>">
-                                                                            <i style="color:#fff;" class="fa fa-trash"></i>
-                                                                        </a>
-                                                                    <?php } ?>
-
-                                                                <?php } ?>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- / More Buttons Modal -->
-
-                                                <!-- Payment Details Model -->
-                                                <div class="modal fade bd-example-modal-xl" id="paymentModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-xl">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h3 class="modal-title" id="exampleModalLabel">
-                                                                    <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" target="_blank">
-                                                                        <i class="fa fa-external-link"></i>
-                                                                    </a>
-                                                                    Payment Details <span style="color:lightsalmon"> Order ID : <?= $obj['order_id'] ?> </span>
-                                                                </h3>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <!-- modal-header -->
-                                                            <div class="modal-body">
-                                                                <div class="card-body">
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-bordered table-striped">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th> Payment Date</th>
-                                                                                    <th> Amount </th>
-                                                                                    <th> References </th>
-                                                                                    <th> Status </th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <?php
-                                                                                if (!empty($obj['payment_details'])) {
-                                                                                    foreach ($obj['payment_details'] as $p_obj) { ?>
-                                                                                        <tr>
-                                                                                            <td><?php echo $p_obj['payment_date']; ?></td>
-                                                                                            <td><?php echo $p_obj['paid_amount']; ?></td>
-                                                                                            <td>
-                                                                                                <?php echo $p_obj['reference']; ?>
-                                                                                                <input type="hidden" class="row_id" value="<?php echo $p_obj['id']; ?>">
-                                                                                                <input type="hidden" class="row_paid_amount" value="<?php echo $p_obj['paid_amount']; ?>">
-                                                                                                <input type="hidden" class="row_order_row_id" value="<?= $p_obj['order_id'] ?>">
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <?php if ($p_obj['account_status'] == 1) {
-                                                                                                    echo "Verified";
-                                                                                                } else {
-                                                                                                    echo "Not Verified";
-                                                                                                } ?>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    <?php
-                                                                                    }
-                                                                                } else { ?>
-                                                                                    <tr>
-                                                                                        <td>No records found!</td>
-                                                                                    </tr>
-                                                                                <?php } ?>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-
-                                                                    <br>
-                                                                    <hr>
-                                                                    <h3> Make New Payment Here </h3>
-                                                                    <span style="color:lightsalmon">
-                                                                        Order Amount : <?php echo $obj['amount']; ?>
-                                                                    </span>
-                                                                    <hr>
-
-                                                                    <?php
-                                                                    $amt   = $obj['amount'];
-                                                                    $r_amt = $obj['received_amount'];
-                                                                    if (isset($obj['received_amount']) && !empty($obj['received_amount']) && isset($obj['amount']) && !empty($obj['amount'])) {
-                                                                        $r_a_new = (float)$amt - (float)$r_amt;
-                                                                    } else {
-                                                                        $r_a_new = '0';
-                                                                    }
-                                                                    $remaining_amount_old = $r_a_new;
-                                                                    ?>
-                                                                    <!-- Form -->
-                                                                    <form class="form-horizontal" id="myForm" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/addPayment" enctype="multipart/form-data">
-                                                                        <input type="hidden" name="from_order_list" value="1">
-                                                                        <input type="hidden" class="order_row_id" name="order_row_id" value="<?= $obj['id'] ?>">
-                                                                        <input type="hidden" class="order_total" name="order_total" value="<?= $obj['amount'] ?>">
-                                                                        <input type="hidden" class="received_amount" name="received_amount" value="<?= $obj['received_amount'] ?>">
-                                                                        <input type="hidden" class="current_page" name="current_page" value="<?= $current_page ?>">
-                                                                        <input type="hidden" class="remaining_amount_old" name="remaining_amount_old" value="<?php echo $remaining_amount_old; ?>">
-                                                                        <input type="hidden" name="backurl" value="<?= $current_page ?>">
-
-                                                                        <div class="row d-flex">
-                                                                            <div class="col-md-4">
-                                                                                <?php if ($role_id == 1) { ?>
-                                                                                    <label class="control-label"> Payment Date </label>
-                                                                                    <br>
-                                                                                    <input type="text" name="payment_date" value="<?php echo date('l d F Y h:i A'); ?>" class="form-control min-date" required>
-                                                                                <?php } else { ?>
-                                                                                    <label class="control-label"> Payment Date </label>
-                                                                                    <br>
-                                                                                    <input type="text" name="payment_date" value="<?php echo date('l d F Y h:i A'); ?>" class="form-control min-date" readonly>
-                                                                                <?php } ?>
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <label> Paid Amount :</label>
-                                                                                <br>
-                                                                                <input type="text" placeholder="Enter Paid Amount" name="paid_amount" class="form-control paid_amount" required="required">
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <label> Remaining Amount :</label>
-                                                                                <br>
-                                                                                <input type="text" placeholder="Remaining Amount" name="remaining_amount" class="form-control remaining_amount" value="<?php echo (float)($remaining_amount_old); ?>" readonly="readonly">
-                                                                            </div>
-                                                                        </div>
-                                                                        <br>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <label> Payment Reference :</label>
-                                                                                <br>
-                                                                                <textarea type="text" placeholder="Enter reference here" name="reference" class="form-control " value="" rows="3" required></textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                        <br>
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <button type="submit" class="btn btn-primary btn-block"> Submit Payment</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </form>
-                                                                    <!-- Form -->
-                                                                </div>
-                                                                <!-- card-body -->
-                                                            </div>
-                                                            <!-- modal-body -->
-                                                        </div>
-                                                        <!-- modal-content -->
-                                                    </div>
-                                                    <!-- modal-dialog modal-xl -->
-                                                </div>
-                                                <!-- / Payment Details Model -->
-                                                                                    
-                                                <!-- Update Order Model -->
-                                                <div class="modal fade bd-example-modal-xl" id="editModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                  <!-- Update Order Model -->
+                                                  <div class="modal fade bd-example-modal-xl" id="editModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-xl">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -697,7 +416,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                             <!-- modal-header -->
                                                             <div class="modal-body">
                                                                 <div class="card-body">
-                                                                    
                                                                     <?php if($o_counts <= 10) { ?>
                                                                     <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
 
@@ -811,7 +529,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Delivery Date Time -->
 
                                                                             <!-- Writer name -->
-                                                                            <div class="col-lg-4" name="numberDrop<?php echo $obj['order_id']; ?>" id="numberDropId<?php echo $obj['order_id']; ?>" onChange="getButtons<?php echo $obj['order_id']; ?>()">
+                                                                            <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if ($role_id != '3') { ?>
                                                                                         <?php if ($obj['projectstatus'] == 'In Progress') { ?>
@@ -870,7 +588,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Writer price -->
 
                                                                             <!-- Writer deadline -->
-                                                                            <div class="col-lg-4 writer_deadline" >
+                                                                            <div class="col-lg-4 writer_deadline">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if (!empty($obj['writer_deadline'])) {
                                                                                         if (@$obj['writer_deadline'] != '1970-01-01') {
@@ -995,7 +713,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 </div>
                                                                             </div>
                                                                             <!-- / Choose type of writing -->
-                                                                           
+
                                                                             <!-- Project status -->
                                                                             <?php $projectstatus = $obj['projectstatus']; ?>
                                                                             <?php if ($role_id != 1) { ?>
@@ -1048,8 +766,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <!-- Order status -->
                                                                                 <div class="col-lg-4">
                                                                                     <div class="form-group has-warning m-b-40">
-                                                                                    <select class="form-control pages projectstatus<?php echo $obj['order_id']; ?>" name="projectstatus" onClick="getDropDown<?php echo $obj['order_id']; ?>()">
-                                                                                        <option value="Pending" <?php if ($projectstatus == 'Pending') {
+                                                                                        <select class="form-control pages" name="projectstatus" required>
+
+                                                                                            <option value="Pending" <?php if ($projectstatus == 'Pending') {
                                                                                                                         echo "selected";
                                                                                                                     } ?>>Pending</option>
                                                                                             <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
@@ -1082,15 +801,14 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                             <option value="initiated" <?php if ($projectstatus == 'initiated') {
                                                                                                                             echo "selected";
                                                                                                                         } ?>>initiated</option>
-                                                                                   </select>
-                                                                                        
+                                                                                        </select>
                                                                                         <span class="bar"></span>
                                                                                         <label for="input10">Order status</label>
                                                                                     </div>
                                                                                 </div>
-                                                                                   
                                                                             <?php } ?>
                                                                             <!-- / Project status -->
+
                                                                             <!-- Payment status -->
                                                                             <?php $paymentstatus = $obj['paymentstatus']; ?>
                                                                             <div class="col-lg-4">
@@ -1111,9 +829,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <!-- / Payment status -->
                                                                         </div>
                                                                         <!-- row -->
-                                                                                                                    
+
                                                                         <!-- Enter message -->
-                                                                        <div class="col-lg-12" >
+                                                                        <div class="col-lg-12">
                                                                             <div class="form-group has-warning m-b-40">
                                                                                 <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
                                                                                 <span class="bar"></span>
@@ -1121,11 +839,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             </div>
                                                                         </div>
                                                                         <!-- Enter message -->
-                                                                     
-                                                                        
-                                                                    
-                                                                    
-                                                                       
+
 
                                                                         <!-- Upload Files -->
                                                                         <div class="col-lg-12" style="display: none;">
@@ -1138,7 +852,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                                 <tr>
                                                                                                     <th style="width:5%;">S.No.</th>
                                                                                                     <th style="width:90%;"> Upload File</th>
-                                                                                                    <th style="width:5%;"> Action</th>
+                                                                                                    <th style="width:5%;" > Action</th>
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody id="mainbody">
@@ -1155,9 +869,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                         </div>
 
                                                                     </form>
-                                                                                                                                                                                        
-                                                                    
-
                                                                     <?php } ?>
                                                                 </div>
                                                             </div>
@@ -1167,64 +878,175 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                 </div>
                                                 <!-- / Update Order Model -->
 
-                                            </td>
-                                            <!-- / Action Buttons -->
+                                                <?php if ($role_id != 2) { ?>
 
-                                            <!-- Download Modal -->
-                                            <div class="modal fade" id="download<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title"><?php echo $obj['order_id']; ?> Details </h4>
-                                                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-md-2 col-sm-2 ">
-                                                                    <label class="control-label"> # </label>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-6 ">
-                                                                    <label class="control-label"> Name</label>
-                                                                </div>
-                                                                <div class="col-md-2 col-sm-2 ">
-                                                                    <label class="control-label"> Date time </label>
-                                                                </div>
-                                                                <div class="col-md-2 col-sm-2 ">
-                                                                    <label class="control-label"> Action </label>
-                                                                </div>
+                                                    <?php
+                                                    if (isset($obj['quotation_status']) && $obj['quotation_status'] == 1) {
+                                                        $btn_class = 'success';
+                                                    } else {
+                                                        $btn_class = 'danger';
+                                                    }
+                                                    ?>
+                                                    <a class="btn btn-xs btn-<?= $btn_class ?> btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/Emails/<?php echo $obj['uid']; ?>">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </a>
+
+                                                    <?php if (($obj['projectstatus'] != 'Feedback Delivered') || ($obj['paymentstatus'] != 'Completed')) { ?>
+                                                        <?php if ($role_id == 3 || $role_id == 4 || $role_id == 5) { ?>
+                                                            <!-- <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" class="btn btn-xs btn-dark btn-sm m-1">
+                                                                <i style="color:#fff;" class="fa fa-edit"></i>
+                                                            </a> -->
+                                                            <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModal<?= $obj['id'] ?>" title="Order Edit">
+                                                        <i style="color:#fff;" class="fa fa-edit"></i>
+                                                    </a>
+                                                        <?php } ?>
+                                                    <?php } ?>
+
+                                                    <?php if ($obj['paymentstatus'] != 'Completed') { ?>
+                                                        <!-- <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" class="btn btn-xs btn-light btnPayment m-1" title="Add Payment" style="background-color: red;">
+                                                            <i style="color:#fff;" class="fa fa-money"></i>
+                                                        </a> -->
+                                                        <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#paymentModal<?= $obj['id'] ?>" title="Order Payment" style="background-color: red;">
+                                                            <i style="color:#fff;" class="fa fa-money"></i>
+                                                        </a>
+                                                    <?php } ?>
+
+                                                    <?php if ($obj['projectstatus'] == 'Pending' || $obj['projectstatus'] == 'Cancelled') { ?>
+                                                        <a class="btn btn-xs btn-warning btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/callstatus/<?php echo $obj['id']; ?>">
+                                                            <i style="color:#fff;" class="fa fa-phone"></i>
+                                                        </a>
+                                                    <?php } ?>
+
+                                                <?php } ?>
+
+                                                <!-- Mark Job Failed -->
+                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_failed hide-mb" title="Mark as failed job" style="background-color:tomato;">
+                                                    <i style="color:#fff;" class="fa fa-close"></i>
+                                                </a>
+                                                <!-- / Mark Job Failed -->
+
+                                                <!-- Button trigger modal -->
+                                                <a type="button" class=" btn-xs btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#exampleModal<?= $obj['id'] ?>" title="More buttons">
+                                                    <i style="color:#fff; " class="fa fa-list"></i>
+                                                </a>
+                                                <!-- Button trigger modal -->
+
+                                                <!-- More Buttons Modal -->
+                                                <div class="modal fade" id="exampleModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">More Buttons</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <hr>
-                                                            <?php
-                                                            if (!empty($obj['completed_orders'])) {
-                                                                $k = 1;
-                                                                foreach ($obj['completed_orders'] as  $file_details) { ?>
-                                                                    <div class="row">
-                                                                        <div class="col-md-2 col-sm-2 ">
-                                                                            <label class="control-label"> <?= $k ?></label>
-                                                                        </div>
-                                                                        <div class="col-md-6 col-sm-6">
-                                                                            <?php $name = explode('/', $file_details['file_path']);
-                                                                            echo $name[5]; ?>
-                                                                        </div>
-                                                                        <div class="col-md-2 col-sm-2 ">
-                                                                            <?= date("d-m-Y H:i:s", strtotime($file_details['updated_on'])) ?>
-                                                                        </div>
-                                                                        <div class="col-md-2 col-sm-2 ">
-                                                                            <label class="control-label"> <a href="<?php echo base_url() . '/uploads/' . $file_details['file_path']; ?>" download="download"> <i class="fa fa-download"></i></a></label>
+                                                            <div class="modal-body">
+                                                                <?php if ($role_id == 1) { ?>
+                                                                    <a style="color:#fff;" class="btn btn-xs btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#duplicate<?php echo $obj['id']; ?>">
+                                                                        <i class="fa fa-first-order" aria-hidden="true"></i>
+                                                                    </a>
+
+                                                                    <a href="<?php echo base_url(); ?>index.php/Orders/indusialemail/<?php echo $obj['id']; ?>" style="color:#fff;" class="btn btn-xs btn-warning btn-sm">
+                                                                        <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                                                                    </a>
+
+                                                                    <!-- <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" class="btn btn-xs btn-light btnPayment m-1" title="Add Payment" style="background-color: red;">
+                                                                        <i style="color:#fff;" class="fa fa-money"></i>
+                                                                    </a> -->
+                                                                    <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#paymentModal<?= $obj['id'] ?>" title="Order Payment" style="background-color: red;">
+                                                                        <i style="color:#fff;" class="fa fa-money"></i>
+                                                                    </a>
+
+                                                                    <!-- Duplicate row modal -->
+                                                                    <div class="modal fade" id="duplicate<?php echo $obj['id']; ?>" role="dialog">
+                                                                        <div class="modal-dialog">
+                                                                            <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/duplicate/<?php echo $obj['id']; ?>">
+                                                                                <!-- Modal content-->
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h4 class="modal-title">Confirm Header </h4>
+                                                                                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <p>Are you sure, you want to create duplicate Order ? </p>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit" class="btn btn-primary ">Submit</button>
+                                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
-                                                                    <hr>
-                                                            <?php $k++;
-                                                                }
-                                                            } ?>
+
+                                                                <?php } ?>
+
+                                                                <?php if ($role_id == 2) { ?>
+                                                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" title="Download File" data-bs-target="#download<?php echo $obj['id']; ?>"><i class="fa fa-download"></i></button>
+                                                                <?php } ?>
+
+                                                                <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/feedback/<?php echo $obj['id']; ?>">
+                                                                    <i style="color:#fff;" class="fa fa-comments"></i>
+                                                                </a>
+
+                                                                <?php if ($role_id != 2) { ?>
+
+                                                                    <?php if (($obj['projectstatus'] == 'Delivered') ||  ($obj['projectstatus'] == 'Feedback Delivered') || ($obj['projectstatus'] == 'Draft Delivered')) { ?>
+                                                                        <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/UploadOrder/<?php echo $obj['id']; ?>">
+                                                                            <i style="color:#fff;" class="fa fa-check"></i>
+                                                                        </a>
+                                                                    <?php }
+                                                                    ?>
+
+                                                                    <a class="btn btn-xs  btn-secondary btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/callstatus/<?php echo $obj['id']; ?>">
+                                                                        <i style="color:#fff;" class="fa fa-phone"></i>
+                                                                    </a>
+
+                                                                    <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/EditOrderFile/<?php echo $obj['id']; ?>">
+                                                                        <i style="color:#fff;" class="fa fa-upload"></i>
+                                                                    </a>
+
+                                                                    <?php if ($role_id != 1) { ?>
+                                                                        <a style="color:#fff;" class="btn btn-xs btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#duplicate<?php echo $obj['id']; ?>">
+                                                                            <i class="fa fa-first-order" aria-hidden="true"></i>
+                                                                        </a>
+
+                                                                        <!-- Duplicate row modal -->
+                                                                        <div class="modal fade" id="duplicate<?php echo $obj['id']; ?>" role="dialog">
+                                                                            <div class="modal-dialog">
+                                                                                <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/duplicate/<?php echo $obj['id']; ?>">
+                                                                                    <!-- Modal content-->
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h4 class="modal-title">Confirm Header </h4>
+                                                                                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <p>Are you sure, you want to create duplicate Order ? </p>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit" class="btn btn-primary ">Submit</button>
+                                                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    <?php } ?>
+
+                                                                    <?php if ($role_id == 1) { ?>
+                                                                        <a class="btn btn-xs btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete<?php echo $obj['id']; ?>">
+                                                                            <i style="color:#fff;" class="fa fa-trash"></i>
+                                                                        </a>
+                                                                    <?php } ?>
+
+                                                                <?php } ?>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- / Modal -->
-
-                                            <!-- View Modal -->
+                                                <!-- / More Buttons Modal -->
+                                            
+                                                <!-- View Modal -->
                                             <div class="modal fade" id="view<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <!-- Modal content-->
@@ -1352,7 +1174,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             </div>
                                                                             <div class="col-md-8">
                                                                                 <label class="control-label">Uploaded File :</label>
-                                                                                 <div style="height: 10%;width: 100%;">
+                                                                                <div style="height: 10%;width: 100%;">
                                                                                     <a href="<?php echo $file_details['file']; ?>" target="_blank">
                                                                                         <?php
                                                                                         $name = explode('/', $file_details['file']);
@@ -1380,45 +1202,17 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <div class="col-md-4 col-sm-4">
                                                                                 <label> Uploaded File from Assignmentinneed.com </label>
                                                                             </div>
-                                                                            
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr>
-                                                                    <?php 
-                                                                    if (!empty($obj['completed_orders'])) {
-                                                                    $j = 1;
-                                                                    foreach ($obj['completed_orders'] as  $file_details) {  ?>
-                                                                        <div class="row">
-                                                                            <div class="col-md-4">
-                                                                                <label><?= $j ?></label>
-                                                                            </div>
-                                                                            
-                                                                            <div class="col-md-8">
+                                                                            <div class="col-md-8 col-sm-8 ">
                                                                                 <label class="control-label"> File :</label>
-                                                                                 <div style="height: 10%;width: 100%;">
-                                                                                    <a href="<?php echo $file_details['file_path']; ?>" target="_blank">
-                                                                                        <?php
-                                                                                        $name = explode('/', $file_details['file_path']);
-
-                                                                                        if ($obj['order_type'] == "Website") {
-                                                                                            echo $name[4];
-                                                                                        } else {
-                                                                                            echo $name[5];
-                                                                                        }
-                                                                                        ?>
-                                                                                    </a>
+                                                                                <div style="height: 10%;width: 100%;">
+                                                                                    <a href="<?php echo base_url() . '/uploads/' . $obj['assignment_file']; ?>" target="_blank"> <?= $obj['assignment_file'] ?></a>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <hr>
-                                                                <?php $j++;
-                                                                    }
-                                                                } ?>
-
+                                                                    </div>
+                                                                    <hr>
                                                                 </fieldset>
-
                                                             <?php } ?>
-                                                            
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -1426,6 +1220,204 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- / Modal -->
+                                                <!-- Payment Details Model -->
+                                                <div class="modal fade bd-example-modal-xl" id="paymentModal<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h3 class="modal-title" id="exampleModalLabel">
+                                                                    <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" target="_blank">
+                                                                        <i class="fa fa-external-link"></i>
+                                                                    </a>
+                                                                    Payment Details <span style="color:lightsalmon"> Order ID : <?= $obj['order_id'] ?> </span>
+                                                                </h3>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <!-- modal-header -->
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-striped">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th> Payment Date</th>
+                                                                                    <th> Amount </th>
+                                                                                    <th> References </th>
+                                                                                    <th> Status </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+                                                                                if (!empty($obj['payment_details'])) {
+                                                                                    foreach ($obj['payment_details'] as $p_obj) { ?>
+                                                                                        <tr>
+                                                                                            <td><?php echo $p_obj['payment_date']; ?></td>
+                                                                                            <td><?php echo $p_obj['paid_amount']; ?></td>
+                                                                                            <td>
+                                                                                                <?php echo $p_obj['reference']; ?>
+                                                                                                <input type="hidden" class="row_id" value="<?php echo $p_obj['id']; ?>">
+                                                                                                <input type="hidden" class="row_paid_amount" value="<?php echo $p_obj['paid_amount']; ?>">
+                                                                                                <input type="hidden" class="row_order_row_id" value="<?= $p_obj['order_id'] ?>">
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <?php if ($p_obj['account_status'] == 1) {
+                                                                                                    echo "Verified";
+                                                                                                } else {
+                                                                                                    echo "Not Verified";
+                                                                                                } ?>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    <?php
+                                                                                    }
+                                                                                } else { ?>
+                                                                                    <tr>
+                                                                                        <td>No records found!</td>
+                                                                                    </tr>
+                                                                                <?php } ?>
+                                                                            </tbody>
+                                                                            
+                                                                        </table>
+                                                                    </div>
+
+                                                                    <br>
+                                                                    <hr>
+                                                                    <h3> Make New Payment Here </h3>
+                                                                    <span style="color:lightsalmon">
+                                                                        Order Amount : <?php echo $obj['amount']; ?>
+                                                                    </span>
+                                                                    <hr>
+
+                                                                    <?php
+                                                                    $amt   = $obj['amount'];
+                                                                    $r_amt = $obj['received_amount'];
+                                                                    if (isset($obj['received_amount']) && !empty($obj['received_amount']) && isset($obj['amount']) && !empty($obj['amount'])) {
+                                                                        $r_a_new = (float)$amt - (float)$r_amt;
+                                                                    } else {
+                                                                        $r_a_new = '0';
+                                                                    }
+                                                                    $remaining_amount_old = $r_a_new;
+                                                                    ?>
+                                                                    <!-- Form -->
+                                                                    <form class="form-horizontal" id="myForm" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/addPayment" enctype="multipart/form-data">
+                                                                        <input type="hidden" name="from_order_list" value="1">
+                                                                        <input type="hidden" class="order_row_id" name="order_row_id" value="<?= $obj['id'] ?>">
+                                                                        <input type="hidden" class="order_total" name="order_total" value="<?= $obj['amount'] ?>">
+                                                                        <input type="hidden" class="received_amount" name="received_amount" value="<?= $obj['received_amount'] ?>">
+                                                                        <input type="hidden" class="current_page" name="current_page" value="<?= $current_page ?>">
+                                                                        <input type="hidden" class="remaining_amount_old" name="remaining_amount_old" value="<?php echo $remaining_amount_old; ?>">
+                                                                        <input type="hidden" name="backurl" value="<?= $current_page ?>">
+
+                                                                        <div class="row d-flex">
+                                                                            <div class="col-md-4">
+                                                                                <?php if ($role_id == 1) { ?>
+                                                                                    <label class="control-label"> Payment Date </label>
+                                                                                    <br>
+                                                                                    <input type="text" name="payment_date" value="<?php echo date('l d F Y h:i A'); ?>" class="form-control min-date" required>
+                                                                                <?php } else { ?>
+                                                                                    <label class="control-label"> Payment Date </label>
+                                                                                    <br>
+                                                                                    <input type="text" name="payment_date" value="<?php echo date('l d F Y h:i A'); ?>" class="form-control min-date" readonly>
+                                                                                <?php } ?>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label> Paid Amount :</label>
+                                                                                <br>
+                                                                                <input type="text" placeholder="Enter Paid Amount" name="paid_amount" class="form-control paid_amount" required="required">
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label> Remaining Amount :</label>
+                                                                                <br>
+                                                                                <input type="text" placeholder="Remaining Amount" name="remaining_amount" class="form-control remaining_amount" value="<?php echo (float)($remaining_amount_old); ?>" readonly="readonly">
+                                                                            </div>
+                                                                        </div>
+                                                                        <br>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <label> Payment Reference :</label>
+                                                                                <br>
+                                                                                <textarea type="text" placeholder="Enter reference here" name="reference" class="form-control " value="" rows="3" required></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <br>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <button type="submit" class="btn btn-primary btn-block"> Submit Payment</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                    <!-- Form -->
+                                                                </div>
+                                                                <!-- card-body -->
+                                                            </div>
+                                                            <!-- modal-body -->
+                                                        </div>
+                                                        <!-- modal-content -->
+                                                    </div>
+                                                    <!-- modal-dialog modal-xl -->
+                                                </div>
+                                                <!-- / Payment Details Model -->
+
+
+                                            </td>
+                                            <!-- / Action Buttons -->
+
+                                            <!-- Download Modal -->
+                                            <div class="modal fade" id="download<?php echo $obj['id']; ?>" role="dialog" tabindex="-1" aria-labelledby="classInfo" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title"><?php echo $obj['order_id']; ?> Details </h4>
+                                                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-2 col-sm-2 ">
+                                                                    <label class="control-label"> # </label>
+                                                                </div>
+                                                                <div class="col-md-6 col-sm-6 ">
+                                                                    <label class="control-label"> Name</label>
+                                                                </div>
+                                                                <div class="col-md-2 col-sm-2 ">
+                                                                    <label class="control-label"> Date time </label>
+                                                                </div>
+                                                                <div class="col-md-2 col-sm-2 ">
+                                                                    <label class="control-label"> Action </label>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <?php
+                                                            if (!empty($obj['completed_orders'])) {
+                                                                $k = 1;
+                                                                foreach ($obj['completed_orders'] as  $file_details) { ?>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2 ">
+                                                                            <label class="control-label"> <?= $k ?></label>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-sm-6">
+                                                                            <?php $name = explode('/', $file_details['file_path']);
+                                                                            echo $name[5]; ?>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2 ">
+                                                                            <?= date("d-m-Y H:i:s", strtotime($file_details['updated_on'])) ?>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2 ">
+                                                                            <label class="control-label"> <a href="<?php echo base_url() . '/uploads/' . $file_details['file_path']; ?>" download="download"> <i class="fa fa-download"></i></a></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                            <?php $k++;
+                                                                }
+                                                            } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- / Modal -->
+
+                                            <!-- View Modal -->
+                                            
                                             <!-- / Modal -->
 
                                             <!-- Delete Modal -->
@@ -1477,7 +1469,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success modal_approve_button" style="background-color: #168c56;">Submit</button>
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -1511,15 +1502,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
- 
 </div>
-
-
-
-    
- 
-
-
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 
@@ -1624,5 +1607,3 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
         });
     });
 </script>
-
-

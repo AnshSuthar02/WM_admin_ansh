@@ -7,11 +7,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
-<div class="page-wrapper">
-    <!-- ============================================================== -->
-    <!-- Container fluid  -->
-    <!-- ============================================================== -->
-    <div class="container-fluid">
+  
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -46,7 +42,6 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                             <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                             <div class="row">
-
                                 <!-- Select Customer -->
                                 <?php if ($role_id != '2') {  ?>
                                     <div class="col-lg-4">
