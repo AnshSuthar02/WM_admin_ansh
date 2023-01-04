@@ -156,7 +156,19 @@
 
       @media only screen and (max-width: 700px) {}
 
+      @media screen and (max-device-width:640px), screen and (max-width:992px)
+      {
+         .mbs
+         {
+            height: 1000px;
+            width: 100%;
+         }
+         .hep
+         {
+            height: auto
+         }
 
+      }
       @media only screen and (min-width: 600px) {
          .fullscreen {
             display: none !important;
@@ -284,7 +296,7 @@
                         <a class="dropdown-item" href="https://www.assignnmentinneed.com/assignment-writing-uk/"><span>Assignment Writing</span></a>
                         <a class="dropdown-item" href="https://www.assignnmentinneed.com/dissertation-writing-services-uk/"><span>Dissertation Writing</span></a>
                         <a class="dropdown-item" href="https://www.assignnmentinneed.com/essay-writing-help-uk/"><span>Essay Writing</span></a>
-                        <a class="dropdown-item" href="https://www.assignnmentinneed.com/research-paper-writing-uk/"><span>Research Paper Writing</span></a>
+                          <a class="dropdown-item" href="https://www.assignnmentinneed.com/research-paper-writing-uk/"><span>Research Paper Writing</span></a>
                         <a class="dropdown-item" href="https://www.assignnmentinneed.com/homework-writing-help-uk/"><span>Homework Writing</span></a>
                      </div>
                   </li>
@@ -401,7 +413,7 @@
       <div class="text-title"> Login/Signup</div>
       <div class="container">
          <div class="d-flex justify-content-center">
-            <div class="card">
+            <div class="card mbs">
                <div class="card-header">
                   <h3>Sign In</h3>
                   <div class="d-flex justify-content-end social_icon">

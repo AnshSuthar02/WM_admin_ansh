@@ -19,7 +19,6 @@ class Order_model extends CI_Model
 		$this->email = @$this->session->userdata['logged_in']['email'];
 	}
 
-
 	public function TotalCustomers()
 	{
 		$this->db->select('*');

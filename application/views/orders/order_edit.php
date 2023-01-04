@@ -140,7 +140,7 @@ $currentURL = current_url();
                                             <input type="hidden" name="order_total" class="order_total" value="<?php echo $amount; ?>">
                                         <?php } ?>
 
-                                        <input type="hidden" name="no_of_days" class="no_of_days" value="<?php echo $no_of_days; ?>">
+                                        <input type="hidden" name="no_of_days" class="no_of_days" value="">
 
                                         <span class="bar"></span>
                                         <label for="input10">Price after applying coupon</label>

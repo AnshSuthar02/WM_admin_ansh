@@ -489,7 +489,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                                                                 <?php if ($role_id != 2) { ?>
 
-                                                                    <?php if (($obj['projectstatus'] == 'Delivered') ||  ($obj['projectstatus'] == 'Feedback Delivered') || ($obj['projectstatus'] == 'Draft Delivered')) { ?>
+                                                                    <?php if (($obj['projectstatus'] == 'Delivered') ||  ($obj['projectstatus'] == 'Feedback Delivered') || ($obj['projectstatus'] == 'Draft Delivered') || ($obj['projectstatus'] == 'Completed'))  { ?>
                                                                         <a class="btn btn-xs btn-success btn-sm" href="<?php echo base_url(); ?>index.php/Orders/UploadOrder/<?php echo $obj['id']; ?>">
                                                                             <i style="color:#fff;" class="fa fa-check"></i>
                                                                         </a>
@@ -1372,7 +1372,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                     }
                                                                 } ?>
                                                             </fieldset>
-                                                            <?php if ($obj['projectstatus'] == 'Completed') { ?>
+                                                            <?php if ($obj['projectstatus'] == 'Completed'||$obj['projectstatus'] == 'Delivered') { ?>
                                                                 <fieldset class="scheduler-border">
                                                                     <legend class="scheduler-border"> Completed Assignment File </legend>
                                                                     <div class="row">
@@ -1513,6 +1513,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     <!-- ============================================================== -->
  
 </div>
+<!--End Page wrapper  -->
+<!-- ============================================================== -->
 
 
 
