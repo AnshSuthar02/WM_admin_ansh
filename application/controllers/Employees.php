@@ -284,7 +284,7 @@ class Employees extends CI_Controller
 				'edited_by' => $loginId,
 			);
 
-				
+			$result = $this->employee->employee_update($data, $id);
 			if ($result == TRUE) {
 				if (!empty($this->upload->data()['file_name'])) {
 					$old_image = $this->input->post('old_image');

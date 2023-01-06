@@ -713,8 +713,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                         <input type="hidden" name="edit_id" value="<?= $obj['id'] ?>">
                                                                         <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
                                                                         <input type="text" style="display:none;" name="order_type" value="Back-End">
-
+                                                                        <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
                                                                         <div class="row">
+
                                                                         <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <input type="text" class="form-control" name="u_name" value="<?= $obj['c_name'] ?>" required="required">
@@ -727,13 +728,20 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                     <span class="bar"></span>
                                                                                     <label for="input10">Email</label>
                                                                                 </div>
-                                                                            </div>  <div class="col-lg-4">
+                                                                            </div> 
+                                                                             <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
-                                                                                    <input type="text" class="form-control" name="mn" value="<?= $obj['c_mobile']?>" required="required">
+                                                                                    <input type="text" class="form-control" name="u_mobile_no" value="<?= $obj['c_mobile']?>" required="required">
                                                                                     <span class="bar"></span>
                                                                                     <label for="input10">Mobile No</label>
                                                                                 </div>
                                                                             </div>
+
+                                                                            <!-- <div class="row" style="margin-bottom: 35px; margin-top: -15px;  justify-content:center;">
+                                                                                <button href="<?php echo base_url(); ?>index.php/Orders/useredit/<?= $obj['id'] ?>" style="width: 20%;" type="submit" class="btn btn-primary btn-block">Update User Data</button>
+                                                                            </div> -->
+
+                                                                            <!-- <hr style="margin-bottom:35px"> -->
                                                                             <!-- Select Customer -->
                                                                             <?php if ($role_id != '2') {  ?>
                                                                                 <?php if ($role_id == '1') {  ?>
@@ -1270,6 +1278,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <span> <?php echo '+' . $obj['countrycode'] . ' - ' . $obj['c_mobile']; ?></span>
                                                                             </div>
                                                                         </div>
+                                                                        
                                                                     </fieldset>
                                                                     <fieldset class="scheduler-border">
                                                                         <legend class="scheduler-border"> Order Details</legend>

@@ -543,12 +543,14 @@ public function emailindusial()
 
 	public function edit($id)
 	{
+		
 		$data['title'] = 'Edit Order';
 		$id = $this->uri->segment('3');
 
 		$query = $this->db->get_where("orders", array("order_id" => $id));
 		$data['current'] = $query->result();
 		$id = $data['current'][0]->id;
+		
 
 		if (isset($data['current'][0]->order_id)) :
 			$data['id'] = $data['current'][0]->id;
@@ -571,6 +573,31 @@ public function emailindusial()
 			}
 
 		endif;
+// new code by ansh
+		if (isset($data['current'][0]->uid)) :
+			$data['user_id'] = $data['current'][0]->uid;
+			$query 			 = $this->db->get_where("employees", array("id" => $data['user_id']));
+			$userRecord 	 = $query->result();
+			if (isset($userRecord) && !empty($userRecord)) {
+				$data['email'] = $userRecord[0]->email;
+			}
+			
+
+		endif;
+
+		if (isset($data['current'][0]->uid)) :
+			$data['user_id'] = $data['current'][0]->uid;
+			$query 			 = $this->db->get_where("employees", array("id" => $data['user_id']));
+			$userRecord 	 = $query->result();
+			if (isset($userRecord) && !empty($userRecord)) {
+				$data['mobile_no'] = $userRecord[0]->mobile_no;
+			}
+			
+
+		endif;
+// end new code by ansh
+
+
 		if (isset($data['current'][0]->order_date)) :
 			$data['order_date'] = $data['current'][0]->order_date;
 		endif;
@@ -678,6 +705,7 @@ public function emailindusial()
 		if (isset($data['current'][0]->college_name)) :
 			$data['college_name'] = $data['current'][0]->college_name;
 		endif;
+		
 
 		$data['old_id'] = $id;
 		$data['categories'] = $this->order_model->getCategories();
@@ -690,8 +718,10 @@ public function emailindusial()
 		$data['countries'] = $this->order_model->getCountries();
 		$data['users'] = $this->order_model->getUsersList();
 		$data['prefix'] = array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
+
+		// echo '<pre>'; print_r($data); exit;
 		$this->template->load('template', 'orders/order_edit', $data);
-	}
+	}	
 
 	public function UploadOrderFile()
 	{
@@ -744,6 +774,24 @@ public function emailindusial()
 				}
 			}
 
+			
+// new code by ansh
+			$query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
+			$result = $query->result_array();
+			$id=$result[0]['id'];
+			$update = array(
+				'name' => $this->input->post('u_name'),
+				'email' => $this->input->post('u_email'),
+				'mobile_no'=> $this->input->post('u_mobile_no')
+				// 'phone' => $this->input->post('phone')
+				);
+				// echo '<pre>'; print_r($update); exit;
+				$this->db->where('id',$id);
+				$this->db->update('employees', $update);
+			
+// end new code by ansh
+
+
 			$data = array(
 				'order_id' => $this->input->post('order_id'),
 				'delivery_date' => date('Y-m-d', strtotime($this->input->post('delivery_date'))),
@@ -771,7 +819,8 @@ public function emailindusial()
 				'college_name' => $this->input->post('college_name'),
 				// 'received_amount' => $this->input->post('received_amount'),
 				'flag' => '0',
-			);
+			); 
+			
 			if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') {
 				$data['uid'] = $this->input->post('user_id');
 			}
@@ -847,7 +896,7 @@ public function emailindusial()
 				Assignnmentinneed.com<br/>
 				Email: order@assignnmentinneed.com<br/>
 				Whatsapp No: +44 7459420438<br/>
-							+44  7826233106
+							 +44 7826233106
 			
 				</p>
 				</div>";
@@ -896,8 +945,8 @@ public function emailindusial()
 							redirect($current_page, 'refresh');
 						}
 					}
-							elseif ( $data['projectstatus'] == 'Completed')
-							{
+					 	elseif ( $data['projectstatus'] == 'Completed')
+					 	{
 								$query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
 								$result = $query->result_array();
 								$user_email = $result[0]['email'];
@@ -917,136 +966,136 @@ public function emailindusial()
 								$email_to = $user_email;
 								$subject = $oid;
 								$name = $result[0]['name'];
-							//  print_r($user_email); exit;
-			
-					$body = "<div style='font-family: Verdana !important;'>
-								<p><br/> Hi <b>$name</b>,<br/><br/>
+					 	//  print_r($user_email); exit;
+				     
+					 	$body = "<div style='font-family: Verdana !important;'>
+										<p><br/> Hi <b>$name</b>,<br/><br/>
 
-								Greetings of the day. Hope you are doing well.<br/><br/> 
+										Greetings of the day. Hope you are doing well.<br/><br/> 
 
-								This email is regarding the current assignment <b> $title </b>, order code<b> $oid </b>, is ready.<br/><br/>
+										This email is regarding the current assignment <b> $title </b>, order code<b> $oid </b>, is ready.<br/><br/>
 
-								You can proceed with the balance payment of<b> £  $bp </b>in order to deliver the work.<br/>	<br/>		
+										You can proceed with the balance payment of<b> £  $bp </b>in order to deliver the work.<br/>	<br/>		
 
-								We will be waiting for your reply. <br/>
-								
-							Thanks & Regards,<br/>
-							Assignnmentinneed.com<br/>
-							Email: order@assignnmentinneed.com<br/>
-							Whatsapp No: +44 7459420438<br/>
-										+44  7826233106
-							
-								</p>
-								</div>";
-						// Email Code Start
+										We will be waiting for your reply. <br/>
+										
+									Thanks & Regards,<br/>
+									Assignnmentinneed.com<br/>
+									Email: order@assignnmentinneed.com<br/>
+									Whatsapp No: +44 7459420438<br/>
+												+44  7826233106
+									
+										</p>
+										</div>";
+								// Email Code Start
 
-						$config = array(
-							'protocol' => 'smtp',
-							'smtp_host' => 'smtp.gmail.com',
-							'smtp_port' => 587,
-							'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
-							'smtp_pass' => '7737581643yogita', // change it to yours
-							'mailtype' => 'html',
-							'smtp_crypto' => 'tls',
-							'charset' => 'iso-8859-1',
-							'wordwrap' => TRUE
-						);
-						$this->load->library('email');
-						$this->email->set_newline("\r\n");
-						$this->email->set_mailtype("html");
-						$this->email->to($email_to);
-						$this->email->bcc('order@assignnmentinneed.com');
-						$this->email->from('order@assignnmentinneed.com', "Completed");
-						$this->email->subject($subject);
-						$this->email->message($body);
-						if ($this->email->send())
-						{
-							$this->session->set_flashdata('success', 'Mail send & Order Updated Successfully !');
-							$current_page = $_SESSION['fullURL'];
-							redirect($current_page, 'refresh');
-							
-						}
-						
-						else {
-							$this->session->set_flashdata('failed', 'Mail not send !');
-							$current_page = $_SESSION['fullURL'];
-							redirect($current_page, 'refresh');		}
-							}
-							else
-							{
-								if ($result == TRUE) {
-									$this->session->set_flashdata('success', 'Order Updated Successfully !');
+								$config = array(
+									'protocol' => 'smtp',
+									'smtp_host' => 'smtp.gmail.com',
+									'smtp_port' => 587,
+									'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
+									'smtp_pass' => '7737581643yogita', // change it to yours
+									'mailtype' => 'html',
+									'smtp_crypto' => 'tls',
+									'charset' => 'iso-8859-1',
+									'wordwrap' => TRUE
+								);
+								$this->load->library('email');
+								$this->email->set_newline("\r\n");
+								$this->email->set_mailtype("html");
+								$this->email->to($email_to);
+								$this->email->bcc('order@assignnmentinneed.com');
+								$this->email->from('order@assignnmentinneed.com', "Completed");
+								$this->email->subject($subject);
+								$this->email->message($body);
+								if ($this->email->send())
+								{
+									$this->session->set_flashdata('success', 'Mail send & Order Updated Successfully !');
 									$current_page = $_SESSION['fullURL'];
 									redirect($current_page, 'refresh');
-								} else {
-									$this->session->set_flashdata('failed', 'Update Failed !');
-									$current_page = $_SESSION['fullURL'];
-									redirect($current_page, 'refresh');
+									
 								}
-							}
+								
+								else {
+									$this->session->set_flashdata('failed', 'Mail not send !');
+									$current_page = $_SESSION['fullURL'];
+									redirect($current_page, 'refresh');		}
+									}
+									else
+									{
+										if ($result == TRUE) {
+											$this->session->set_flashdata('success', 'Order Updated Successfully !');
+											$current_page = $_SESSION['fullURL'];
+											redirect($current_page, 'refresh');
+										} else {
+											$this->session->set_flashdata('failed', 'Update Failed !');
+											$current_page = $_SESSION['fullURL'];
+											redirect($current_page, 'refresh');
+										}
+									}
 
-						}
-					}
+								}
+					 	}
 
         	public function successmessage()
-	{
-	
-	    
-		$email_to = 'nadeansh@gmail.com';
-	    $subject = 'UID';
-	
-	$body = "<div style='font-family: Verdana !important;'>
-				<p><br/> Hi,Ansh<br/><br/>
-
-				Greetings of the day. Hope you are doing well.<br/><br/> 
-
-				This email is regarding the current assignment Title name and Order_code is ready.<br/><br/>
-
-				You can proceed with the balance_payment  in order to deliver the work.   <br/><br/>				
-
-				We will be waiting for your reply. <br/><br/>
+			{
+			
 				
-			Thanks & Regards,<br/>
-			Assignnmentinneed.com<br/>
-			Email: order@assignnmentinneed.com<br/>
-			Whatsapp No: +44 7459420438<br/>
-                        +44  7826233106
+				$email_to = 'nadeansh@gmail.com';
+				$subject = 'UID';
 			
-				</p>
-				</div>";
-		// Email Code Start
+			$body = "<div style='font-family: Verdana !important;'>
+						<p><br/> Hi,Ansh<br/><br/>
 
-		$config = array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'smtp.gmail.com',
-			'smtp_port' => 587,
-			'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
-			'smtp_pass' => '7737581643yogita', // change it to yours
-			'mailtype' => 'html',
-			'smtp_crypto' => 'tls',
-			'charset' => 'iso-8859-1',
-			'wordwrap' => TRUE
-		);
-		$this->load->library('email');
-		$this->email->set_newline("\r\n");
-		$this->email->set_mailtype("html");
-		$this->email->to($email_to);
-		$this->email->bcc('order@assignnmentinneed.com');
-		$this->email->from('order@assignnmentinneed.com', "Success");
-		$this->email->subject($subject);
-		$this->email->message($body);
-		if ($this->email->send())
-		{
-			$this->session->set_flashdata('success', 'Order Updated Successfully !');
-			$current_page = $_SESSION['fullURL'];
-			redirect($current_page, 'refresh');
-			
-		}
-		
-		else {
-		    echo "Failed Send Mail";
-		}
-	}
+						Greetings of the day. Hope you are doing well.<br/><br/> 
+
+						This email is regarding the current assignment Title name and Order_code is ready.<br/><br/>
+
+						You can proceed with the balance_payment  in order to deliver the work.   <br/><br/>				
+
+						We will be waiting for your reply. <br/><br/>
+						
+					Thanks & Regards,<br/>
+					Assignnmentinneed.com<br/>
+					Email: order@assignnmentinneed.com<br/>
+					Whatsapp No: +44 7459420438<br/>
+								+44  7826233106
+					
+						</p>
+						</div>";
+				// Email Code Start
+
+				$config = array(
+					'protocol' => 'smtp',
+					'smtp_host' => 'smtp.gmail.com',
+					'smtp_port' => 587,
+					'smtp_user' => 'rohitkumarjoshi43@gmail.com', // change it to yours
+					'smtp_pass' => '7737581643yogita', // change it to yours
+					'mailtype' => 'html',
+					'smtp_crypto' => 'tls',
+					'charset' => 'iso-8859-1',
+					'wordwrap' => TRUE
+				);
+				$this->load->library('email');
+				$this->email->set_newline("\r\n");
+				$this->email->set_mailtype("html");
+				$this->email->to($email_to);
+				$this->email->bcc('order@assignnmentinneed.com');
+				$this->email->from('order@assignnmentinneed.com', "Success");
+				$this->email->subject($subject);
+				$this->email->message($body);
+				if ($this->email->send())
+				{
+					$this->session->set_flashdata('success', 'Order Updated Successfully !');
+					$current_page = $_SESSION['fullURL'];
+					redirect($current_page, 'refresh');
+					
+				}
+				
+				else {
+					echo "Failed Send Mail";
+				}
+			}
 
 	public function print($id)
 	{

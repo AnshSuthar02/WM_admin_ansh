@@ -59,6 +59,27 @@ $currentURL = current_url();
                             <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                             <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group has-warning m-b-40">
+                                        <input type="text" class="form-control" name="u_name" value="<?= $user_name ?>" required="required">
+                                        <span class="bar"></span>
+                                        <label for="input10">Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group has-warning m-b-40">
+                                        <input type="text" class="form-control" name="u_email" value="<?= $email ?>" required="required">
+                                        <span class="bar"></span>
+                                        <label for="input10">Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group has-warning m-b-40">
+                                        <input type="text" class="form-control" name="u_mobile_no" value="<?= $mobile_no ?>" required="required">
+                                        <span class="bar"></span>
+                                        <label for="input10">Mobile No</label>
+                                    </div>
+                                </div>
 
                                 <!-- Select Customer -->
                                 <?php if ($role_id != '2') {  ?>
