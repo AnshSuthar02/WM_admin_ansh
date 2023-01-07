@@ -776,7 +776,9 @@ public function emailindusial()
 
 			
 // new code by ansh
-			$query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
+			$u_id = $this->input->post('u_id');
+			// echo $u_id; exit;
+			$query = $this->db->get_where("employees", array("id" => $u_id));
 			$result = $query->result_array();
 			$id=$result[0]['id'];
 			$update = array(
@@ -950,7 +952,6 @@ public function emailindusial()
 								$query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
 								$result = $query->result_array();
 								$user_email = $result[0]['email'];
-							
 							
 								$title = $data['title'];
 								$oid = $data['order_id'];

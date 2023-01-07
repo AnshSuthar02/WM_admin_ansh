@@ -183,7 +183,7 @@ class User_authentication extends CI_Controller
 							redirect('/User_authentication/dashboard', 'refresh');
 						} else {
 							$this->session->set_flashdata('failed', 'No access allowed on out of office!');
-							redirect('/User_authentication/index', 'refresh');
+							redirect('/User_authentication/dashboard', 'refresh');
 						}
 					}
 				}

@@ -715,6 +715,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                         <input type="text" style="display:none;" name="order_type" value="Back-End">
                                                                         <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
                                                                         <div class="row">
+                                                                        
+                                                                        <input type="hidden" class="form-control" name="u_id" value="<?= $obj['uid'] ?>" required="required">
+
 
                                                                         <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
