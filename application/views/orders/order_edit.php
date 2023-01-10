@@ -17,9 +17,14 @@ $currentURL = current_url();
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
         <div class="row page-titles">
+		
+                
+
             <div class="col-md-5 align-self-center">
                 <h4 class="text-themecolor"><?php echo $title; ?></h4>
             </div>
+
+         
             <div class="col-md-7 align-self-center text-end">
                 <div class="d-flex justify-content-end align-items-center">
                     <ol class="breadcrumb justify-content-end">
@@ -43,7 +48,13 @@ $currentURL = current_url();
                         <h4>Order ID: <?= $order_id ?></h4>
 
                         <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $id ?>" enctype="multipart/form-data">
+                        
+                        <!-- NEW UPDATE -->
 
+                        <input type="hidden" value="<?php echo (int)$actual_amount - (int)$received_amount; ?>" name="due_amount" >
+                        <input type="hidden" class="form-control" name="u_id" value="<?php echo  $user_id ?>" required="required">
+                        <input type="hidden" class="form-control" name="u_name" value="<?php echo  $user_name ?>" required="required">
+                        <!-- NEW UPDATTES END  -->
                             <?php if ($role_id != '2') { ?>
                                 <?php if (@$referal == 'No') { ?>
 
@@ -59,16 +70,10 @@ $currentURL = current_url();
                             <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                             <div class="row">
+                                <!-- NEW UPDATES -->
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <input type="text" class="form-control" name="u_name" value="<?= $user_name ?>" required="required">
-                                        <span class="bar"></span>
-                                        <label for="input10">Name</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group has-warning m-b-40">
-                                        <input type="text" class="form-control" name="u_email" value="<?= $email ?>" required="required">
+                                    <input type="text" class="form-control" name="u_email" value="<?php echo  $user_email ?>" required="required">
                                         <span class="bar"></span>
                                         <label for="input10">Email</label>
                                     </div>
@@ -80,6 +85,8 @@ $currentURL = current_url();
                                         <label for="input10">Mobile No</label>
                                     </div>
                                 </div>
+                                <!-- NEW UPDATES END  -->
+
 
                                 <!-- Select Customer -->
                                 <?php if ($role_id != '2') {  ?>
@@ -128,7 +135,7 @@ $currentURL = current_url();
                                 <?php if ($role_id != '2') {  ?>
                                     <div class="col-lg-4">
                                         <div class="form-group has-warning m-b-40">
-                                            <input type="text" name="discount_per" class="form-control discount_per" value="<?= $discount_per ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" />
+                                            <input type="text" name="discount_per" class="form-control discount_per" value="<?php $discount_per ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" />
                                             <span class="bar"></span>
                                             <label for="input10">Enter discount</label>
                                         </div>

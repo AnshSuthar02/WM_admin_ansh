@@ -709,48 +709,36 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <input type="hidden" name="referal" value="<?= @$referal ?>">
                                                                         <?php } ?>
 
+                                                                       
                                                                         <input type="hidden" name="backurl" value="<?= $current_page ?>">
                                                                         <input type="hidden" name="edit_id" value="<?= $obj['id'] ?>">
                                                                         <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
                                                                         <input type="text" style="display:none;" name="order_type" value="Back-End">
                                                                         <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $obj['id'] ?>" enctype="multipart/form-data">
                                                                         <div class="row">
-                                                                        
+                                                                        <input type="hidden" class="form-control pages" name="u_email" value="<?= $obj['c_email'] ?>" required="required">
                                                                         <input type="hidden" class="form-control" name="u_id" value="<?= $obj['uid'] ?>" required="required">
-
-
-                                                                        <div class="col-lg-4">
+                                                                        <input type="hidden" value="<?php echo (int)$obj['amount'] - (int)$obj['received_amount']; ?>" name="due_amount" >
+                                                                        <input type="hidden" class="form-control" name="u_name" value="<?= $obj['c_name'] ?>" required="required">
+                                                                            <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
-                                                                                    <input type="text" class="form-control" name="u_name" value="<?= $obj['c_name'] ?>" required="required">
-                                                                                    <span class="bar"></span>
-                                                                                    <label for="input10">Name</label>
-                                                                                </div>
-                                                                            </div>  <div class="col-lg-4">
-                                                                                <div class="form-group has-warning m-b-40">
-                                                                                    <input type="text" class="form-control" name="u_email" value="<?= $obj['c_email'] ?>" required="required">
+                                                                                    <input type="text" class="form-control" name="u_email" value="<?php echo  $obj['c_email'] ?>" required="required">
                                                                                     <span class="bar"></span>
                                                                                     <label for="input10">Email</label>
                                                                                 </div>
-                                                                            </div> 
-                                                                             <div class="col-lg-4">
+                                                                            </div>
+                                                                            <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
-                                                                                    <input type="text" class="form-control" name="u_mobile_no" value="<?= $obj['c_mobile']?>" required="required">
+                                                                                    <input type="text" class="form-control" name="u_mobile_no" value="<?php echo $obj['c_mobile'] ?>" required="required">
                                                                                     <span class="bar"></span>
                                                                                     <label for="input10">Mobile No</label>
                                                                                 </div>
                                                                             </div>
-
-                                                                            <!-- <div class="row" style="margin-bottom: 35px; margin-top: -15px;  justify-content:center;">
-                                                                                <button href="<?php echo base_url(); ?>index.php/Orders/useredit/<?= $obj['id'] ?>" style="width: 20%;" type="submit" class="btn btn-primary btn-block">Update User Data</button>
-                                                                            </div> -->
-
-                                                                            <!-- <hr style="margin-bottom:35px"> -->
-                                                                            <!-- Select Customer -->
                                                                             <?php if ($role_id != '2') {  ?>
                                                                                 <?php if ($role_id == '1') {  ?>
                                                                                     <div class="col-lg-4">
                                                                                         <div class="form-group has-warning m-b-40">
-                                                                                            <?php echo form_dropdown('user_id', $users, $obj['uid'], '', 'required="required"') ?>
+                                                                                            <?php echo form_dropdown('user_id', $users, $obj['c_mobile'], '', 'required="required"') ?>
                                                                                             <span class="bar"></span>
                                                                                             <label for="input10">Select customer</label>
                                                                                         </div>
