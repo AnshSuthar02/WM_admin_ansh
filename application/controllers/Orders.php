@@ -572,7 +572,7 @@ public function emailindusial()
 
 		endif;
 		 
-// 		 ansh new update
+		// 		 ansh new update
 			if (isset($data['current'][0]->uid)) :
 			$data['user_id'] = $data['current'][0]->uid;
 			$query 			 = $this->db->get_where("employees", array("id" => $data['user_id']));
@@ -597,7 +597,7 @@ public function emailindusial()
 		if (isset($data['current'][0]->college_name)) :
 			$data['received_amount'] = $data['current'][0]->received_amount;
 		endif;
-// 		 ansh ne update end 
+			// 		 ansh ne update end 
 		
 	
 		
@@ -727,7 +727,7 @@ public function emailindusial()
 		$data['users'] = $this->order_model->getUsersList();
 		$data['prefix'] = array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 
-// echo '<pre>'; print_r($data); exit;
+		// echo '<pre>'; print_r($data); exit;
 		$this->template->load('template', 'orders/order_edit', $data);
 	}
 
@@ -927,7 +927,7 @@ public function emailindusial()
 				$body = "<div style='font-family: Verdana !important;'>
 				<img src='http://localhost:8080/wm_admin/uploads_old/assignmentinneed.png' style='width:100px; height:100px; margin:auto;'>
 				
-				<p><br/> Hi <b>$name</b>,<br/>
+				<p> Hi <b>$name</b>,<br/>
 
 				Greetings of the day!.<br/><br/> 
 
@@ -973,7 +973,7 @@ public function emailindusial()
 						$this->email->attach($file_details['file_path']);
 					}
 				}
-				echo '<pre>'; print_r($body); exit;
+				// echo '<pre>'; print_r($body); exit;
 
 				
 
