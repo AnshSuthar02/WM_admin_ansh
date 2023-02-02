@@ -186,17 +186,33 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
-                                        <select class="form-control" name="filter_check">
+                                        <select class="form-control  " id="myselection" name="filter_check">
                                             <option value="title">Title</option>
                                             <option value="writer">Writer Name</option>
                                             <option value="college">College Name</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <input type="text" name="title" class="form-control" value="" placeholder="Title, College, Writer">
+                                    <div class="col-md-3 col-sm-3 " id='college_title'>
+                                        <input type="text"  name="title" class="form-control " value="" placeholder="Title, College ">
+                                    </div>
+                                    <div  class="col-md-3 col-sm-3  " id='writer' style="display:none" >
+                                    <select name="writer_name" class="form-control">
+                                        <option value="">Select Writer Name</option>
+                                        <?php
+                                        $teams = getWriterTeams();
+                                        foreach ($teams as $team) {
+                                        ?>
+                                            <option <?php if (@$obj['writer_name'] == $team) {
+                                                        echo "selected";
+                                                    } ?> value="<?= $team ?>">
+                                                <?= $team ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
                                     </div>
                                 </div>
                             </div>
+                          
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <label class="control-label" style="visibility: hidden;"> Grade</label>
@@ -1645,4 +1661,22 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     });
 </script>
 
-
+<!-- writer show hide filter -->
+<script>
+    $(document).ready(function(){
+        $('#myselection').on('change', function(){
+            if($(this).val()=='writer')
+        {
+            $("#college_title").hide();
+            $("#writer").show();
+                    
+        }
+            else
+        {
+            $("#college_title").show();
+            $("#writer").hide();          
+        }
+        
+        });
+    });
+</script>

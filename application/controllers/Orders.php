@@ -248,6 +248,7 @@ public function emailindusial()
 			$conditions['order_id'] = $this->input->get('order_id');
 			$conditions['title'] = $this->input->get('title');
 			$conditions['filter_check'] = $this->input->get('filter_check');
+			$conditions['writer_name'] = $this->input->get('writer_name');
 			$conditions['order_date_filter'] = $this->input->get('order_date_filter');
 			$conditions['from_date'] = date('Y-m-d', strtotime($this->input->get('from_date')));
 			$conditions['upto_date'] = date('Y-m-d', strtotime($this->input->get('upto_date')));

@@ -374,6 +374,7 @@ $data = explode('?', $currentURL);
                                     ?>
                                 </select>
                             </div>
+
                             <div class="col-md-2 col-sm-2">
                                 <input type="submit" class="btn btn-primary" value="Search" />
                             </div>

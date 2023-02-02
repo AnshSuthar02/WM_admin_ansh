@@ -739,6 +739,9 @@ class Order_model extends CI_Model
 			$this->db->where('orders.uid', $this->login_id);
 		}
 
+		if ($conditions['writer_name'] != "0") 
+			$this->db->like('orders.writer_name', $conditions['writer_name'], 'both');
+		
 		if ($conditions['customer_id'] != "0")
 			$this->db->where('orders.uid', $conditions['customer_id']);
 
@@ -751,9 +754,7 @@ class Order_model extends CI_Model
 				$this->db->like('orders.title', $conditions['title'], 'both');
 			}
 
-			if ($conditions['filter_check'] == 'writer') {
-				$this->db->like('orders.writer_name', $conditions['title'], 'both');
-			}
+			
 
 			if ($conditions['filter_check'] == 'college') {
 				$this->db->like('orders.college_name', $conditions['title'], 'both');
@@ -1244,6 +1245,27 @@ class Order_model extends CI_Model
 			$query[$i]['payment_details'] = $images_query;
 		}
 
+		return $query;
+	}
+
+	public function order_list_by_filter($conditions)
+	{
+
+		$this->db->select('leads.*,employees.name as c_name,employees.email as c_email,employees.countrycode as countrycode,employees.mobile_no as c_mobile');
+		$this->db->from('leads');
+		$this->db->join('employees', 'leads.emp_id = employees.id', 'left');
+		if ($this->role_id == '3') {
+			$this->db->where('leads.emp_id', $this->login_id);
+		}
+		
+		if ($conditions['order_id'] != "0")
+			$this->db->like('leads.emp_id', $conditions['order_id'], 'both');
+		// if ($conditions['from_date'] != '1970-01-01')
+		// 	$this->db->where('orders.order_date >=', $conditions['from_date']);
+		// if ($conditions['upto_date'] != '1970-01-01')
+		// 	$this->db->where('orders.order_date <=', $conditions['upto_date']);
+		$this->db->order_by("leads.id", "asc");
+		$query =  $this->db->get()->result_array();
 		return $query;
 	}
 }
