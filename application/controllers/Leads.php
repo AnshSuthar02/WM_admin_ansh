@@ -62,7 +62,7 @@ class Leads extends CI_Controller
             $conditions['order_id']         = $_GET['order_id'];
             $conditions['status']           = '0';
             $data['conditions']             = $conditions;
-            $data['orders'] =             $this->order_model->order_list_by_filter($conditions);
+            $data['orders']                 = $this->order_model->order_list_by_filter($conditions);
             // echo '<pre>';   print_r( $conditions); exit;
 
         } else {
