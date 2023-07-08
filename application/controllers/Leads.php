@@ -31,7 +31,7 @@ class Leads extends CI_Controller
         $config = array();
         $config["base_url"] = base_url() . "Leads/index";
         $config["total_rows"] = $this->totalLeads();
-        $config["per_page"] = 200;
+        $config["per_page"] = 10;
         $config["uri_segment"] = 3;
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';
@@ -55,17 +55,21 @@ class Leads extends CI_Controller
         $data['title'] = 'Leads Master';
 
         $conditions = array();
-        if ($_GET) {
+        if ($this->input->get()) {
             $conditions['l_status']         = $_GET['l_status'];
             $conditions['project_title']    = $_GET['project_title'];
             $conditions['mobile']           = $_GET['mobile'];
+            $conditions['order_id']         = $_GET['order_id'];
             $conditions['status']           = '0';
             $data['conditions']             = $conditions;
-            $data['leads']                  = $this->get_all_leads($config["per_page"], $page, $conditions);
+            $data['orders']                 = $this->order_model->order_list_by_filter($conditions);
+            // echo '<pre>';   print_r( $conditions); exit;
+
         } else {
             $conditions['l_status']         = '';
             $conditions['project_title']    = '';
             $conditions['mobile']           = '';
+            $conditions['order_id']         = '';
             $conditions['status']           = '0';
             $data['conditions']             = $conditions;
             $data['leads']                  = $this->get_all_leads($config["per_page"], $page, $conditions);
@@ -652,4 +656,8 @@ class Leads extends CI_Controller
         $this->db->where('id', $id);
         $this->db->delete('leads');
     }
+
+
+
+
 }

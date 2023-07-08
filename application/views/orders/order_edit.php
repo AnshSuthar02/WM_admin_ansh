@@ -17,9 +17,14 @@ $currentURL = current_url();
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
         <div class="row page-titles">
+		
+                
+
             <div class="col-md-5 align-self-center">
                 <h4 class="text-themecolor"><?php echo $title; ?></h4>
             </div>
+
+         
             <div class="col-md-7 align-self-center text-end">
                 <div class="d-flex justify-content-end align-items-center">
                     <ol class="breadcrumb justify-content-end">
@@ -43,7 +48,13 @@ $currentURL = current_url();
                        <h4>Order ID: <a href="<?php echo base_url(); ?>index.php/Orders/UploadOrder/<?php echo $id; ?>">  <?= $order_id ?></h4> </a>
 
                         <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $id ?>" enctype="multipart/form-data">
+                        
+                        <!-- NEW UPDATE -->
 
+                        <input type="hidden" value="<?php echo (int)$actual_amount - (int)$received_amount; ?>" name="due_amount" >
+                        <input type="hidden" class="form-control" name="u_id" value="<?php echo  $user_id ?>" required="required">
+                        <input type="hidden" class="form-control" name="u_name" value="<?php echo  $user_name ?>" required="required">
+                        <!-- NEW UPDATTES END  -->
                             <?php if ($role_id != '2') { ?>
                                 <?php if (@$referal == 'No') { ?>
 
@@ -59,6 +70,7 @@ $currentURL = current_url();
                             <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                             <div class="row">
+<<<<<<< HEAD
                                 <?php if($role_id != '5' && $role_id != 4) { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
@@ -76,10 +88,17 @@ $currentURL = current_url();
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <input type="text" class="form-control" name="u_email" value="<?= $user_email  ?>" required="required">
+=======
+                                <!-- NEW UPDATES -->
+                                <div class="col-lg-4">
+                                    <div class="form-group has-warning m-b-40">
+                                    <input type="text" class="form-control" name="u_email" value="<?php echo  $user_email ?>" required="required">
+>>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
                                         <span class="bar"></span>
                                         <label for="input10">Email</label>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <?php } else {?>
                                     <input type="hidden" class="form-control" name="u_email" value="<?php $user_email ?>" required="required">
                                 <?php }   ?>
@@ -103,6 +122,17 @@ $currentURL = current_url();
                                    <?php } ?>
                                    <input type="hidden"  class="form-control" name="u_mobile_no" value="<?php echo $mobile_no?>" required="required">
                                 
+=======
+                                <div class="col-lg-4">
+                                    <div class="form-group has-warning m-b-40">
+                                        <input type="text" class="form-control" name="u_mobile_no" value="<?= $mobile_no ?>" required="required">
+                                        <span class="bar"></span>
+                                        <label for="input10">Mobile No</label>
+                                    </div>
+                                </div>
+                                <!-- NEW UPDATES END  -->
+
+>>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
 
                                 <?php if($role_id != '5') { ?>
                                 <!-- Select Customer -->

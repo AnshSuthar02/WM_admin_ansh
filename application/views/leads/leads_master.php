@@ -442,11 +442,63 @@ $data = explode('?', $currentURL);
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-md-2 col-sm-2">
-                                <input type="submit" class="btn btn-primary" value="Search" />
+
+                             <div class="col-md-3 col-sm-3">
+                                <select name="order_id" id="" class="form-control select2">
+                                    <option value="">Search By order Id</option>
+                                    <?php
+                                    if (isset($filter) && !empty($filter)) {
+                                        foreach ($filter as $lead) { ?>
+                                            <option <?php if (isset($lead['order_id']) && !empty($lead['project_title']) && $conditions['project_title'] == $lead['project_title']) {
+                                                        echo "selected";
+                                                    } ?> value="<?php echo $lead['order_id'] ?>">
+                                                <?php echo $lead['order_id'] ?>
+                                            </option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
-                            <div class="col-md-2 col-sm-2">
-                                <a href="<?php echo $data[0] ?>" class="btn btn-danger"> Reset</a>
+                            <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="row mt-3">
+                                    <div class="col-md-3 col-sm-3">
+                                        <input type="text" data-date-formate="dd-mm-yyyy" name="from_date" class="form-control mdate" value="<?php echo @$from_date; ?>" placeholder="From Date">
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <input type="text" data-date-formate="dd-mm-yyyy" name="upto_date" class="form-control mdate" value="<?php echo @$upto_date; ?>" placeholder="Upto Date">
+                                    </div> 
+                                </div>   
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
+                                    <br>
+
+                                    <input type="submit" class="btn btn-primary" value="Search" />
+
+                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
+
+                                    <a href="<?php echo $data[0] ?>" class="btn btn-danger"> Reset</a>
+
+                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
+
+                                    <button style="background-color: green; color:white;" id="headingOne" class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Show Filters
+                                    </button>
+                                </div>
+
+                                <?php if ($role_id == 1) { ?>
+                                    <div class="col-md-6 col-sm-6" style="text-align: right;">
+                                        <label class="control-label" style="visibility: hidden;">Hidden</label>
+                                        <br>
+                                        <a href="<?php echo base_url('index.php/Orders/ordersCSV'); ?>" class="btn btn-success" type="button" style="border:none; background-color: red; color:white;">
+                                            Export
+                                        </a>
+                                    </div>
+                                <?php } ?>
+
                             </div>
                         </div>
                     </form>
