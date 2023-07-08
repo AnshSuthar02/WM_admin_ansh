@@ -386,6 +386,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 <?php } else { ?>
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
+<!-- ============================================================== -->
 <div class="page-wrapper">
     <!-- ============================================================== -->
     <!-- Container fluid  -->
@@ -550,38 +551,14 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
-<<<<<<< HEAD
                                         <select id='purpose' class="form-control purpose" name="filter_check">
-=======
-                                        <select class="form-control  " id="myselection" name="filter_check">
->>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
                                             <option value="title">Title</option>
                                             <option value="writer">Writer Name</option>
                                             <option value="college">College Name</option>
                                         </select>
                                     </div>
-<<<<<<< HEAD
                                     <div id='hideqw' class="col-md-3 col-sm-3">
                                         <input type="text" name="title" class="form-control" value="" placeholder="Title, College, ">
-=======
-                                    <div class="col-md-3 col-sm-3 " id='college_title'>
-                                        <input type="text"  name="title" class="form-control " value="" placeholder="Title, College ">
-                                    </div>
-                                    <div  class="col-md-3 col-sm-3  " id='writer' style="display:none" >
-                                    <select name="writer_name" class="form-control">
-                                        <option value="">Select Writer Name</option>
-                                        <?php
-                                        $teams = getWriterTeams();
-                                        foreach ($teams as $team) {
-                                        ?>
-                                            <option <?php if (@$obj['writer_name'] == $team) {
-                                                        echo "selected";
-                                                    } ?> value="<?= $team ?>">
-                                                <?= $team ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
->>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
                                     </div>
 
                                     <div class="col-md-3 col-sm-3" id='business' style='display:none'>
@@ -628,7 +605,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     
                                 </div>
                             </div>
-                          
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <label class="control-label" style="visibility: hidden;"> Grade</label>
@@ -1238,14 +1214,12 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <input type="hidden" name="referal" value="<?= @$referal ?>">
                                                                         <?php } ?>
 
-                                                                       
                                                                         <input type="hidden" name="backurl" value="<?= $current_page ?>">
                                                                         <input type="hidden" name="edit_id" value="<?= $obj['id'] ?>">
                                                                         <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
                                                                         <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                                                                         <div class="row">
-<<<<<<< HEAD
                                                                        <!--new update email-->
                                                                         <!--<input type="hidden" class="form-control pages" name="u_email" value="<?= $obj['c_email'] ?>" required="required">-->
                                                                         <input type="hidden" class="form-control" name="u_id" value="<?= $obj['uid'] ?>" required="required">
@@ -1256,20 +1230,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <input  type="text" class="form-control" name="u_email" value="<?php echo  $obj['c_email'] ?>" required="required">
-=======
-                                                                        <input type="hidden" class="form-control pages" name="u_email" value="<?= $obj['c_email'] ?>" required="required">
-                                                                        <input type="hidden" class="form-control" name="u_id" value="<?= $obj['uid'] ?>" required="required">
-                                                                        <input type="hidden" value="<?php echo (int)$obj['amount'] - (int)$obj['received_amount']; ?>" name="due_amount" >
-                                                                        <input type="hidden" class="form-control" name="u_name" value="<?= $obj['c_name'] ?>" required="required">
-                                                                            <div class="col-lg-4">
-                                                                                <div class="form-group has-warning m-b-40">
-                                                                                    <input type="text" class="form-control" name="u_email" value="<?php echo  $obj['c_email'] ?>" required="required">
->>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
                                                                                     <span class="bar"></span>
                                                                                     <label for="input10">Email</label>
                                                                                 </div>
                                                                             </div>
-<<<<<<< HEAD
                                                                             <?php }  else {  ?> 
                                                                                     <input type="hidden" class="form-control" name="u_email" value="<?php echo  $obj['c_email'] ?>" required="required">
                                                                                     <?php } ?>
@@ -1278,16 +1242,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                             <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <input type="text" readonly class="form-control" name="u_mobile_no" value="<?php echo $obj['c_mobile'] ?>" required="required">
-=======
-                                                                            <div class="col-lg-4">
-                                                                                <div class="form-group has-warning m-b-40">
-                                                                                    <input type="text" class="form-control" name="u_mobile_no" value="<?php echo $obj['c_mobile'] ?>" required="required">
->>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
                                                                                     <span class="bar"></span>
                                                                                     <label for="input10">Mobile No</label>
                                                                                 </div>
                                                                             </div>
-<<<<<<< HEAD
                                                                             <?php } elseif($role_id != '5') { ?>
                                                                             <div class="col-lg-4">
                                                                                 <div class="form-group has-warning m-b-40">
@@ -1304,13 +1262,11 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                         
                                                                          <?php if($role_id != '5') {   ?>
                                                                             <!-- Select Customer -->
-=======
->>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
                                                                             <?php if ($role_id != '2') {  ?>
                                                                                 <?php if ($role_id == '1') {  ?>
                                                                                     <div class="col-lg-4">
                                                                                         <div class="form-group has-warning m-b-40">
-                                                                                            <?php echo form_dropdown('user_id', $users, $obj['c_mobile'], '', 'required="required"') ?>
+                                                                                            <?php echo form_dropdown('user_id', $users, $obj['uid'], '', 'required="required"') ?>
                                                                                             <span class="bar"></span>
                                                                                             <label for="input10">Select customer</label>
                                                                                         </div>
@@ -2183,7 +2139,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                                                                         <div class="row">
                                                                         <input style="display:none" type="button" id="d<?php echo $obj['order_id']; ?>" class="btn btn-primary btn-block" value="Update" onclick="myFunction<?php echo $obj['order_id']; ?>()()" >
-                                                                        <button type="submit" id='nd<?php echo $obj['order_id']; ?>' class="btn btn-primary btn-block">Update</button>                                                                        </div>
+                                                                                <button type="submit" id='nd<?php echo $obj['order_id']; ?>' class="btn btn-primary btn-block">Update</button>                                                                        </div>
 
                                                                     </form>
                                                                                                                                                                                         
@@ -2562,9 +2518,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     <!-- ============================================================== -->
  
 </div>
+
 <?php } ?>
-
-
 
     
  
@@ -2656,6 +2611,35 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                 }
             });
         });
+
+        // $(document).on('click', '.mark_as_failed_user', function() {
+            
+        //     swal({
+        //         title: "Are you sure User Failed?",
+        //         text: "Mark this order as failed job!",
+        //         icon: "warning",
+        //         buttons: [
+        //             'No, cancel it!',
+        //             'Yes, I am sure!'
+        //         ],
+        //         dangerMode: true,
+        //     }).then(function(isConfirm) {
+        //         if (isConfirm) {
+        //             $.ajax({
+        //                 type: "POST",
+        //                 url: '<?php echo base_url(); ?>index.php/Orders/userOrderFail',
+        //                 data: {
+                            
+        //                 },
+        //                 success: function(response) {
+        //                     window.location.reload();
+        //                 }
+        //             });
+        //         } else {
+        //             // window.location.reload();
+        //         }
+        //     });
+        // });
     });
 </script>
 
@@ -2717,7 +2701,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
          day = day < 10 ? '0' + day : day;
          var dateString = day + '-' + month + '-' + year ;
 
-<<<<<<< HEAD
 
          var currentTime = new Date();
          var hours = currentTime.getHours();
@@ -2806,24 +2789,3 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
 
                                                
-=======
-<!-- writer show hide filter -->
-<script>
-    $(document).ready(function(){
-        $('#myselection').on('change', function(){
-            if($(this).val()=='writer')
-        {
-            $("#college_title").hide();
-            $("#writer").show();
-                    
-        }
-            else
-        {
-            $("#college_title").show();
-            $("#writer").hide();          
-        }
-        
-        });
-    });
-</script>
->>>>>>> 7da11b91881c72baae3cc001d4c8e0f540498791
