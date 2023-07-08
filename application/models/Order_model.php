@@ -5,9 +5,13 @@ class Order_model extends CI_Model
 {
 	private $table = 'orders';
 	private $detailTable = 'files_db';
+	private $feedback = 'feedbacks';
 	private $payment_details = 'payment_details';
 	private $card_detailTable = 'customer_card_details';
 	private $completedOrders = 'completed_orders';
+	private $deliveredOrder = 'delivered_orders';
+	private $feedbackdeliveredOrder = 'feedback_delivered_file';
+	
 	private $status;
 
 	public function __construct()
@@ -26,7 +30,7 @@ class Order_model extends CI_Model
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
-	public function TotalOrders($online_order = '')
+	public function TotalOrders($online_order = '',$delivery_time = '')
 	{
 		$this->db->select('*');
 		$this->db->from('orders');
@@ -34,10 +38,163 @@ class Order_model extends CI_Model
 		if (!empty($online_order)) {
 			$this->db->where('orders.order_type', 'Website');
 		}
+		elseif($delivery_time != '')
+		{
+			$this->db->where('orders.delivery_time !=', '');
+		}
 
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+
+	function getOrderIDs_time()
+	{
+		$result = $this->db->select('id, order_id')->from('orders')->where('flag','0')->where('delivery_time !=', '')->order_by('id','desc')->get()->result_array();
+		return $result;
+	}
+
+
+
+	// public function DeliveredTime()
+	// {
+
+		
+	// 	$this->db->select('orders.*');
+	// 	// $this->db->where('orders.projectstatus', 'In Progress');
+	// 	$query = $this->db->get('orders');
+		
+
+	// 	// $this->db->select('*');
+	// 	// $this->db->from('orders');
+	// 	// $query = $this->db->get();
+	// 	return $query->num_rows();
+	// }
+
+
+	public function order_list_by_time($conditions)
+	{
+		$this->db->select('orders.*,employees.name as c_name,employees.email as c_email,employees.countrycode as countrycode,employees.mobile_no as c_mobile');
+		$this->db->from('orders');
+		$this->db->join('employees', 'orders.uid = employees.id', 'left');
+		$this->db->where('orders.delivery_time !=', ''  );
+
+
+		if ($this->role_id == '2') {
+			$this->db->where('orders.uid', $this->login_id);
+		}
+
+		if ($conditions['customer_id'] != "0")
+			$this->db->where('orders.uid', $conditions['customer_id']);
+
+		if ($conditions['order_id'] != "0")
+			$this->db->like('orders.order_id', $conditions['order_id'], 'both');
+
+		if ($conditions['title'] != "") {
+
+			if ($conditions['filter_check'] == 'title') {
+				$this->db->like('orders.title', $conditions['title'], 'both');
+			}
+
+			if ($conditions['filter_check'] == 'writer') {
+				$this->db->like('orders.writer_name', $conditions['title'], 'both');
+			}
+
+			if ($conditions['filter_check'] == 'college') {
+				$this->db->like('orders.college_name', $conditions['title'], 'both');
+			}
+		}
+
+		if ($conditions['order_date_filter'] == 'order_date') {
+			if ($conditions['from_date'] != '1970-01-01')
+				$this->db->where('orders.order_date >=', $conditions['from_date']);
+			if ($conditions['upto_date'] != '1970-01-01')
+				$this->db->where('orders.order_date <=', $conditions['upto_date']);
+		} elseif ($conditions['order_date_filter'] == 'writer') {
+			if ($conditions['from_date'] != '1970-01-01')
+				$this->db->where('orders.writer_deadline >=', $conditions['from_date']);
+			if ($conditions['upto_date'] != '1970-01-01')
+				$this->db->where('orders.writer_deadline <=', $conditions['upto_date']);
+		} else {
+			if ($conditions['from_date'] != '1970-01-01')
+				$this->db->where('orders.delivery_date >=', $conditions['from_date']);
+			if ($conditions['upto_date'] != '1970-01-01')
+				$this->db->where('orders.delivery_date <=', $conditions['upto_date']);
+		}
+
+		if ($conditions['status'] != '') {
+			$this->db->where('orders.projectstatus', $conditions['status']);
+		}
+
+		if (!empty($conditions['online_order'])) {
+			$this->db->where('orders.order_type', 'Website');
+		}
+		$this->db->where('orders.flag', '0');
+		$this->db->order_by("orders.id", "desc");
+		$query =  $this->db->get()->result_array();
+
+		foreach ($query as $i => $po_data) {
+			$this->db->select('files_db.*');
+			$this->db->where('files_db.detail_id', $po_data['id']);
+			$images_query = $this->db->get('files_db')->result_array();
+			$query[$i]['order_file_details'] = $images_query;
+		}
+		foreach ($query as $i => $po_data) {
+			$this->db->select('completed_orders.*');
+			$this->db->where('completed_orders.order_id', $po_data['id']);
+			$images_query = $this->db->get('completed_orders')->result_array();
+			$query[$i]['completed_orders'] = $images_query;
+		}
+		foreach ($query as $i => $po_data) {
+			$this->db->select('payment_details.*');
+			$this->db->where('payment_details.order_id', $po_data['id']);
+			$b_query = $this->db->get('payment_details')->result_array();
+			$query[$i]['payment_details'] = $b_query;
+		}
+		return $query;
+	}
+
+	public function feedback_listnew($id, $limit, $start, $online_order='')
+	{
+		$this->db->select('orders.*, orders.id as id, employees.name as c_name,employees.email as c_email,countries.phonecode as countrycode,employees.mobile_no as c_mobile');
+		$this->db->from('orders');
+		$this->db->join('employees', 'orders.uid = employees.id', 'left');
+		$this->db->join('countries', 'countries.id = employees.countrycode', 'left');
+		// $this->db->where('orders.projectstatus', 'In Progress'  );
+		$this->db->where('orders.delivery_time !=', ''  );
+
+		if ($this->role_id == '2') {
+			$this->db->where('orders.uid', $id);
+		}
+		if (isset($online_order) && !empty($online_order)) {
+			$this->db->where('orders.order_type', 'Website');
+		}
+		$this->db->limit($limit, $start);
+		$this->db->order_by("orders.id", "desc");
+
+		$query =  $this->db->get()->result_array();
+
+		foreach ($query as $i => $po_data) {
+			$this->db->select('payment_details.*');
+			$this->db->where('payment_details.order_id', $po_data['id']);
+			$b_query = $this->db->get('payment_details')->result_array();
+			$query[$i]['payment_details'] = $b_query;
+		}
+		foreach ($query as $i => $po_data) {
+			$this->db->select('files_db.*');
+			$this->db->where('files_db.detail_id', $po_data['id']);
+			$a_query = $this->db->get('files_db')->result_array();
+			$query[$i]['order_file_details'] = $a_query;
+		}
+		foreach ($query as $i => $po_data) {
+			$this->db->select('completed_orders.*');
+			$this->db->where('completed_orders.order_id', $po_data['id']);
+			$c_query = $this->db->get('completed_orders')->result_array();
+			$query[$i]['completed_orders'] = $c_query;
+		}
+		return $query;
+	}
+
+
 
 	public function TotalOrdersToday()
 	{
@@ -151,35 +308,55 @@ class Order_model extends CI_Model
 
 	public function feedback_insert($data)
 	{
-		$image = '';
+		$image = array();
+		$countfiles = count($_FILES['feedback_file']['name']);
+		for ($i = 0; $i < $countfiles; $i++) {
 		if (!empty($_FILES['feedback_file']['name'])) {
-			$_FILES['file']['name'] = $_FILES['feedback_file']['name'];
-			$_FILES['file']['type'] = $_FILES['feedback_file']['type'];
-			$_FILES['file']['tmp_name'] = $_FILES['feedback_file']['tmp_name'];
-			$_FILES['file']['error'] = $_FILES['feedback_file']['error'];
-			$_FILES['file']['size'] = $_FILES['feedback_file']['size'];
-
+			$_FILES['file']['name'] = $_FILES['feedback_file']['name'][$i];
+			$_FILES['file']['type'] = $_FILES['feedback_file']['type'][$i];
+			$_FILES['file']['tmp_name'] = $_FILES['feedback_file']['tmp_name'][$i];
+			$_FILES['file']['error'] = $_FILES['feedback_file']['error'][$i];
+			$_FILES['file']['size'] = $_FILES['feedback_file']['size'][$i];
 			$config['upload_path'] = './uploads/customers/';
 			$config['allowed_types'] = '*';
 			$config['max_size']    = '50000';
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
-
 			if ($this->upload->do_upload('file')) {
-
 				$uploadData = $this->upload->data();
-
 				$filename = $uploadData['file_name'];
-				$image = $filename;
+				$image[] = $filename;
+			} else {
+				$image[] = '';
+			}
+			} else {
+				$image[] = '';
 			}
 		}
-		$data['image'] = $image;
-		$this->db->insert('feedbacks', $data);
-		if ($this->db->affected_rows() > 0) {
-			return true;
+			$this->db->insert('feedbacks', $data);
+			$this->CustomerDetails($data, $image);
+			if ($this->db->affected_rows() > 0) {
+				return true;
+			
 		} else {
 			return false;
 		}
+	}
+	
+	function CustomerDetails($data, $image)
+	{
+		date_default_timezone_set("Europe/London");
+		$updated_on = date("Y-m-d H:i:s");
+		foreach ($image as  $value) :
+			$this->db->set('user_id', $data['user_id']);
+			$this->db->set('order_id', $data['order_id']);
+			// $this->db->set('file', $value);
+			$this->db->set('created_at', $updated_on);
+			$this->db->set('image', $value);
+			
+			$this->db->insert($this->feedback);
+		endforeach;
+		
 	}
 
 	public function call_insert($data)
@@ -224,7 +401,7 @@ class Order_model extends CI_Model
 		return $query;
 	}
 
-	public function feedback_list_all()
+public function feedback_list_all()
 	{
 		$login_id = $this->session->userdata['logged_in']['id'];
 		$this->db->select('feedbacks.*,employees.name as c_name,employees.email as c_email,orders.order_id as code,employees.mobile_no as c_mobile');
@@ -413,7 +590,7 @@ class Order_model extends CI_Model
 			{
 				$value = "http://localhost/wm/uploads/" . $value;
 			} else {
-				$value = "https://assignnmentinneed.com/admin/uploads/" . $value;
+				$value = "https://assignnmentinneed.com/user_login/uploads/" . $value;
 			}
 			$this->db->set('detail_id', $order_id);
 			$this->db->set('u_id', $user_id);
@@ -627,6 +804,18 @@ class Order_model extends CI_Model
 
 		return $query;
 	}
+	public function order_date_time()
+	{
+		$result = $this->db->select('id, order_id  as id_orders, delivery_date as deliveredDate, delivery_time as deliveredTime')
+							->from('orders')
+							// ->where('flag','0')
+							->where('delivery_time !=','')
+							->order_by('id','desc')
+							->get()->result_array();
+		return $result;
+	}
+
+
 
 	public function order_list($id = null)
 	{
@@ -692,7 +881,7 @@ class Order_model extends CI_Model
 
 	public function order_listnew($id, $limit, $start, $online_order='')
 	{
-		$this->db->select('orders.*, orders.id as id, employees.name as c_name,employees.email as c_email,countries.phonecode as countrycode,employees.mobile_no as c_mobile');
+		$this->db->select('orders.*, orders.id as id, employees.name as c_name,employees.email as c_email,countries.phonecode as countrycode,employees.mobile_no as c_mobile,employees.is_fail as c_is_fail');
 		$this->db->from('orders');
 		$this->db->join('employees', 'orders.uid = employees.id', 'left');
 		$this->db->join('countries', 'countries.id = employees.countrycode', 'left');
@@ -731,7 +920,7 @@ class Order_model extends CI_Model
 
 	public function order_list_by_filter($conditions)
 	{
-		$this->db->select('orders.*,employees.name as c_name,employees.email as c_email,employees.countrycode as countrycode,employees.mobile_no as c_mobile');
+		$this->db->select('orders.*,employees.name as c_name,employees.email as c_email,employees.countrycode as countrycode,employees.mobile_no as c_mobile,employees.is_fail as c_is_fail');
 		$this->db->from('orders');
 		$this->db->join('employees', 'orders.uid = employees.id', 'left');
 
@@ -750,16 +939,24 @@ class Order_model extends CI_Model
 			if ($conditions['filter_check'] == 'title') {
 				$this->db->like('orders.title', $conditions['title'], 'both');
 			}
-
-			if ($conditions['filter_check'] == 'writer') {
-				$this->db->like('orders.writer_name', $conditions['title'], 'both');
-			}
-
 			if ($conditions['filter_check'] == 'college') {
 				$this->db->like('orders.college_name', $conditions['title'], 'both');
 			}
+			
 		}
 
+		if ($conditions['filter_check'] == 'writer') {
+			if ($conditions['writer_name'] != "0") 
+			{
+			$this->db->where('orders.writer_name', $conditions['writer_name']);
+			}
+		}
+
+		
+	
+
+
+		
 		if ($conditions['order_date_filter'] == 'order_date') {
 			if ($conditions['from_date'] != '1970-01-01')
 				$this->db->where('orders.order_date >=', $conditions['from_date']);
@@ -770,6 +967,11 @@ class Order_model extends CI_Model
 				$this->db->where('orders.writer_deadline >=', $conditions['from_date']);
 			if ($conditions['upto_date'] != '1970-01-01')
 				$this->db->where('orders.writer_deadline <=', $conditions['upto_date']);
+		} elseif ($conditions['order_date_filter'] == 'draft_deadline') {
+			if ($conditions['from_date'] != '1970-01-01')
+			$this->db->where('orders.draft_date >=', $conditions['from_date']);
+			if ($conditions['upto_date'] != '1970-01-01')
+			$this->db->where('orders.draft_date <=', $conditions['upto_date']);
 		} else {
 			if ($conditions['from_date'] != '1970-01-01')
 				$this->db->where('orders.delivery_date >=', $conditions['from_date']);
@@ -1106,14 +1308,26 @@ class Order_model extends CI_Model
 	}
 	function completedOrderFiles($old_id, $picture)
 	{
+		$status = $this->input->post('status');
 		date_default_timezone_set("Europe/London");
 		$updated_on = date("Y-m-d H:i:s");
 		foreach ($picture as  $value) :
-			$value = "https://assignnmentinneed.com/admin/uploads/" . $value;
+			$value = "https://assignnmentinneed.com/user_login/uploads/" . $value;
 			$this->db->set('order_id', $old_id);
 			$this->db->set('file_path', $value);
 			$this->db->set('updated_on', $updated_on);
+			if($status == 'Delivered')
+			{
+				$this->db->insert($this->deliveredOrder);
+			}
+			elseif($status == 'Feedback Delivered')
+			{
+				$this->db->insert($this->feedbackdeliveredOrder);
+			}
+			elseif($status == 'Completed' || $status == 'Pending' || $status == 'Hold Work' || $status == 'In Progress' || $status == 'Feedback' || $status == 'Cancelled' ||  $status == 'Draft Ready' ||  $status == 'Draft Delivered' || $status == 'initiated' || $status == 'Other')
+			{
 			$this->db->insert($this->completedOrders);
+			}
 		endforeach;
 	}
 
@@ -1158,6 +1372,22 @@ class Order_model extends CI_Model
 			$images_query = $this->db->get('completed_orders')->result_array();
 			$query[$i]['completed_orders'] = $images_query;
 		}
+		foreach ($query as $i => $po_data) {
+			$this->db->select('delivered_orders.*');
+			$this->db->where('delivered_orders.order_id', $po_data['id']);
+			$this->db->order_by("delivered_orders.id", "desc");
+			$images_query = $this->db->get('delivered_orders')->result_array();
+			$query[$i]['delivered_orders'] = $images_query;
+		}
+
+		foreach ($query as $i => $po_data) {
+			$this->db->select('feedback_delivered_file.*');
+			$this->db->where('feedback_delivered_file.order_id', $po_data['id']);
+			$this->db->order_by("feedback_delivered_file.id", "desc");
+			$images_query = $this->db->get('feedback_delivered_file')->result_array();
+			$query[$i]['feedback_delivered_file'] = $images_query;
+		}
+
 
 		return $query;
 	}
@@ -1202,6 +1432,7 @@ class Order_model extends CI_Model
 			$query[$i]['completed_orders'] = $images_query;
 		}
 
+		
 		return $query;
 	}
 	public function getOrderImages($id)
@@ -1225,7 +1456,7 @@ class Order_model extends CI_Model
 		$this->db->where('orders.uid', $uid);
 
 		// $this->db->where('orders.projectstatus', 'Pending');
-		$names = array('Other', 'Pending');
+		$names = array('Other', 'Pending','initiated','In Progress');
 		$this->db->where_in('projectstatus', $names);
 		$this->db->order_by("orders.id", "asc");
 

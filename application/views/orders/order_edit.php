@@ -40,7 +40,7 @@ $currentURL = current_url();
                 <div class="card">
                     <div class="card-body">
 
-                        <h4>Order ID: <?= $order_id ?></h4>
+                       <h4>Order ID: <a href="<?php echo base_url(); ?>index.php/Orders/UploadOrder/<?php echo $id; ?>">  <?= $order_id ?></h4> </a>
 
                         <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/editorder/<?= $id ?>" enctype="multipart/form-data">
 
@@ -59,6 +59,7 @@ $currentURL = current_url();
                             <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                             <div class="row">
+                                <?php if($role_id != '5' && $role_id != 4) { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <input type="text" class="form-control" name="u_name" value="<?= $user_name ?>" required="required">
@@ -66,21 +67,44 @@ $currentURL = current_url();
                                         <label for="input10">Name</label>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                    <input type="hidden" class="form-control" name="u_name" value="<?= $user_name ?>" required="required">
+                                <?php } ?>
+                                
+
+                                <?php if($role_id != '5') { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <input type="text" class="form-control" name="u_email" value="<?= $email ?>" required="required">
+                                        <input type="text" class="form-control" name="u_email" value="<?= $user_email  ?>" required="required">
                                         <span class="bar"></span>
                                         <label for="input10">Email</label>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group has-warning m-b-40">
-                                        <input type="text" class="form-control" name="u_mobile_no" value="<?= $mobile_no ?>" required="required">
-                                        <span class="bar"></span>
-                                        <label for="input10">Mobile No</label>
-                                    </div>
-                                </div>
+                                <?php } else {?>
+                                    <input type="hidden" class="form-control" name="u_email" value="<?php $user_email ?>" required="required">
+                                <?php }   ?>
+                                <?php if($role_id == '4') {   ?>
+                                   <div class="col-lg-4">
+                                       <div class="form-group has-warning m-b-40">
+                                           <input type="text" readonly class="form-control" name="u_mobile_no" value="<?php echo $mobile_no ?>" required="required">
+                                           <span class="bar"></span>
+                                           <label for="input10">Mobile No</label>
+                                       </div>
+                                   </div>
+                                   <?php } elseif($role_id != '5') { ?>
+                                   <div class="col-lg-4">
+                                       <div class="form-group has-warning m-b-40">
+                                           <input type="text"  class="form-control" name="u_mobile_no" value="<?php echo $mobile_no?>" required="required">
+                                           <span class="bar"></span>
+                                           <label for="input10">Mobile No</label>
+                                       </div>
+                                   </div>
+                                 
+                                   <?php } ?>
+                                   <input type="hidden"  class="form-control" name="u_mobile_no" value="<?php echo $mobile_no?>" required="required">
+                                
 
+                                <?php if($role_id != '5') { ?>
                                 <!-- Select Customer -->
                                 <?php if ($role_id != '2') {  ?>
                                     <?php if ($role_id == '1') {  ?>
@@ -104,7 +128,7 @@ $currentURL = current_url();
                                     <?php } ?>
                                 <?php } else { ?>
                                     <input type="text" style="display:none;" name="user_id" value="<?= @$user_id ?>">
-                                <?php } ?>
+                                <?php } } ?>
 
                                 <!-- Project Title -->
                                 <div class="col-lg-4">
@@ -123,12 +147,12 @@ $currentURL = current_url();
                                         <label for="input10">Select pages</label>
                                     </div>
                                 </div>
-
+                                <?php if($role_id != '5' && $role_id != 4 ) { ?>
                                 <!-- Enter Discount -->
                                 <?php if ($role_id != '2') {  ?>
                                     <div class="col-lg-4">
                                         <div class="form-group has-warning m-b-40">
-                                            <input type="text" name="discount_per" class="form-control discount_per" value="<?= $discount_per ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" />
+                                            <input type="text" name="discount_per" class="form-control discount_per" value="<?php $discount_per ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" />
                                             <span class="bar"></span>
                                             <label for="input10">Enter discount</label>
                                         </div>
@@ -141,7 +165,7 @@ $currentURL = current_url();
                                             <label for="input10">Enter discount</label>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                <?php } }?>
 
                                 <!-- Order total -->
                                 <div class="col-lg-4" hidden>
@@ -153,6 +177,7 @@ $currentURL = current_url();
                                 </div>
 
                                 <!-- Price after applying coupon -->
+                                <?php if($role_id != '5') { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning">
                                         <?php if ($role_id != '2') {  ?>
@@ -172,9 +197,14 @@ $currentURL = current_url();
                                         <!-- <i style="font-size: 18px;color:green;" class="fa fa-check"></i> -->
                                     </div>
                                 </div>
+                                <?php } else { ?> 
+                                <input type="hidden" name="order_total" class="form-control order_total" value="<?php echo $amount; ?>" required>
+                                <?php } ?>
 
                                 <!-- Delivery Date -->
+                               
                                 <div class="col-lg-4" style="display: flex;">
+                                <?php if($role_id != 5){ ?>
                                     <div class="col-6">
                                         <div class="form-group has-warning m-b-40">
                                             <input type="text" class="form-control second delivery_date mdate" name="delivery_date" value="<?php echo  date("Y-m-d", strtotime($delivery_date)); ?>">
@@ -182,9 +212,19 @@ $currentURL = current_url();
                                             <label for="input10">Delivery date</label>
                                         </div>
                                     </div>
+                                <?php } else{?>
+                                    <div class="col-6">
+                                        <div class="form-group has-warning m-b-40">
+                                            <input readonly type="text" class="form-control second delivery_date " name="delivery_date" value="<?php echo  date("Y-m-d", strtotime($delivery_date)); ?>">
+                                            <span class="bar"></span>
+                                            <label for="input10">Delivery date</label>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                     <div class="col-2">
                                         <!-- blank -->
                                     </div>
+                                    <?php if($role_id != 5){ ?>
                                     <div class="col-4">
                                         <div class="form-group has-warning m-b-40">
                                             <input type="text" class="form-control timepicker" name="delivery_time" value="<?php if(isset($delivery_time) && !empty($delivery_time)) { echo $delivery_time; } ?>">
@@ -192,42 +232,107 @@ $currentURL = current_url();
                                             <label for="input10">Time</label>
                                         </div>
                                     </div>
+                                    <?php }else{ ?>
+                                        <div class="col-4">
+                                        <div class="form-group has-warning m-b-40">
+                                            <input readonly type="text" class="form-control " name="delivery_time" value="<?php if(isset($delivery_time) && !empty($delivery_time)) { echo $delivery_time; } ?>">
+                                            <span class="bar"></span>
+                                            <label for="input10">Time</label>
+                                        </div>
+                                    </div>
+                                    <?php } ?>
                                 </div>
-
+                                <?php if($role_id != '4') { ?>
                                 <!-- Writer name -->
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <?php if ($role_id != '3') { ?>
                                             <?php if ($projectstatus == 'In Progress') { ?>
                                                 <select name="writer_name" class="form-control" required>
-                                                    <option value=""></option>
-                                                    <?php
-                                                    $teams = getWriterTeams();
-                                                    foreach ($teams as $team) {
-                                                    ?>
-                                                        <option <?php if (@$writer_name == $team) {
-                                                                    echo "selected";
-                                                                } ?> value="<?= $team ?>">
-                                                            <?= $team ?>
-                                                        </option>
-                                                    <?php } ?>
-                                                </select>
+                                            <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                                            echo "selected";
+                                                        } ?>> </option>
+                                            <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                                            echo "selected";
+                                                        } ?>>team 1</option>
+                                            <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                                            echo "selected";
+                                                        } ?>>team 2</option>
+                                            <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                                            echo "selected";
+                                                        } ?>>team 3</option>
+                                            <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                                            echo "selected";
+                                                        } ?>>team 4</option>
+                                            <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                                            echo "selected";
+                                                        } ?>>team 5</option>
+                                            <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                                            echo "selected";
+                                                        } ?>>team 6</option>
+                                            <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                                            echo "selected";
+                                                        } ?>>team 7</option>
+                                            <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                                            echo "selected";
+                                                        } ?>>team 8</option>
+                                            <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                                            echo "selected";
+                                                        } ?>>team  9</option>
+                                            <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                                        } ?>>team 10</option>
+                                            <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                            } ?>>team 11</option>
+
+                                            <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                            } ?>>team 12</option>
+                                            <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                            } ?>>team 13</option>
+                                        </select>
                                                 <span class="bar"></span>
                                                 <label for="input10">Writer name (Select team)</label>
                                             <?php } else { ?>
-                                                <select name="writer_name" class="form-control">
-                                                    <option value=""></option>
-                                                    <?php
-                                                    $teams = getWriterTeams();
-                                                    foreach ($teams as $team) {
-                                                    ?>
-                                                        <option <?php if (@$writer_name == $team) {
-                                                                    echo "selected";
-                                                                } ?> value="<?= $team ?>">
-                                                            <?= $team ?>
-                                                        </option>
-                                                    <?php } ?>
-                                                </select>
+                                               <select name="writer_name" class="form-control" required>
+                                            <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                                            echo "selected";
+                                                        } ?>> </option>
+                                            <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                                            echo "selected";
+                                                        } ?>>team 1</option>
+                                            <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                                            echo "selected";
+                                                        } ?>>team 2</option>
+                                            <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                                            echo "selected";
+                                                        } ?>>team 3</option>
+                                            <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                                            echo "selected";
+                                                        } ?>>team 4</option>
+                                            <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                                            echo "selected";
+                                                        } ?>>team 5</option>
+                                            <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                                            echo "selected";
+                                                        } ?>>team 6</option>
+                                            <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                                            echo "selected";
+                                                        } ?>>team 7</option>
+                                            <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                                            echo "selected";
+                                                        } ?>>team 8</option>
+                                            <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                                            echo "selected";
+                                                        } ?>>team  9</option>
+                                            <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                                        } ?>>team 10</option>
+                                            <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                            } ?>>team 11</option>
+
+                                            <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                            } ?>>team 12</option>
+                                            <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                            } ?>>team 13</option>
+                                        </select>
                                                 <span class="bar"></span>
                                                 <label for="input10">Writer name (Select team)</label>
                                             <?php } ?>
@@ -237,6 +342,12 @@ $currentURL = current_url();
                                         <?php } ?>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                <input type="hidden" name="writer_name" id="input10" class="form-control writer_name" value="<?= @$writer_name ?>" />
+                                <?php } ?>
+                                
+                                
+                                
 
                                 <!-- Writer price -->
                                 <div class="col-lg-4" style="display: none;">
@@ -250,7 +361,8 @@ $currentURL = current_url();
                                         <label for="input10">Writer price</label>
                                     </div>
                                 </div>
-
+                                
+                                <?php if($role_id != 4){ ?>
                                 <!-- Writer deadline -->
                                 <div class="col-lg-4 writer_deadline">
                                     <div class="form-group has-warning m-b-40">
@@ -269,8 +381,28 @@ $currentURL = current_url();
                                         <label for="input10">Writer deadline</label>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                <div class="col-lg-4 writer_deadline" style='display:none'>
+                                    <div class="form-group has-warning m-b-40">
+                                        <?php if (!empty($writer_deadline)) {
+                                            if (@$writer_deadline != '1970-01-01') {
+                                                $writer_deadlinenew = date("Y-m-d", strtotime(@$writer_deadline));
+                                            } else {
+                                                $writer_deadlinenew = date("Y-m-d");
+                                            }
+                                        } else {
+                                            $writer_deadlinenew = date("Y-m-d");
+                                        } ?>
+
+                                        <input type="text" class="form-control mdate" name="writer_deadline" value="">
+                                        <span class="bar"></span>
+                                        <label for="input10">Writer deadline</label>
+                                    </div>
+                                </div>
+                                <?php } ?>
 
                                 <!-- College Name -->
+                                <?php if($role_id != 5 && $role_id != 4){ ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <input type="text" class="form-control" id="input10" name="college_name" value="<?= @$college_name ?>">
@@ -278,8 +410,12 @@ $currentURL = current_url();
                                         <label for="input10">College name</label>
                                     </div>
                                 </div>
+                                <?php }else {  ?>
+                                    <input type="hidden" class="form-control" id="input10" name="college_name" value="<?= @$college_name ?>">
+                                <?php } ?>
 
                                 <!-- Order Date -->
+                                <?php if($role_id != 5){ ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <input type="text" class="form-control first mdate" name="order_date" value="<?php echo date('Y-m-d', strtotime($order_date)); ?>">
@@ -287,8 +423,19 @@ $currentURL = current_url();
                                         <label for="input10">Order date</label>
                                     </div>
                                 </div>
+                                <?php } else{ ?>
+                                    <div class="col-lg-4">
+                                    <div class="form-group has-warning m-b-40">
+                                        <input readonly type="text" class="form-control first " name="order_date" value="<?php echo date('Y-m-d', strtotime($order_date)); ?>">
+                                        <span class="bar"></span>
+                                        <label for="input10">Order date</label>
+                                    </div>
+                                </div>
+
+                                <?php } ?>
 
                                 <!-- Formatting & Citation Style -->
+                                <?php if($role_id != 5 && $role_id != 4){ ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <select class="form-control " name="formatting" required="required">
@@ -308,8 +455,30 @@ $currentURL = current_url();
                                         <label for="input10">Formatting and citation style</label>
                                     </div>
                                 </div>
+                                <?php } else{ ?>
+                                    <div class="col-lg-4 d-none">
+                                    <div class="form-group has-warning m-b-40">
+                                        <select class="form-control " name="formatting" required="required">
+                                            <option value=""></option>
+                                            <?php
+                                            foreach ($formattings as $key => $value) {
+                                                if ($formatting == $value['formatting_name']) {
+                                            ?>
+                                                    <option value="<?= $value['formatting_name'] ?>" selected><?= $value['formatting_name'] ?></option>
+                                                <?php } else { ?>
+                                                    <option value="<?= $value['formatting_name'] ?>"><?= $value['formatting_name'] ?></option>
+
+                                            <?php  }
+                                            } ?>
+                                        </select>
+                                        <span class="bar"></span>
+                                        <label for="input10">Formatting and citation style</label>
+                                    </div>
+                                </div>
+                                <?php } ?>
 
                                 <!-- Choose type of service -->
+                                <?php if($role_id != 5 && $role_id != 4){ ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <select class="form-control typeofservice" name="typeofservice" required="required">
@@ -328,11 +497,31 @@ $currentURL = current_url();
                                         <label for="input10">Choose type of service</label>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                    <div class="col-lg-4 d-none">
+                                    <div class="form-group has-warning m-b-40">
+                                        <select class="form-control typeofservice" name="typeofservice" required="required">
+                                            <option value=""></option>
+                                            <?php
+                                            foreach ($services as $key => $value) {
+                                                if ($service == $value['service_name']) {
+                                            ?>
+                                                    <option value="<?= $value['service_name'] ?>" typservice="<?= $value['factor'] ?>" selected><?= $value['service_name'] ?> </option>
+                                                <?php } else { ?>
+                                                    <option value="<?= $value['service_name'] ?>" typservice="<?= $value['factor'] ?>"><?= $value['service_name'] ?></option>
+                                            <?php  }
+                                            } ?>
+                                        </select>
+                                        <span class="bar"></span>
+                                        <label for="input10">Choose type of service</label>
+                                    </div>
+                                </div>
+                                <?php } ?>
 
                                 <!-- Choose type of paper -->
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <select class="form-control typeofpaper" name="typeofpaper" required="required">
+                                        <select class="ravi form-control typeofpaper" name="typeofpaper" required="required">
                                             <option value=""></option>
                                             <?php
                                             foreach ($typeofpapers as $key => $value) {
@@ -348,8 +537,86 @@ $currentURL = current_url();
                                         <label for="input10">Choose type of paper</label>
                                     </div>
                                 </div>
+                                <?php  if ($typeofpaper == 'Dissertation (all chapters)' ||$typeofpaper == 'Thesis (all chapters)' || $typeofpaper == 'Research Paper') {?>
+                                    <div class="col-lg-4" id='chap<?php echo $order_id; ?>' >
+                                        <div class="form-group has-warning m-b-40">
+                                            
+                                            <select id='chap<?php echo $obj['order_id']; ?>'  class=" form-control pages" name="chapter" >
+                                                <option value=" " <?php if ( $chapter == ' ') {
+                                                                            echo "selected";
+                                                                        } ?>> </option>
+                                                <option value="Chapter 1:  Introduction" <?php if ($chapter == 'Chapter 1:  Introduction') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 1:  Introduction</option>
+                                                <option value="Chapter 2: Litreature Review" <?php if ($chapter == 'Chapter 2: Litreature Review') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 2: Litreature Review</option>
+                                        
+                                                <option value="Chapter 3: Methedology" <?php if ($chapter == 'Chapter 3: Methedology') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 3: Methedology</option>
+                                                <option value="Chapter 4: Data Analysis" <?php if ($chapter == 'Chapter 4: Data Analysis') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 4: Data Analysis</option>
+                                                <option value="Chapter 5: Conclusion & Recommendation" <?php if ($chapter== 'Chapter 5: Conclusion & Recommendation') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 5: Conclusion & Recommendation</option>
+                                            </select>
+                                            <span class="bar"></span>
+                                            <label for="input10">Choose Chapter</label>
+                                        </div>
+                                    </div>
+                                    <?php } else{ ?>
+                                    <div class="col-lg-4" id='chap<?php echo $obj['order_id']; ?>'  style="display:none">
+                                        <div class="form-group has-warning m-b-40">
+                                            
+                                            <select id='chap<?php echo $obj['order_id']; ?>'  class=" form-control pages" name="chapter" >
+                                            <option value=" " <?php if ($obj['chapter'] == ' ') {
+                                                                            echo "selected";
+                                                                        } ?>> </option>
+                                                <option value="Chapter 1:  Introduction" <?php if ($chapter == 'Chapter 1:  Introduction') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 1:  Introduction</option>
+                                                <option value="Chapter 2: Litreature Review" <?php if ($chapter == 'Chapter 2: Litreature Review') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 2: Litreature Review</option>
+                                        
+                                                <option value="Chapter 3: Methedology" <?php if ($chapter == 'Chapter 3: Methedology') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 3: Methedology</option>
+                                                <option value="Chapter 4: Data Analysis" <?php if ($chapter == 'Chapter 4: Data Analysis') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 4: Data Analysis</option>
+                                                <option value="Chapter 5: Conclusion & Recommendation" <?php if ($chapter == 'Chapter 5: Conclusion & Recommendation') {
+                                                                            echo "selected";
+                                                                        } ?>>Chapter 5: Conclusion & Recommendation</option>
+                                            </select>
+                                            <span class="bar"></span>
+                                            <label for="input10">Choose Chapter</label>
+                                        </div>
+                                    </div>
 
+                                    <?php } ?>
+                                <script>
+                                     $(document).ready(function(){ //Make script DOM ready
+                                        $('.ravi').change(function() { //jQuery Change Function
+                                            var opval = $(this).val(); //Get value from select element
+                                            if(opval=="Dissertation (all chapters)" || opval=="Thesis (all chapters)" || opval=="Research Paper"){ //Compare it and if true
+                                            //   alert('d')
+                                                document.getElementById('chap<?php echo $order_id; ?>').style.display = 'block';
+                                                // document.getElementById('nd').style.display = 'none';
+                                            }
+                                            else
+                                            {
+                                                document.getElementById('chap<?php echo $order_id; ?>').style.display = 'none';
+                                                // document.getElementById('nd<?php echo $order_id; ?>').style.display = 'block';
+                                            }
+                                        });
+                                    });
+                                    
+                                    </script>
                                 <!-- Choose type of writing -->
+                                <?php if($role_id != 4){ ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <select class="form-control typeofwritting" name="typeofwritting" required="required">
@@ -368,41 +635,80 @@ $currentURL = current_url();
                                         <label for="input10">Choose type of writing</label>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                <div class="col-lg-4 d-none">
+                                    <div class="form-group has-warning m-b-40">
+                                        <select class="form-control typeofwritting" name="typeofwritting" required="required">
+                                            <option value=""></option>
+                                            <?php
+                                            foreach ($typeofwritings as $key => $value) {
+                                                if ($typeofwritting == $value['type_of_writing']) {
+                                            ?>
+                                                    <option value="<?= $value['type_of_writing'] ?>" selected typwrtg="<?= $value['factor'] ?>"><?= $value['type_of_writing'] ?></option>
+                                                <?php } else { ?>
+                                                    <option value="<?= $value['type_of_writing'] ?>" typwrtg="<?= $value['factor'] ?>"><?= $value['type_of_writing'] ?></option>
+                                            <?php  }
+                                            } ?>
+                                        </select>
+                                        <span class="bar"></span>
+                                        <label for="input10">Choose type of writing</label>
+                                    </div>
+                                </div>
+                                <?php } ?>
 
                                 <?php if($role_id != 1) { ?>
                                 <?php if ($projectstatus != 'Cancelled') { ?>
                                 <!-- Order status -->
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <select class="form-control pages" name="projectstatus" required>
+                                        <select class="new form-control pages" name="projectstatus" required>
 
                                             <option value="Pending" <?php if ($projectstatus == 'Pending') {
                                                                         echo "selected";
                                                                     } ?>>Pending</option>
+
+                                            <option value="Hold Work" <?php if ($projectstatus == 'Hold Work') {
+                                                                        echo "selected";
+                                                                    } ?>>Hold Work</option>
+
                                             <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
                                                                             echo "selected";
                                                                         } ?>>In Progress</option>
                                             <option value="Completed" <?php if ($projectstatus == 'Completed') {
                                                                             echo "selected";
                                                                         } ?>>Completed</option>
-                                            <option value="Delivered" <?php if ($projectstatus == 'Delivered') {
-                                                                            echo "selected";
-                                                                        } ?>>Delivered</option>
+                                                                        
+                                            <?php if($role_id  != 5) {  ?>                           
+                                             <option value="Delivered" <?php if ($projectstatus == 'Delivered') {
+                                                                             echo "selected";
+                                                                         } ?>>Delivered</option>
+                                            <?php } ?>
+                                            
                                             <option value="Feedback" <?php if ($projectstatus == 'Feedback') {
                                                                             echo "selected";
                                                                         } ?>>Feedback</option>
+                                           
+                                           
+                                            <?php if($role_id  != 5) {  ?>                           
+                                                                                                                            
                                             <option value="Feedback Delivered" <?php if ($projectstatus == 'Feedback Delivered') {
                                                                                     echo "selected";
                                                                                 } ?>>Feedback Delivered</option>
+                                            <?php } ?>
+                                           
                                             <option value="Cancelled" <?php if ($projectstatus == 'Cancelled') {
                                                                             echo "selected";
                                                                         } ?>>Cancelled</option>
                                             <option value="Draft Ready" <?php if ($projectstatus == 'Draft Ready') {
                                                                             echo "selected";
                                                                         } ?>>Draft Ready</option>
+                                            
+                                            <?php if($role_id  != 5) {  ?>                           
                                             <option value="Draft Delivered" <?php if ($projectstatus == 'Draft Delivered') {
                                                                                 echo "selected";
                                                                             } ?>>Draft Delivered</option>
+                                            <?php } ?>    
+                                            
                                             <option value="Other" <?php if ($projectstatus == 'Other') {
                                                                         echo "selected";
                                                                     } ?>>Other</option>
@@ -419,35 +725,50 @@ $currentURL = current_url();
                                 <!-- Order status -->
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <select class="form-control pages" name="projectstatus" required>
+                                        <select class="new form-control pages" name="projectstatus" required>
 
                                             <option value="Pending" <?php if ($projectstatus == 'Pending') {
                                                                         echo "selected";
                                                                     } ?>>Pending</option>
+
+
+                                            <option value="Hold Work" <?php if ($projectstatus == 'Hold Work') {
+                                                                        echo "selected";
+                                                                    } ?>>Hold Work</option>
+
                                             <option value="In Progress" <?php if ($projectstatus == 'In Progress') {
                                                                             echo "selected";
                                                                         } ?>>In Progress</option>
                                             <option value="Completed" <?php if ($projectstatus == 'Completed') {
                                                                             echo "selected";
                                                                         } ?>>Completed</option>
-                                            <option value="Delivered" <?php if ($projectstatus == 'Delivered') {
-                                                                            echo "selected";
-                                                                        } ?>>Delivered</option>
+                                              <?php if($role_id  != 5) {  ?>                           
+                                             <option value="Delivered" <?php if ($projectstatus == 'Delivered') {
+                                                                             echo "selected";
+                                                                         } ?>>Delivered</option>
+                                            <?php } ?>
                                             <option value="Feedback" <?php if ($projectstatus == 'Feedback') {
                                                                             echo "selected";
                                                                         } ?>>Feedback</option>
+                                            
+                                             <?php if($role_id  != 5) {  ?>                           
+                                                                                                                            
                                             <option value="Feedback Delivered" <?php if ($projectstatus == 'Feedback Delivered') {
                                                                                     echo "selected";
                                                                                 } ?>>Feedback Delivered</option>
+                                            <?php } ?>
+                                            
                                             <option value="Cancelled" <?php if ($projectstatus == 'Cancelled') {
                                                                             echo "selected";
                                                                         } ?>>Cancelled</option>
                                             <option value="Draft Ready" <?php if ($projectstatus == 'Draft Ready') {
                                                                             echo "selected";
                                                                         } ?>>Draft Ready</option>
+                                          <?php if($role_id  != 5) {  ?>                           
                                             <option value="Draft Delivered" <?php if ($projectstatus == 'Draft Delivered') {
                                                                                 echo "selected";
                                                                             } ?>>Draft Delivered</option>
+                                                <?php } ?>    
                                             <option value="Other" <?php if ($projectstatus == 'Other') {
                                                                         echo "selected";
                                                                     } ?>>Other</option>
@@ -461,7 +782,59 @@ $currentURL = current_url();
                                 </div>
                                 <?php } ?>
 
+                                <?php if($actual_amount - $received_amount != 0  )  { ?>
+                                    <script>
+                                          $(document).ready(function(){ //Make script DOM ready
+                                            $('.new').change(function() { //jQuery Change Function
+                                                var opval = $(this).val(); //Get value from select element
+                                                if(opval=="Delivered"){ //Compare it and if true
+                                                 swal({
+                                                     title: "Due Amount <?php echo $actual_amount  - $received_amount;?>",
+                                                     text: "When you have received the full amount, you will be able to mail it.",
+                                                     icon: "warning",
+                                                     buttons: true,
+                                                     dangerMode: true,
+                                                     })
+                                                    
+                                                     }
+                                                         });
+                                                     });
+                                    </script>
+
+                                    <script>
+                                     $(document).ready(function(){ //Make script DOM ready
+                                        $('.new').change(function() { //jQuery Change Function
+                                            var opval = $(this).val(); //Get value from select element
+                                            if(opval=="Delivered"){ //Compare it and if true
+                                                document.getElementById('d<?php echo $order_id; ?>').style.display = 'block';
+                                                document.getElementById('nd<?php echo $order_id; ?>').style.display = 'none';
+                                            }
+                                            else
+                                            {
+                                                document.getElementById('d<?php echo $order_id; ?>').style.display = 'none';
+                                                document.getElementById('nd<?php echo $order_id; ?>').style.display = 'block';
+                                            }
+                                        });
+                                    });
+
+                                    function myFunction<?php echo $order_id; ?>() {
+                                        swal({
+                                            title: "Due Amount <?php echo $actual_amount  - $received_amount;?>",
+                                            text: "When you have received the full amount, you will be able to mail it.",
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                            })
+                                        }
+                                    
+                                    
+                                    </script>
+                                            
+                                    
+                                    <?php } ?>
+
                                 <!-- Payment status -->
+                                <?php if($role_id != 5 && $role_id != 4){ ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
                                         <select class="form-control" name="paymentstatus" required>
@@ -477,9 +850,106 @@ $currentURL = current_url();
                                         <label for="input10">Payment status</label>
                                     </div>
                                 </div>
+                                <?php }  else{?>
+                                    <div class="col-lg-4 d-none">
+                                    <div class="form-group has-warning m-b-40">
+                                        <select class="form-control" name="paymentstatus" required>
+                                            <option value="Pending" <?php if ($paymentstatus == 'Pending') {
+                                                                        echo "selected";
+                                                                    } ?>>Pending</option>
 
+                                            <option value="Completed" <?php if ($paymentstatus == 'Completed') {
+                                                                            echo "selected";
+                                                                        } ?>>Completed</option>
+                                        </select>
+                                        <span class="bar"></span>
+                                        <label for="input10">Payment status</label>
+                                    </div>
+                                </div>
+                                <?php } ?>
+
+                                
+                                <div class="col-lg-4"  style="" >
+                                    <div class="form-group has-warning m-b-40">
+                                        <select  class="show form-control pages" name="draftrequired" >
+                                            <option value=" " <?php if ( $draftrequired == ' ') {
+                                                                        echo "selected";
+                                                                    } ?>> </option>
+                                            <option value="Yes" <?php if ($draftrequired == 'Yes') {
+                                                                        echo "selected";
+                                                                    } ?>>Yes</option>
+                                            <option value="No" <?php if ($draftrequired == 'No') {
+                                                                        echo "selected";
+                                                                    } ?>>No</option>
+                                        </select>
+                                        <span class="bar"></span>
+                                        <label for="input10">Draft required</label>
+                                    </div>
+                                </div> 
+                             
+                                <!-- Delivery Date Time -->
+                                <?php if($draftrequired == 'Yes') { ?>
+                                <div class="col-lg-4 "  style='display:flex'  id='show<?php echo $order_id; ?>'  >
+                                    <div class="col-6 sow" >
+                                        <div class="form-group has-warning m-b-40">
+                                            <input type="text" class="form-control second  mdate" name="draft_date" value="<?php echo  date("Y-m-d", strtotime($draft_date)); ?>">
+                                            <span class="bar"></span>
+                                            <label for="input10">Draft Date</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="form-group has-warning m-b-40">
+                                            <input type="text" class="form-control timepicker" name="draft_time" value="<?php if (isset($draft_time) && !empty($draft_time)) {
+                                                              echo $draft_time;
+                                                        } ?>">
+                                            <span class="bar"></span>
+                                            <label for="input10">Draft Time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php }  else{?>
+                                    <div class="col-lg-4 "  id='show<?php echo $order_id; ?>' style='display:flex; display:none' >
+                                    <div class="col-6" >
+                                        <div class="form-group has-warning m-b-40">
+                                            <input type="text" class="form-control second  mdate" name="draft_date" value="">
+                                            <span class="bar"></span>
+                                            <label for="input10">Draft Date</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="form-group has-warning m-b-40">
+                                            <input type="text" class="form-control timepicker" name="draft_time" value="">
+                                            <span class="bar"></span>
+                                            <label for="input10">Draft Time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                                </div>
                             </div>
+                            <script>
+                                 $(document).ready(function(){ //Make script DOM ready
+                                    $('.show').change(function() { //jQuery Change Function
+                                        var opval = $(this).val(); //Get value from select element
+                                        if(opval=="Yes"){ //Compare it and if true
+                                        //   alert('d')
+                                            document.getElementById('show<?php echo $order_id; ?>').style.display = 'flex';
+                                            // document.getElementById('nd').style.display = 'none';
+                                        }
+                                        else
+                                        {
+                                            document.getElementById('show<?php echo $order_id; ?>').style.display = 'none';
+                                            // document.getElementById('nd<?php echo $order_id; ?>').style.display = 'block';
+                                        }
+                                    });
+                                });
+                                    
+                            </script>
+                          
                             <!-- / row -->
+                           
 
                             <!-- Enter message -->
                             <div class="col-lg-12">
@@ -517,7 +987,8 @@ $currentURL = current_url();
                     <!-- / row -->
 
                     <div class="row">
-                        <button type="submit" class="btn btn-primary btn-block">Update</button>
+                    <input style="display:none" type="button" id="d<?php echo $order_id; ?>" class="d btn btn-primary btn-block" value="Update" onclick="myFunction<?php echo $order_id; ?>()()" >
+                    <button type="submit" id="nd<?php echo $order_id; ?>"  class="btn btn-primary btn-block nd">Update</button>                                                            
                     </div>
 
                     </form>

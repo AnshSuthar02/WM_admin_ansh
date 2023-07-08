@@ -281,7 +281,7 @@ class User_authentication extends CI_Controller
 	    	//$this->session->set_flashdata('success', 'OTP is sent to your registered mail id');
 	    	// $data['success_mesg']=' OTP is sent to your registered mail id .';
 	    	$this->session->set_flashdata('success', 'OTP is sent to your registered mail id ');
-	     	$this->load->view('old_pages/otp_verify',$data);
+	     	$this->load->view('otp_verify',$data);
 	    }
 	   	else
 	    {

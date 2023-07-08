@@ -4,7 +4,141 @@ $current_page = current_url();
 $data = explode('?', $current_page);
 $role_id = $this->session->userdata['logged_in']['role_id'];
 ?>
+<?php if($role_id == 2){ ?>
+    <div class="modal-dialog modal-dialog-centered mw-800px">
+				<!--begin::Modal content-->
 
+                 
+
+				<div class="modal-content rounded">
+					<!--begin::Modal header-->
+					<div class="modal-header pb-0 border-0 justify-content-end">
+						<!--begin::Close-->
+						<div class="toolbar" id="kt_toolbar">
+                    <!--begin::Container-->
+                    <div id="" class="container-fluid d-flex flex-stack">
+                        <!--begin::Page title-->
+                        <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                            <!--begin::Title-->
+                            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">New Order</h1>
+                            <!--end::Title-->
+                        </div>
+                    </div>
+                    <!--end::Container-->
+                </div>
+						<!--end::Close-->
+					</div>
+					<!--begin::Modal header-->
+					<!--begin::Modal body-->
+					<div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+						<!--begin:Form-->
+						<form id="" class="form fv-plugins-bootstrap5 fv-plugins-framework" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/add_new_order" enctype="multipart/form-data">
+							<!--begin::Heading-->
+                            <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $order_id ?>" autofocus readonly="readonly">
+                            <input type="text" style="display:none;" name="order_type" value="Back-End">
+							<input type="text" style="display:none;" name="user_id" value="<?= @$user_id ?>">
+                            <div class="mb-13 text-center">
+								<!--begin::Title-->
+								<h1 class="mb-3">Create New Order</h1>
+								<!--end::Title-->
+								<!--begin::Description-->
+								
+								<!--end::Description-->
+							</div>
+							<!--end::Heading-->
+							<!--begin::Input group-->
+							<div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+								<!--begin::Label-->
+								<!-- <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+									<span class="required">Title</span>
+									<i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Specify a target name for future usage and reference" aria-label="Specify a target name for future usage and reference"></i>
+								</label> -->
+								<!--end::Label-->
+								<!-- <input type="text" class="form-control form-control-solid" placeholder="Enter Target Title" name="title"> -->
+							<div class="fv-plugins-message-container invalid-feedback"></div></div>
+							<!--end::Input group-->
+							<!--begin::Input group-->
+							<div class="row g-9 mb-8">
+								<!--begin::Col-->
+								<div class="col-md-12 fv-row fv-plugins-icon-container">
+									<label class="required fs-6 fw-bold mb-2">Delivery Date</label>
+                                    <input type="date" class="form-control form-control-solid" placeholder="Enter Target Title" name="delivery_date" required>
+
+
+								<!--end::Col-->
+								<!--begin::Col-->
+								
+								<!--end::Col-->
+							</div>
+							<!--end::Input group-->
+							<!--begin::Input group-->
+						
+                                    <input type="hidden" class="form-control first mdate" name="order_date" placeholder="" value="<?php echo date('Y-m-d'); ?>">
+                                   
+                                   
+                                
+                            </div>
+							<div class="d-flex flex-column mb-8">
+								<label class="fs-6 fw-bold mb-2">Discription</label>
+								<textarea class="form-control form-control-solid" rows="3" name="message" placeholder="Additional Details"></textarea>
+							</div>
+
+                            <div class="card">
+                                <h3 class="card-header text-center font-weight-bold text-uppercase py-4">
+                                    Upload File
+                                </h3>
+                                <div class="card-body">
+                                    <div class="form-group has-warning m-b-40">
+                                            <fieldset>
+                                                
+                                                <div class="table-responsive">
+                                                <table id="maintable" class= "p-5 table table-responsive-md data-table" id="data_table" border=1 celspacin>
+                                                    
+                                                        <thead style="">
+                                                           
+                                                        </thead>
+                                                        <tbody id="mainbody">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+							<!--end::Input group-->
+							<!--begin::Input group-->
+						
+							<!--end::Input group-->
+							<!--begin::Input group-->
+							
+							<!--end::Input group-->
+							<!--begin::Input group-->
+							<!--begin::Actions-->
+							<div class="text-center">
+                            <div class="row">
+                                <!-- <div class="col">
+                                    <button type="reset" class="btn btn-danger btn-block">Reset</button>
+                                </div> -->
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                                </div>
+                            </div>
+							</div>
+							<!--end::Actions-->
+						<div></div></form>
+						<!--end:Form-->
+					</div>
+					<!--end::Modal body-->
+				</div>
+				<!--end::Modal content-->
+			</div>
+
+
+    <?php } else { ?>
+ <div class="page-wrapper">
+        <div class="container-fluid">
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
   
@@ -289,6 +423,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
     <!-- End PAge Content -->
     <!-- ============================================================== -->
 </div>
+<?php } ?>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 

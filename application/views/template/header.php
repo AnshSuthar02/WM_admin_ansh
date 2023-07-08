@@ -24,6 +24,7 @@ if (isset($this->session->userdata['logged_in'])) {
     $name = $this->session->userdata['logged_in']['name'];
     $role_id = $this->session->userdata['logged_in']['role_id'];
     $role = $this->session->userdata['logged_in']['role'];
+   
 } else {
     header("location: login");
 }
@@ -39,7 +40,7 @@ if (isset($this->session->userdata['logged_in'])) {
     }
 
     .colo {
-        background-color: black;
+         background: #4f5467;
     }
     .logo-mb
     {
@@ -52,6 +53,414 @@ if (isset($this->session->userdata['logged_in'])) {
 
   }
 </style>
+
+<?php if($role_id == 2) {?>
+    
+		<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" /> -->
+		<!--end::Fonts-->
+		<!--begin::Page Vendor Stylesheets(used by this page)-->
+		<!-- <link href="<?php echo base_url(); ?>assets1/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" /> -->
+		<!-- <link href="<?php echo base_url(); ?>assets1/plugins/custom/vis-timeline/vis-timeline.bundle.css" rel="stylesheet" type="text/css" /> -->
+		<!--end::Page Vendor Stylesheets-->
+		<!--begin::Global Stylesheets Bundle(used by all pages)-->
+		<!-- <link href="<?php echo base_url(); ?>assets1/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" /> -->
+		<link href="<?php echo base_url(); ?>assets1/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    <div id="kt_header" style="" class="header align-items-stretch">
+		<!--begin::Container-->
+		<div class="container-fluid d-flex align-items-stretch justify-content-between">
+			<!--begin::Aside mobile toggle-->
+			<div class="d-flex align-items-center d-lg-none ms-n2 me-2" title="Show aside menu">
+				<div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_mobile_toggle">
+					<!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+					<span class="svg-icon svg-icon-1">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+							<path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="black" />
+							<path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="black" />
+						</svg>
+					</span>
+					<!--end::Svg Icon-->
+				</div>
+			</div>
+			<!--end::Aside mobile toggle-->
+			<!--begin::Mobile logo-->
+			<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
+				<a href="../../demo1/dist/index.html" class="d-lg-none">
+					<img alt="Logo" src="<?php echo base_url(); ?>uploads_old/assignment_logo.png" class="w-50px" />
+				</a>
+			</div>
+			<!--end::Mobile logo-->
+			<!--begin::Wrapper-->
+
+            <div class="card-toolbar mt-5" >
+				<a href="<?php echo base_url()?>/Orders/add" class="btn btn-sm btn-light btn-active-primary" >
+				<!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+				<span class="svg-icon svg-icon-3">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+						<rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="black" />
+						<rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="black" />
+					</svg>
+				</span>
+				<!--end::Svg Icon-->New Orders</a>
+			</div>
+			
+				<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div><div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					
+					<!--end::Toolbar wrapper-->
+			</div>
+			
+		
+			<div class="d-flex align-items-stretch flex-shrink-0">
+			    
+			    
+                        
+						<div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
+							<!--begin::Menu wrapper-->
+							<div style='font-size:25px' class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+								<i class="fa fa-bell" aria-hidden="true" ><?php echo sizeof($notification); ?></i>
+							</div>
+							<!--begin::User account menu-->
+							<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
+								<!--begin::Menu item-->
+							
+								<!--end::Menu item-->
+								<!--begin::Menu separator-->
+								<div class="separator my-2"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-5">
+								<span class="dropdown-item dropdown-header"><?php echo sizeof($notification); ?> Notifications</span>
+								<?php if(sizeof($notification)>0){ 
+                        			foreach($notification as $notify){
+                        			?>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-5">
+								<a href="<?php echo $notify_url ?>/<?php echo $notify['order_id'];?>/notify" class="dropdown-item">
+                                    <?= $notify['code']; ?>  <?= $notify['title']; ?>
+                                   
+                                  </a>
+                        			<?php } } ?>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+							
+								<!--end::Menu item-->
+								<!--begin::Menu separator-->
+								<div class="separator my-2"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+						    	<a href="<?= $notification_orders ?>/notify" class="dropdown-item dropdown-footer">See All Notifications</a>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+							
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								
+								<!--end::Menu item-->
+								<!--begin::Menu separator-->
+								<div class="separator my-2"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+								
+								<!--end::Menu item-->
+							</div>
+							<!--end::User account menu-->
+							<!--end::Menu wrapper-->
+						</div>
+						<!--end::User menu-->
+				
+						<!--end::Header menu toggle-->
+					</div>
+			
+			
+			<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+					<!--begin::Navbar-->
+					<div class="d-flex align-items-stretch" id="kt_header_nav">
+						<!--begin::Menu wrapper-->
+						<div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+							<!--begin::Menu-->
+							<div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
+								
+							</div>
+							<!--end::Menu-->
+						</div>
+						<!--end::Menu wrapper-->
+					</div>
+                    
+					<!--end::Navbar-->
+					<!--begin::Toolbar wrapper-->
+					<div class="d-flex align-items-stretch flex-shrink-0">
+                        
+						<div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
+							<!--begin::Menu wrapper-->
+							<div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+								<img src="<?php echo base_url() ?>uploads/customers/logo.png" alt="user" />
+							</div>
+							<!--begin::User account menu-->
+							<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
+								<!--begin::Menu item-->
+								<div class="menu-item px-3">
+									<div class="menu-content d-flex align-items-center px-3">
+										<!--begin::Avatar-->
+										<div class="symbol symbol-50px me-5">
+											<img alt="Logo" src="<?php echo base_url() ?>uploads/customers/logo.png" />
+										</div>
+										<!--end::Avatar-->
+										<!--begin::Username-->
+										<div class="d-flex flex-column">
+											<div class="fw-bolder d-flex align-items-center fs-5"><?php echo  $name ?>
+											<span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">User</span></div>
+											<a href="#" class="fw-bold text-muted text-hover-primary fs-7"><?php echo  $email ?></a>
+										</div>
+										<!--end::Username-->
+									</div>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu separator-->
+								<div class="separator my-2"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-5">
+									<a href="<?php echo base_url(); ?>index.php/Employees/MyProfile/<?= $user_id ?>" class="menu-link px-5">My Profile</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-5">
+									<a href="<?php echo base_url(); ?>index.php/User_authentication/MyPasswordChangeView" class="menu-link px-5">Change Password</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu separator-->
+								<div class="separator my-2"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+							
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+							
+								<!--end::Menu item-->
+								<!--begin::Menu item-->
+								<div class="menu-item px-5">
+									<a href="<?php echo base_url(); ?>index.php/User_authentication/logout" class="menu-link px-5">Sign Out</a>
+								</div>
+								<!--end::Menu item-->
+								<!--begin::Menu separator-->
+								<div class="separator my-2"></div>
+								<!--end::Menu separator-->
+								<!--begin::Menu item-->
+								
+								<!--end::Menu item-->
+							</div>
+							<!--end::User account menu-->
+							<!--end::Menu wrapper-->
+						</div>
+						<!--end::User menu-->
+				
+						<!--end::Header menu toggle-->
+					</div>
+					<!--end::Toolbar wrapper-->
+			</div>
+			<!--end::Wrapper-->
+		</div>
+		<!--end::Container-->
+	</div>
+
+
+    <script>var hostUrl = "assets/";</script>
+		<!--begin::Global Javascript Bundle(used by all pages)-->
+		<script src="<?php echo base_url(); ?>assets1/plugins/global/plugins.bundle.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/scripts.bundle.js"></script>
+		<!--end::Global Javascript Bundle-->
+		<!--begin::Page Vendors Javascript(used by this page)-->
+		<script src="<?php echo base_url(); ?>assets1/plugins/custom/datatables/datatables.bundle.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
+		<!--end::Page Vendors Javascript-->
+		<!--begin::Page Custom Javascript(used by this page)-->
+		<script src="<?php echo base_url(); ?>assets1/js/widgets.bundle.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/custom/widgets.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/custom/apps/chat/chat.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/custom/utilities/modals/upgrade-plan.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/custom/utilities/modals/create-campaign.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/custom/utilities/modals/create-app.js"></script>
+		<script src="<?php echo base_url(); ?>assets1/js/custom/utilities/modals/users-search.js"></script>
+
+<?php } else { ?>
 <body class="skin-default-dark fixed-layout">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -82,7 +491,7 @@ if (isset($this->session->userdata['logged_in'])) {
                             </div>
                         </div>
                     </div> -->
-                    <img src="https://www.assignnmentinneed.com/admin/uploads/logo-white.png" alt="" class="img-circle logo-mb2" style="width: 32%; background-color: #0c58b0;">
+                    <img src="https://www.assignnmentinneed.com/user_login/uploads/logo-white.png" alt="" class="img-circle logo-mb2" style="width: 32%; background-color: #0c58b0;">
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -108,58 +517,75 @@ if (isset($this->session->userdata['logged_in'])) {
                             </a>
                         </li>
                     </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
+                    
+                    
+                    
+                    <ul class="navbar-nav ml-auto">
+	
+            		  <li class="nav-item dropdown" style="font-size: 30px; color:blue;">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                     
+                     
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="width: 500px;">
+                     
+                    </div>
+                  </li>
+                  
+                  
+	  
+	  
+     
+	  <!-- Notifications Dropdown Menu -->
+    
+	  
+	  
+    </ul>
+    
+      <ul class="navbar-nav my-lg-0">
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        <li style="display: none;" class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="ti-email"></i>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"> 
+                                 <span class="badge badge-primary  navbar-badge btn" style="margin-top: -8px;border-radius:42%;background-color: #00bf5e"> <i style="font-size:20px;" class="fa fa-bell"></i> <sup style="color: #fff;"> <?php echo sizeof($notification); ?></sup></span>
                                 <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end mailbox animated bounceInDown">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">Notifications</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="btn btn-danger btn-circle text-white"><i class="fa fa-link"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Luanch Admin</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="btn btn-success btn-circle text-white"><i class="ti-calendar"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Event today</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)" class="hide-mb">
-                                                <div class="btn btn-info btn-circle text-white hide-mb"><i class="ti-settings"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Settings</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="btn btn-primary btn-circle"><i class="ti-user"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-center link" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
+                               <ul>
+                                <span class="dropdown-item dropdown-header"><?php echo sizeof($notification); ?> Feedback Message</span>
+                                <?php
+                                $distinctNotifications = array_unique(array_column($notification, 'order_id')); // Retrieve distinct notifications based on order_id
+                                
+                                foreach ($distinctNotifications as $order_id) {
+                                    $notify = null;
+                                    foreach ($notification as $item) {
+                                        if ($item['order_id'] == $order_id) {
+                                            $notify = $item;
+                                            break;
+                                        }
+                                    }
+                                    if ($notify) {
+                                ?>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="<?php echo $notify_url ?>/<?php echo $notify['order_id']; ?>/notify" class="dropdown-item">
+                                        <?= $notify['code']; ?>  <?= $notify['title']; ?>
+                                    </a>
+                                <?php
+                                    }
+                                }
+                                ?>
+                                <div class="dropdown-divider"></div>
+                                <a href="<?= $notification_orders ?>/notify" class="dropdown-item dropdown-footer">See All Notifications</a>
+                            </ul>
+
+
+
+
+
+
+
                             </div>
                         </li>
                         <!-- ============================================================== -->
@@ -168,173 +594,31 @@ if (isset($this->session->userdata['logged_in'])) {
                         <!-- ============================================================== -->
                         <!-- Messages -->
                         <!-- ============================================================== -->
-                        <li style="display: none;" class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-note"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                            </a>
-                            <div class="dropdown-menu mailbox dropdown-menu-end animated bounceInDown" aria-labelledby="2">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">You have 4 new messages</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="user-img"> <img src="<?php echo base_url(); ?>assets/images/users/1.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="user-img"> <img src="<?php echo base_url(); ?>assets/images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Sonu Nigam</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="user-img"> <img src="<?php echo base_url(); ?>assets/images/users/3.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Arijit Sinh</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                                </div>
-                                            </a>
-                                            <!-- Message -->
-                                            <a href="javascript:void(0)">
-                                                <div class="user-img"> <img src="<?php echo base_url(); ?>assets/images/users/4.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-center link" href="javascript:void(0);"> <strong>See all e-Mails</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->
                         <!-- ============================================================== -->
                         <!-- mega menu -->
                         <!-- ============================================================== -->
-                        <li style="display: none;" class="nav-item dropdown mega-dropdown"> <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti-layout-width-default"></i></a>
-                            <div class="dropdown-menu animated bounceInDown">
-                                <ul class="mega-dropdown-menu row">
-                                    <li class="col-lg-3 col-xlg-2 m-b-30">
-                                        <h4 class="m-b-20">CAROUSEL</h4>
-                                        <!-- CAROUSEL -->
-                                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                            <div class="carousel-inner" role="listbox">
-                                                <div class="carousel-item active">
-                                                    <div class="container"> <img class="d-block img-fluid" src="<?php echo base_url(); ?>assets/images/big/img1.jpg" alt="First slide"></div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="container"><img class="d-block img-fluid" src="<?php echo base_url(); ?>assets/images/big/img2.jpg" alt="Second slide"></div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="container"><img class="d-block img-fluid" src="<?php echo base_url(); ?>assets/images/big/img3.jpg" alt="Third slide"></div>
-                                                </div>
-                                            </div>
-                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
-                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
-                                        </div>
-                                        <!-- End CAROUSEL -->
-                                    </li>
-                                    <li class="col-lg-3 m-b-30">
-                                        <h4 class="m-b-20">ACCORDION</h4>
-                                        <!-- Accordian -->
-                                        <div class="accordion" id="accordionExample">
-                                            <div class="card m-b-0">
-                                                <div class="card-header bg-white p-0" id="headingOne">
-                                                    <h5 class="mb-0">
-                                                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            Collapsible Group Item #1
-                                                        </button>
-                                                    </h5>
-                                                </div>
-
-                                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                                    <div class="card-body">
-                                                        Anim pariatur cliche reprehenderit, enim eiusmod high.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card m-b-0">
-                                                <div class="card-header bg-white p-0" id="headingTwo">
-                                                    <h5 class="mb-0">
-                                                        <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                            Collapsible Group Item #2
-                                                        </button>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                                                    <div class="card-body">
-                                                        Anim pariatur cliche reprehenderit, enim eiusmod high.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card m-b-0">
-                                                <div class="card-header bg-white p-0" id="headingThree">
-                                                    <h5 class="mb-0">
-                                                        <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                            Collapsible Group Item #3
-                                                        </button>
-                                                    </h5>
-                                                </div>
-                                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                                                    <div class="card-body">
-                                                        Anim pariatur cliche reprehenderit, enim eiusmod high.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="col-lg-3  m-b-30">
-                                        <h4 class="m-b-20">CONTACT US</h4>
-                                        <!-- Contact -->
-                                        <form>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="email" class="form-control" placeholder="Enter email">
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Message"></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-info text-white">Submit</button>
-                                        </form>
-                                    </li>
-                                    <li class="col-lg-3 col-xlg-4 m-b-30">
-                                        <h4 class="m-b-20">List style</h4>
-                                        <!-- List style -->
-                                        <ul class="list-style-none">
-                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> You can give link</a></li>
-                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Give link</a></li>
-                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another Give link</a></li>
-                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Forth link</a></li>
-                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another fifth link</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                         <!-- ============================================================== -->
                         <!-- End mega menu -->
                         <!-- ============================================================== -->
-                        <li class="nav-item right-side-toggle hide-mb">
-                            <a class="nav-link  waves-effect waves-light" href="javascript:void(0)">
-                                <i class="ti-settings"></i>
-                            </a>
-                        </li>
+                        <li class="nav-item right-side-toggle"> <a class="nav-link  waves-effect waves-light"
+                                href="javascript:void(0)"><i class="ti-settings"></i></a></li>
                     </ul>
+    
+    
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                   
                 </div>
             </nav>
         </header>
+        
+        <?php } ?>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
@@ -346,3 +630,6 @@ if (isset($this->session->userdata['logged_in'])) {
                 alert('byy');
             });
         </script>
+        
+       
+        

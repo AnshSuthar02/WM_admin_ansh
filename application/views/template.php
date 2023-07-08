@@ -32,6 +32,30 @@ if (in_array($auth_page, $result)) {
 	<html>
 	<?php $this->load->view('template/css'); ?>
 
+    <?php if($role_id == 2) {?>
+
+	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+		<div class="d-flex flex-column flex-root">
+			<!-- include your header view here -->
+			<div class="page d-flex flex-row flex-column-fluid">
+				<?php $this->load->view('template/menu'); ?>
+				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+					<?php $this->load->view('template/header'); ?>
+
+					<div class="content-wrapper">
+						<section class="content">
+							<?= $contents ?>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+
+	<?php } else {?>
+
+
 	<body class="hold-transition sidebar-mini">
 		<div class="wrapper">
 			<!-- include your header view here -->
@@ -50,6 +74,7 @@ if (in_array($auth_page, $result)) {
 	<?php $this->load->view('template/js'); ?>
 
 	</html>
+	<?php } ?>
 
 <?php } else {
 	redirect('User_authentication/dashboard');

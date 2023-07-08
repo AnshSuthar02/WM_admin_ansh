@@ -20,6 +20,201 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 <!-- ============================================================== -->
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
+<?php if($role_id ==2){ ?>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+		<!--begin::Toolbar-->
+		<div class="toolbar" id="kt_toolbar">
+			<!--begin::Container-->
+			<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+				<!--begin::Page title-->
+				<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+					<!--begin::Title-->
+					<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">User Dashboard</h1>
+					<!--end::Title-->
+				</div>
+			</div>
+			<!--end::Container-->
+		</div>
+		<!--end::Toolbar-->
+		<!--begin::Post-->
+		
+		<div class="post d-flex flex-column-fluid" id="kt_post">
+			<!--begin::Container-->
+			<div id="kt_content_container" class="container-xxl">
+				<!--begin::Row-->
+				<div class="row g-5 g-xl-10 mb-xl-10">
+					<div class="col-md-6 col-lg-6 col-xl-12 col-xxl-3 mb-md-5 mb-xl-10">
+						<!--begin::Card widget 4-->
+						<a href="<?= base_url('index.php/Orders/index'); ?>">
+						<div class="card card-flush h-md-50 mb-5 mb-xl-10">
+							<!--begin::Header-->
+							<div class="card-header pt-5">
+								<!--begin::Title-->
+								<div class="card-title d-flex flex-column">
+									<!--begin::Info-->
+									<div class="d-flex align-items-center">
+										<!--begin::Currency-->
+										<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"></span>
+										<!--end::Currency-->
+										<!--begin::Amount-->
+										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $TotalOrders ?></span>
+										<!--end::Amount-->
+										<!--begin::Badge-->
+										<span class="badge badge-success fs-6 lh-1 py-1 px-2 d-flex flex-center" style="height: 22px">
+										<!--begin::Svg Icon | path: icons/duotune/arrows/arr067.svg-->
+										<span class="svg-icon svg-icon-7 svg-icon-white ms-n1">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+												<path opacity="0.5" d="M13 9.59998V21C13 21.6 12.6 22 12 22C11.4 22 11 21.6 11 21V9.59998H13Z" fill="black" />
+												<path d="M5.7071 7.89291C5.07714 8.52288 5.52331 9.60002 6.41421 9.60002H17.5858C18.4767 9.60002 18.9229 8.52288 18.2929 7.89291L12.7 2.3C12.3 1.9 11.7 1.9 11.3 2.3L5.7071 7.89291Z" fill="black" />
+											</svg>
+										</span>
+										<!--end::Svg Icon--></span>
+										<!--end::Badge-->
+									</div>
+									<!--end::Info-->
+									<!--begin::Subtitle-->
+									<span class="text-gray-400 pt-1 fw-bold fs-6">  Your Total Orders</span>
+									<!--end::Subtitle-->
+								</div>
+								<!--end::Title-->
+							</div>
+							<!--end::Header-->
+							<!--begin::Card body-->
+							
+							<!--end::Card body-->
+						</div>
+						</a>
+						<!--end::Card widget 4-->
+						<!--begin::Card widget 5-->
+						
+						<div class="col-md-6 col-lg-6 col-xl-12 col-xxl-3 mb-md-5 mb-xl-10">
+						 <a href="<?= base_url('index.php/Orders/index') ;?>?customer_id=0&order_id=0&from_date=<?php echo date("d-m-Y"); ?>&upto_date=<?php echo date("d-m-Y"); ?>&order_date_filter=order_date&status=&title=">
+
+						<!--begin::Card widget 6-->
+						<div class="card card-flush h-md-50 mb-5 mb-xl-10">
+							<!--begin::Header-->
+							<div class="card-header pt-5">
+								<!--begin::Title-->
+								<div class="card-title d-flex flex-column">
+									<!--begin::Info-->
+									<div class="d-flex align-items-center">
+										<!--begin::Currency-->
+										<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"></span>
+										<!--end::Currency-->
+										<!--begin::Amount-->
+										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $TotalOrdersToday ?></span>
+										<!--end::Amount-->
+										<!--begin::Badge-->
+										<span class="badge badge-success fs-6 lh-1 py-1 px-2 d-flex flex-center" style="height: 22px">
+										<!--begin::Svg Icon | path: icons/duotune/arrows/arr067.svg-->
+										<span class="svg-icon svg-icon-7 svg-icon-white ms-n1">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+												<path opacity="0.5" d="M13 9.59998V21C13 21.6 12.6 22 12 22C11.4 22 11 21.6 11 21V9.59998H13Z" fill="black" />
+												<path d="M5.7071 7.89291C5.07714 8.52288 5.52331 9.60002 6.41421 9.60002H17.5858C18.4767 9.60002 18.9229 8.52288 18.2929 7.89291L12.7 2.3C12.3 1.9 11.7 1.9 11.3 2.3L5.7071 7.89291Z" fill="black" />
+											</svg>
+										</span>
+										<!--end::Svg Icon--></span>
+										<!--end::Badge-->
+									</div>
+									<!--end::Info-->
+									<!--begin::Subtitle-->
+									<span class="text-gray-400 pt-1 fw-bold fs-6">Today's Order</span>
+									<!--end::Subtitle-->
+								</div>
+								<!--end::Title-->
+							</div>
+							<!--end::Header-->
+							<!--begin::Card body-->
+							
+							<!--end::Card body-->
+						</div>
+						</a>
+						<!--end::Card widget 6-->
+						<!--begin::Card widget 7-->
+					
+					</div>
+						
+						<a href="">
+						<div class="card card-flush h-md-50 mb-5 mb-xl-10">
+							<!--begin::Header-->
+							<div class="card-header pt-5">
+								<!--begin::Title-->
+								<div class="card-title d-flex flex-column">
+									<!--begin::Info-->
+									<div class="d-flex align-items-center">
+										<!--begin::Currency-->
+										<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"></span>
+										<!--end::Currency-->
+										<!--begin::Amount-->
+										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $pending_orders ?></span>
+										<!--end::Amount-->
+										<!--begin::Badge-->
+										<span class="badge badge-success fs-6 lh-1 py-1 px-2 d-flex flex-center" style="height: 22px">
+										<!--begin::Svg Icon | path: icons/duotune/arrows/arr067.svg-->
+										<span class="svg-icon svg-icon-7 svg-icon-white ms-n1">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+												<path opacity="0.5" d="M13 9.59998V21C13 21.6 12.6 22 12 22C11.4 22 11 21.6 11 21V9.59998H13Z" fill="black" />
+												<path d="M5.7071 7.89291C5.07714 8.52288 5.52331 9.60002 6.41421 9.60002H17.5858C18.4767 9.60002 18.9229 8.52288 18.2929 7.89291L12.7 2.3C12.3 1.9 11.7 1.9 11.3 2.3L5.7071 7.89291Z" fill="black" />
+											</svg>
+										</span>
+										<!--end::Svg Icon--></span>
+										<!--end::Badge-->
+									</div>
+									
+									
+									<!--end::Info-->
+									<!--begin::Subtitle-->
+								
+									<!--end::Subtitle-->
+								</div>
+								<!--end::Title-->
+							</div>
+							<div class="card-body pt-2 pb-4 d-flex align-items-center">
+								<!--begin::Chart-->
+								<div class="d-flex flex-center me-5 pt-2">
+									<div id="kt_card_widget_4_chart" style="min-width: 70px; min-height: 70px" data-kt-size="90" data-kt-line="15"></div>
+								</div>
+								<!--end::Chart-->
+								<!--begin::Labels-->
+								<div class="d-flex flex-column content-justify-center w-100">
+									<!--begin::Label-->
+									<div class="d-flex fs-6 fw-bold align-items-center">
+										<!--begin::Bullet-->
+										<div class="bullet w-8px h-6px rounded-2 bg-danger me-3"></div>
+										<!--end::Bullet-->
+										<!--begin::Label-->
+										<div class="text-gray-500 flex-grow-1 me-4">PendingOrders</div>
+										<!--end::Label-->
+										<!--begin::Stats-->
+									
+										<!--end::Stats-->
+									</div>
+									<!--end::Label-->
+									<!--begin::Label-->
+								
+								</div>
+								<!--end::Labels-->
+							</div>
+							<!--end::Header-->
+							<!--begin::Card body-->
+							
+							<!--end::Card body-->
+						</div>
+						<!--end::Card widget 5-->
+					</div>
+					</a>
+					
+					<!--begin::Col-->
+									
+				</div>
+								
+			</div>
+			<!--end::Container-->
+		</div>
+		<!--end::Post-->
+	</div>
+
+<?php } else { ?>
 <div class="page-wrapper">
     <!-- ============================================================== -->
     <!-- Container fluid  -->
@@ -393,6 +588,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
     <!-- End Container fluid  -->
     <!-- ============================================================== -->
 </div>
+<?php } ?>
 <!-- ============================================================== -->
 <!-- End Page wrapper  -->
 <!-- ============================================================== -->
