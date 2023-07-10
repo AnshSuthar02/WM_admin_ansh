@@ -290,30 +290,32 @@ class Leads extends CI_Controller
     public function convert_lead()
     {
         $login_id = $this->session->userdata['logged_in']['id'];
-
-        if ((isset($_POST['mobile']) && $_POST['mobile'] != 'NA')) {
-            $this->db->select('*');
-            $this->db->from('employees');
-            $this->db->where('employees.mobile_no', $_POST['mobile']);
-            $query1 = $this->db->get();
-            $user_record = $query1->row_array();
-        } else {
-            $user_record = '';
-        }
-
+    
+        $email = isset($_POST['email']) && $_POST['email'] != 'NA' ? $_POST['email'] : '';
+        $mobile = isset($_POST['mobile']) && $_POST['mobile'] != 'NA' ? $_POST['mobile'] : '';
+    
+        // Check if email exists in the employees table
+        $this->db->select('*');
+        $this->db->from('employees');
+        $this->db->where('employees.email', $email);
+        $query = $this->db->get();
+        $user_record = $query->row_array();
+    
         $userData = array();
-        if (!isset($user_record) && empty($user_record)) {
-            $userData['role_id']    = 2;
-            $userData['password']   = md5('User@123');
+    
+        if (empty($user_record)) {
+            // Insert new employee
+            $userData['role_id'] = 2;
+            $userData['password'] = md5('User@123');
             $userData['created_by'] = $_POST['emp_id'];
             if (isset($_POST['user_name']) && !empty($_POST['user_name'])) {
                 $userData['name'] = $_POST['user_name'];
             }
-            if (isset($_POST['email']) && !empty($_POST['email']) && $_POST['email'] != 'NA') {
-                $userData['email']    = $_POST['email'];
-                $userData['username'] = $_POST['email'];
+            if (!empty($email)) {
+                $userData['email'] = $email;
+                $userData['username'] = $email;
             } else {
-                $last_6 = substr($_POST['mobile'], -6);
+                $last_6 = substr($mobile, -6);
                 $str = 'user' . $last_6;
                 $userData['email'] = $str;
             }
@@ -322,18 +324,20 @@ class Leads extends CI_Controller
             } else {
                 $userData['countrycode'] = $_POST['countrycode'];
             }
-            if (isset($_POST['mobile']) && !empty($_POST['mobile'])) {
-                $userData['mobile_no'] = $_POST['mobile'];
+            if (!empty($mobile)) {
+                $userData['mobile_no'] = $mobile;
             }
+    
             $this->db->insert('employees', $userData);
             $insert_id = $this->db->insert_id();
-        } else if (isset($user_record['id']) && !empty($user_record['id'])) {
+        } else {
+            // Update existing employee
             if (isset($_POST['user_name']) && !empty($_POST['user_name'])) {
                 $userData['name'] = $_POST['user_name'];
             }
-            if (isset($_POST['email']) && !empty($_POST['email']) && $_POST['email'] != 'NA') {
-                $userData['email']    = $_POST['email'];
-                $userData['username'] = $_POST['email'];
+            if (!empty($email)) {
+                $userData['email'] = $email;
+                $userData['username'] = $email;
             }
             if (isset($_POST['phonecode']) && !empty($_POST['phonecode'])) {
                 $userData['countrycode'] = $_POST['phonecode'];
@@ -341,15 +345,14 @@ class Leads extends CI_Controller
             if (isset($_POST['countrycode']) && !empty($_POST['countrycode'])) {
                 $userData['countrycode'] = $_POST['countrycode'];
             }
-
+    
             $this->db->set('edited_by', $login_id);
             $this->db->where('id', $user_record['id']);
             $this->db->update('employees', $userData);
             $insert_id = $user_record['id'];
-        } else {
-            $insert_id = '';
+        
         }
-
+    
         if (isset($insert_id) && !empty($insert_id)) {
             $date1   = date("Y-m-d");
             $date2   = date("Y-m-d", strtotime($this->input->post('deadline')));
@@ -357,10 +360,10 @@ class Leads extends CI_Controller
             $years   = floor($diff / (365 * 60 * 60 * 24));
             $months  = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
             $days    = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
-
+    
             $orderData = array();
             $orderData['uid']            = $insert_id;
-
+    
             if (isset($_POST['order_id']) && !empty($_POST['order_id'])) {
                 $orderData['order_id'] = $_POST['order_id'];
             } else {
@@ -368,7 +371,7 @@ class Leads extends CI_Controller
                 $order_id              = 'UKS' . $voucher_no;
                 $orderData['order_id'] = $order_id;
             }
-
+    
             $orderData['order_date']     = $date1;
             $orderData['services']       = 'First Class Standard';
             $orderData['formatting']     = 'Harvard';
@@ -384,51 +387,39 @@ class Leads extends CI_Controller
             $orderData['discount_per']   = 0;
             $orderData['amount']         = $_POST['price'];
             $orderData['paymentstatus']  = 'Pending';
-            $orderData['projectstatus']  = 'Other';
+            $orderData['projectstatus']  = 'Pending';
             $orderData['order_type']     = 'Back-End';
             $orderData['created_by']     = $login_id;
-
+    
             $lead_id = $_POST['id'];
             $this->db->select('*');
             $this->db->from('orders');
             $this->db->where('orders.lead_id', $lead_id);
             $query2 = $this->db->get();
             $ordDt1 = $query2->row_array();
-
+    
             if (isset($ordDt1) && !empty($ordDt1)) {
-
+                // Update existing order
                 $order_row_id = $orderData['order_id'];
                 $this->db->select('*');
                 $this->db->from('orders');
                 $this->db->where('orders.order_id', $order_row_id);
                 $query3 = $this->db->get();
                 $ordDt2 = $query3->row_array();
-
-                if (isset($ordDt2) && !empty($ordDt2)) {
-                    $orderData['flag'] = '0';
-                    $this->db->select('*');
-                    $this->db->from('orders');
-                    $this->db->where('lead_id', $_POST['id']);
-                    $this->db->update('orders', $orderData);
-
-                    $this->db->select('*');
-                    $this->db->from('leads');
+    
+                } else {
+                    // Insert new order
+                    $this->db->insert('orders', $orderData);
+                
+                    // Delete the corresponding lead entry
                     $this->db->where('id', $_POST['id']);
                     $this->db->delete('leads');
+                
                     redirect('/Orders/index', 'refresh');
-                } else {
-                    $this->session->set_flashdata('failed', 'Insertion Failed');
-                    redirect('/Leads/index', 'refresh');
                 }
-            } else {
-                $this->session->set_flashdata('failed', 'Insertion Failed');
-                redirect('/Leads/index', 'refresh');
-            }
-        } else {
-            $this->session->set_flashdata('failed', 'Insertion Failed');
-            redirect('/Leads/index', 'refresh');
         }
     }
+                
 
     public function getUserDetails()
     {
