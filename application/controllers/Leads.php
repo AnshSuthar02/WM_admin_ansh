@@ -350,7 +350,7 @@ class Leads extends CI_Controller
             $this->db->where('id', $user_record['id']);
             $this->db->update('employees', $userData);
             $insert_id = $user_record['id'];
-        
+    
         }
     
         if (isset($insert_id) && !empty($insert_id)) {
@@ -406,19 +406,37 @@ class Leads extends CI_Controller
                 $this->db->where('orders.order_id', $order_row_id);
                 $query3 = $this->db->get();
                 $ordDt2 = $query3->row_array();
+            } else {
+                // Insert new order
+                $this->db->insert('orders', $orderData);
+                $insert_id = $this->db->insert_id();
     
-                } else {
-                    // Insert new order
-                    $this->db->insert('orders', $orderData);
-                
-                    // Delete the corresponding lead entry
-                    $this->db->where('id', $_POST['id']);
-                    $this->db->delete('leads');
-                
-                    redirect('/Orders/index', 'refresh');
+                // Check if entry exists in files_db table
+                $this->db->select('*');
+                $this->db->from('files_db');
+                $this->db->where('files_db.u_id', $_POST['emp_id']);
+                $this->db->where('files_db.detail_id', $_POST['id']);
+                $query4 = $this->db->get();
+                $fileData = $query4->row_array();
+    
+                if (isset($fileData) && !empty($fileData)) {
+                    // Update detail_id with the converted order's ID
+                    $this->db->set('detail_id', $insert_id);
+                    $this->db->where('files_db.u_id', $_POST['emp_id']);
+                    $this->db->where('files_db.detail_id', $_POST['id']);
+                    $this->db->update('files_db');
                 }
+    
+                // Delete the corresponding lead entry
+                $this->db->where('id', $_POST['id']);
+                $this->db->delete('leads');
+    
+                redirect('/Orders/index', 'refresh');
+            }
         }
     }
+    
+
                 
 
     public function getUserDetails()

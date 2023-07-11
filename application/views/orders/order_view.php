@@ -139,6 +139,154 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 											    </tr>
 											</thead>
 											<tbody>
+                                                <?php foreach ($leads as $obj ) { ?>
+                                                   <tr>
+                                                         <td>
+                                                           <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6 d-flex"><?php echo $obj['order_id']; ?> <span class="label label-primary" style="background-color:#ff8acc" > Pending </span> </a>
+                                                           <b><span style="color:blue" class="">(<?php echo date('d-M-Y', strtotime($obj['deadline'])); ?>)</span></b>
+                                                           <span class="text-muted fw-bold text-muted d-block fs-7"><?php echo $obj['project_title']; ?></span>
+                                                           
+                                                       </td>
+                                                       <td>
+                                                       <div class="d-flex flex-shrink-0">
+																 <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " data-bs-toggle="modal" data-bs-target="#kt_modal_new_targetleads<?php echo $obj['order_id']; ?>">
+																	<span class="svg-icon svg-icon-3">
+																		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+																			<path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="black" />
+																			<path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="black" />
+																		</svg>
+																	</span>
+                                                                   
+																</a>
+                                                                <div class="modal fade" id="kt_modal_new_targetleads<?php echo $obj['order_id']; ?>" tabindex="-1" aria-hidden="true">
+                                                                        <!--begin::Modal dialog-->
+                                                                        <div class="modal-dialog modal-dialog-centered mw-650px">
+                                                                            <!--begin::Modal content-->
+                                                                            <div class="modal-content rounded">
+                                                                                <!--begin::Modal header-->
+                                                                                <div class="modal-header pb-0 border-0 justify-content-end">
+                                                                                    <!--begin::Close-->
+                                                                                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                                        <span class="svg-icon svg-icon-1">
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                                                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+                                                                                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+                                                                                            </svg>
+                                                                                        </span>
+                                                                                        <!--end::Svg Icon-->
+                                                                                    </div>
+                                                                                    <!--end::Close-->
+                                                                                </div>
+                                                                                <!--begin::Modal header-->
+                                                                                <!--begin::Modal body-->
+                                                                                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                                                    <!--begin:Form-->
+                                                                                    <form id="kt_modal_new_target_form" class="form" action="#">
+                                                                                        <!--begin::Heading-->
+                                                                                        <div class="mb-13 text-center">
+                                                                                       
+                                                                                            <!--begin::Title-->
+                                                                                            <h1 class="mb-3">Order View <?php echo $obj['id']; ?> </h1>
+                                                                                            <!--end::Title-->
+                                                                                            <!--begin::Description-->
+                                                                                            <div class="text-muted fw-bold fs-5"><?php echo $obj['order_id']; ?>
+                                                                                            <a href="#" class="fw-bolder link-primary"> <span class="label label-primary" style="background-color:#ff8acc;">Pending</span></a></div>
+                                                                                            <!--end::Description-->
+                                                                                        </div>
+                                                                                        <!--end::Heading-->
+                                                                                        <!--begin::Input group-->
+                                                                                        <div class="d-flex flex-column mb-8 fv-row">
+                                                                                            <!--end::Label-->
+                                                                                             <label class=" fs-6 fw-bold mb-2">Title</label>
+                                                                                            <input type="text" readonly class="form-control form-control-solid" placeholder="" value="<?php echo $obj['project_title']; ?>" name="target_title" />
+                                                                                        </div>
+                                                                                        <!--end::Input group-->
+                                                                                        <!--begin::Input group-->
+                                                                                        <div class="row g-9 mb-8">
+                                                                                            <!--begin::Col-->
+                                                                                           
+                                                                                            <div class="col-md-6 fv-row">
+                                                                                                <label class=" fs-6 fw-bold mb-2">Order Date</label>
+                                                                                            <input type="text" readonly class="form-control form-control-solid" placeholder="" value="<?php echo date('d-M-Y', strtotime($obj['create_at'])); ?>" name="target_title" />
+                                                                                               
+                                                                                            </div>
+                                                                                            <!--end::Col-->
+                                                                                            <!--begin::Col-->
+                                                                                            <div class="col-md-6 fv-row">
+                                                                                                <label class=" fs-6 fw-bold mb-2">Delivery  Date</label>
+                                                                                                <input type="text" readonly class="form-control form-control-solid" placeholder="" value="<?php echo date('d-M-Y', strtotime($obj['deadline'])); ?>" name="target_title" />
+                                                                                           
+                                                                                            </div>
+                                                                                            <!--end::Col-->
+                                                                                        </div>
+
+                                                                                       
+
+                                                                                        <div class="row g-9 mb-8">
+                                                                                            <!--begin::Col-->
+                                                                                            <div class="col-md-6 fv-row">
+                                                                                                <label class=" fs-6 fw-bold mb-2">Pages</label>
+                                                                                            <input type="text" readonly class="form-control form-control-solid" placeholder="" value="<?php echo $obj['pages']; ?>" name="target_title" />
+                                                                                               
+                                                                                            </div>
+                                                                                            <!--end::Col-->
+                                                                                            <!--begin::Col-->
+                                                                                            <!-- <div class="col-md-6 fv-row">
+                                                                                                <label class=" fs-6 fw-bold mb-2">Total Amount</label>
+                                                                                                <input type="text" readonly class="form-control form-control-solid" placeholder="" value="<?php echo $obj['amount']; ?>" name="target_title" />
+                                                                                           
+                                                                                            </div> -->
+                                                                                            <!--end::Col-->
+                                                                                        </div>
+
+                                                                                        <div class="row g-9 mb-8">
+                                                                                            <!--begin::Col-->
+                                                                                            <!-- <div class="col-md-6 fv-row">
+                                                                                                <label class=" fs-6 fw-bold mb-2">Paid Amount</label>
+                                                                                            <input type="text" readonly class="form-control form-control-solid" placeholder="" value="<?php echo $obj['received_amount']; ?>" name="target_title" />
+                                                                                               
+                                                                                            </div> -->
+                                                                                            <!--end::Col-->
+                                                                                            <!--begin::Col-->
+                                                                                            <!-- <div class="col-md-6 fv-row">
+                                                                                                <label class=" fs-6 fw-bold mb-2">Due amount</label>
+                                                                                                <input readonly type="text" class="form-control form-control-solid" placeholder="" value=" <?php
+                                                                                                if (!isset($obj['amount']) && empty($obj['amount'])) {
+                                                                                                    $obj['amount'] = 0;
+                                                                                                }
+                                                                                                echo (int)$obj['amount'] - (int)$obj['received_amount'];
+                                                                                                ?>" name="target_title" />
+                                                                                           
+                                                                                            </div> -->
+                                                                                            <!--end::Col-->
+                                                                                        </div>
+
+                                                                                       
+                                                                                    </form>
+                                                                                    <!--end:Form-->
+                                                                                </div>
+                                                                                <!--end::Modal body-->
+                                                                            </div>
+                                                                            <!--end::Modal content-->
+                                                                        </div>
+                                                                        <!--end::Modal dialog-->
+                                                            </div>
+                                                                
+                                                                <!-- <a href="<?php echo base_url(); ?>index.php/Orders/feedback/<?php echo $obj['id']; ?>" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " ><i style='font: size 10px;' class="	fas fa-comments"></i></a>
+                                                               <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " data-bs-toggle="modal" data-bs-target="#kt_modal_new_target1<?php echo $obj['order_id']; ?>">
+																<i style='font: size 10px;' class="	fas fa-download"></i> -->
+                                                                   
+																</a>
+															</div>
+                                                       </td>
+                                                       
+                                                   </tr> 
+                                                    
+                                                <?php  }?>
+
+
+
                                                 <?php foreach ($orders as $obj) { ?>
                                                     <?php
                                                         if ($obj['projectstatus'] == 'Pending') {

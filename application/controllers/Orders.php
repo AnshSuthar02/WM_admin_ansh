@@ -261,6 +261,7 @@ public function emailindusial()
 			$online_order = 0;
 			if ($role_id == 2) {
 				$data['orders'] = $this->order_model->order_listnew($login_id, $config["per_page"], $page, $online_order);
+				$data['leads'] = $this->order_model->order_listnews($login_id, $config["per_page"], $page, $online_order);
 			} else {
 				$data['orders'] = $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
 			}
@@ -277,7 +278,7 @@ public function emailindusial()
 		$data['users'] 				= $this->order_model->getUsersList();
 		$data['prefix'] 			= array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 		$data['o_counts'] 			= count($data['orders']);
-		// pre($data);
+		// pre($data['leads']);
 		// die();
 		$this->template->load('template', 'orders/order_view', $data);
 	}
@@ -341,6 +342,7 @@ public function emailindusial()
 			$online_order = 1;
 			if ($role_id == 2) {
 				$data['orders'] = $this->order_model->order_listnew($login_id, $config["per_page"], $page, $online_order);
+				
 			} else {
 				$data['orders'] = $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
 			}
@@ -356,8 +358,7 @@ public function emailindusial()
 		$data['users'] 				= $this->order_model->getUsersList();
 		$data['prefix'] 			= array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 		$data['o_counts'] 			= count($data['orders']);
-		// pre($data);
-		// die();
+		
 		$this->template->load('template', 'orders/order_view', $data);
 	}
 
