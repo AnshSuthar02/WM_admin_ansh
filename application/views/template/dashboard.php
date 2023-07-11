@@ -57,7 +57,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 										<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"></span>
 										<!--end::Currency-->
 										<!--begin::Amount-->
-										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $TotalOrders ?></span>
+										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $TotalOrders + $leads_total ?></span>
 										<!--end::Amount-->
 										<!--begin::Badge-->
 										<span class="badge badge-success fs-6 lh-1 py-1 px-2 d-flex flex-center" style="height: 22px">
@@ -102,7 +102,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 										<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"></span>
 										<!--end::Currency-->
 										<!--begin::Amount-->
-										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $TotalOrdersToday ?></span>
+										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $TotalOrdersToday + $totalleads ?></span>
 										<!--end::Amount-->
 										<!--begin::Badge-->
 										<span class="badge badge-success fs-6 lh-1 py-1 px-2 d-flex flex-center" style="height: 22px">
@@ -146,7 +146,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 										<span class="fs-4 fw-bold text-gray-400 me-1 align-self-start"></span>
 										<!--end::Currency-->
 										<!--begin::Amount-->
-										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $pending_orders ?></span>
+										<span class="fs-2hx fw-bolder text-dark me-2 lh-1"><?php echo  $pending_orders + $leads_total ?></span>
 										<!--end::Amount-->
 										<!--begin::Badge-->
 										<span class="badge badge-success fs-6 lh-1 py-1 px-2 d-flex flex-center" style="height: 22px">

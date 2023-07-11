@@ -47,11 +47,14 @@ class User_authentication extends CI_Controller
 			$data['title'] = 'User Dashboard';
 			$data['total_customers'] = $this->order_model->MyReferalsTotal();
 			$data['TotalOrders'] = $this->order_model->TotalOrdersUser();
+			$data['leads_total'] = $this->order_model->TotalLeadsUser();
+			$data['totalleads'] = $this->order_model->TotalLeadsTodayUser();
 			$data['TotalOrdersCurrentMonth'] = $this->order_model->TotalOrdersCurrentMonth();
 			$data['TotalOrdersToday'] = $this->order_model->TotalOrdersTodayUSer();
 			$data['pending_orders'] = $this->order_model->TotalOrdersPendingUser();
 			$data['orders_10'] = $this->order_model->order_list_10($login_id);
 			$data['orders'] = $this->order_model->order_listnew($login_id, $config["per_page"], $page);
+			
 		}
 
 		$data['one']   = date('m');
