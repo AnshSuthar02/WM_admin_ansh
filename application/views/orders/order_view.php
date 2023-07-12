@@ -139,7 +139,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 											    </tr>
 											</thead>
 											<tbody>
-                                                <?php foreach ($leads as $obj ) { ?>
+											     <?php foreach ($leads as $obj ) { ?>
                                                    <tr>
                                                          <td>
                                                            <a href="#" class="text-dark fw-bolder text-hover-primary d-block fs-6 d-flex"><?php echo $obj['order_id']; ?> <span class="label label-primary" style="background-color:#ff8acc" > Pending </span> </a>
@@ -284,9 +284,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                    </tr> 
                                                     
                                                 <?php  }?>
-
-
-
                                                 <?php foreach ($orders as $obj) { ?>
                                                     <?php
                                                         if ($obj['projectstatus'] == 'Pending') {
@@ -748,6 +745,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                                             <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
                                             } ?>>team 12</option>
+                                             <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                                                                                } ?>>team 13</option>
                                         </select>
                                     </div>
                                     
@@ -858,7 +857,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
 
 
-                                        <tr  class="<?php echo $class; ?>"  <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order" order_id="<?= $obj['id'] ?>">
+                                        <tr <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order " order_id="<?= $obj['id'] ?>">
                                             <input type="hidden" class="row_id" value="<?= $obj['id'] ?>">
                                             <input type="hidden" class="uid" value="<?= $obj['uid'] ?>">
                                             <td class="hide-mb">
@@ -1232,7 +1231,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                             <td>
                                                                                                 <?php echo $p_obj['reference']; ?>
                                                                                                 <input type="hidden" class="row_id" value="<?php echo $p_obj['id']; ?>">
-                                                                                                <input type="hidden" class="uid" value="<?php echo $p_obj['uid']; ?>">
+                                                                                                
                                                                                                 <input type="hidden" class="row_paid_amount" value="<?php echo $p_obj['paid_amount']; ?>">
                                                                                                 <input type="hidden" class="row_order_row_id" value="<?= $p_obj['order_id'] ?>">
                                                                                             </td>
@@ -1535,86 +1534,90 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if ($role_id != '3') { ?>
                                                                                         <?php if ($obj['projectstatus'] == 'In Progress') { ?>
-                                                                                            <select name="writer_name" class="form-control" required>
-                                                                                                    <option value=" " <?php if (@$obj['writer_name'] == ' ') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>> </option>
-                                                                                                    <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 1</option>
-                                                                                                    <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 3</option>
-                                                                                                    <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 3</option>
-                                                                                                    <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 4</option>
-                                                                                                    <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 5</option>
-                                                                                                    <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 6</option>
-                                                                                                    <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 7</option>
-                                                                                                    <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 8</option>
-                                                                                                    <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team  9</option>
-                                                                                                    <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
-                                                                                                                } ?>>team 10</option>
-                                                                                                    <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
-                                                                                                 } ?>>team 11</option>
-                                                                                                  <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
-                                                                                                 } ?>>team 12</option>
-                                                                                                 
+                                                                                             <select name="writer_name" class="form-control" required>
+                                                                                                <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>> </option>
+                                                                                                <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 1</option>
+                                                                                                <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 2</option>
+                                                                                                <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 3</option>
+                                                                                                <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 4</option>
+                                                                                                <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 5</option>
+                                                                                                <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 6</option>
+                                                                                                <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 7</option>
+                                                                                                <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 8</option>
+                                                                                                <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team  9</option>
+                                                                                                <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                                                                                            } ?>>team 10</option>
+                                                                                                <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                                                                                } ?>>team 11</option>
+                                                    
+                                                                                                <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                                                                                } ?>>team 12</option>
+                                                                                                 <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                                                                                } ?>>team 13</option>
                                                                                             </select>
                                                                                             <span class="bar"></span>
                                                                                             <label for="input10">Writer name (Select team)</label>
                                                                                         <?php } else { ?>
-                                                                                            <select name="writer_name" class="form-control" required>
-                                                                                                    <option value=" " <?php if (@$obj['writer_name'] == ' ') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>> </option>
-                                                                                                    <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 1</option>
-                                                                                                    <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 3</option>
-                                                                                                    <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 3</option>
-                                                                                                    <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 4</option>
-                                                                                                    <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 5</option>
-                                                                                                    <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 6</option>
-                                                                                                    <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 7</option>
-                                                                                                    <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team 8</option>
-                                                                                                    <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
-                                                                                                                    echo "selected";
-                                                                                                                } ?>>team  9</option>
-                                                                                                    <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
-                                                                                                                } ?>>team 10</option>
-                                                                                                    <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
-                                                                                                 } ?>>team 11</option>
-                                                                                                    <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
-                                                                                                 } ?>>team 12</option>
-                                                                                            
+                                                                                             <select name="writer_name" class="form-control" required>
+                                                                                                <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>> </option>
+                                                                                                <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 1</option>
+                                                                                                <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 2</option>
+                                                                                                <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 3</option>
+                                                                                                <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 4</option>
+                                                                                                <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 5</option>
+                                                                                                <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 6</option>
+                                                                                                <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 7</option>
+                                                                                                <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team 8</option>
+                                                                                                <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                                                                                                echo "selected";
+                                                                                                            } ?>>team  9</option>
+                                                                                                <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                                                                                            } ?>>team 10</option>
+                                                                                                <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                                                                                } ?>>team 11</option>
+                                                    
+                                                                                                <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                                                                                } ?>>team 12</option>
+                                                                                                 <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                                                                                } ?>>team 13</option>
                                                                                             </select>
                                                                                             <span class="bar"></span>
                                                                                             <label for="input10">Writer name (Select team)</label>

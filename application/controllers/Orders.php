@@ -278,7 +278,7 @@ public function emailindusial()
 		$data['users'] 				= $this->order_model->getUsersList();
 		$data['prefix'] 			= array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 		$data['o_counts'] 			= count($data['orders']);
-		// pre($data['leads']);
+		// pre($data);
 		// die();
 		$this->template->load('template', 'orders/order_view', $data);
 	}
@@ -342,7 +342,6 @@ public function emailindusial()
 			$online_order = 1;
 			if ($role_id == 2) {
 				$data['orders'] = $this->order_model->order_listnew($login_id, $config["per_page"], $page, $online_order);
-				
 			} else {
 				$data['orders'] = $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
 			}
@@ -358,7 +357,8 @@ public function emailindusial()
 		$data['users'] 				= $this->order_model->getUsersList();
 		$data['prefix'] 			= array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 		$data['o_counts'] 			= count($data['orders']);
-		
+		// pre($data);
+		// die();
 		$this->template->load('template', 'orders/order_view', $data);
 	}
 
@@ -437,6 +437,69 @@ public function emailindusial()
 			}
 		}
 	}
+	
+	public function user_add_new_order()
+    {
+        $this->form_validation->set_rules('user_id', 'User Name', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            if (isset($this->session->userdata['logged_in'])) {
+                $data['categories'] = $this->order_model->getCategories();
+                $this->template->load('template', 'orders/order_add', $data);
+            } else {
+                $this->load->view('login_form');
+            }
+        } else {
+            $query = $this->db->get_where("employees", array("id" => $this->input->post('user_id')));
+            $result = $query->row_array();
+
+            $data = array(
+                'emp_id' => $this->input->post('user_id'),
+                'order_id' => $this->input->post('order_id'),
+                'deadline' => date('Y-m-d', strtotime($this->input->post('delivery_date'))),
+                'create_at' => date('Y-m-d', strtotime($this->input->post('order_date'))),
+                'mobile' => $result['mobile_no'],
+                'email' => $result['email'],
+                'countrycode' => $result['countrycode'],
+                'user_name' => $result['username'],
+                'message' => $this->input->post('message'),
+            );
+
+            $result = $this->db->insert('leads', $data);
+            if ($result) {
+                // Get the inserted lead's ID
+                $lead_id = $this->db->insert_id();
+
+                // Handle file uploads
+                $target_dir = 'uploads/';
+                $total = count($_FILES['bill_image']['tmp_name']);
+                $detail_id = $lead_id;
+
+                // Loop through each file
+                foreach ($_FILES['bill_image']['name'] as $key => $val) {
+                    $rand = rand(11111111, 99999999);
+                    $file = $rand . '_' . $val;
+                    move_uploaded_file($_FILES['bill_image']['tmp_name'][$key], $target_dir . $file);
+                    $filess = "https://https://assignnmentinneed.com//upload-your-assignment/uploads/" . $file;
+                    $file_data = array(
+                        'u_id' => $this->input->post('user_id'),
+                        'detail_id' => $detail_id,
+                        'file' => $filess
+                    );
+
+                    $this->db->insert('files_db', $file_data);
+                }
+
+                // Data and files inserted successfully
+                $this->session->set_flashdata('success', 'Data and files inserted successfully!');
+                redirect('/Orders/index', 'refresh');
+            } else {
+                // Failed to insert data
+                $this->session->set_flashdata('failed', 'Failed to insert data into leadstable!');
+                redirect('/Orders/index', 'refresh');
+            }
+        }
+    }
 
 	public function payments($id)
 	{

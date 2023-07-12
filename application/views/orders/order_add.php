@@ -32,7 +32,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 					<!--begin::Modal body-->
 					<div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
 						<!--begin:Form-->
-						<form id="" class="form fv-plugins-bootstrap5 fv-plugins-framework" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/add_new_order" enctype="multipart/form-data">
+						<form id="" class="form fv-plugins-bootstrap5 fv-plugins-framework" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/user_add_new_order" enctype="multipart/form-data">
 							<!--begin::Heading-->
                             <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $order_id ?>" autofocus readonly="readonly">
                             <input type="text" style="display:none;" name="order_type" value="Back-End">
@@ -63,7 +63,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 								<div class="col-md-12 fv-row fv-plugins-icon-container">
 									<label class="required fs-6 fw-bold mb-2">Delivery Date</label>
                                     <input type="date" class="form-control form-control-solid" placeholder="Enter Target Title" name="delivery_date" required>
-
+                                    
 
 								<!--end::Col-->
 								<!--begin::Col-->
@@ -135,6 +135,36 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
 				<!--end::Modal content-->
 			</div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert library -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const deliveryDateInput = document.querySelector('input[name="delivery_date"]'); // Select the delivery date input
+
+    // Function to handle form submission
+    function handleSubmit(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      const deliveryDate = deliveryDateInput.value.trim();
+
+      if (deliveryDate === "") {
+        // Show SweetAlert error message
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please enter a delivery date!",
+        });
+      } else {
+        // Submit the form
+        event.target.submit();
+      }
+    }
+
+    // Add form submit event listener
+    const form = document.querySelector('form[name="your_form_name"]'); // Replace "your_form_name" with the actual name of your form
+    form.addEventListener("submit", handleSubmit);
+  });
+</script>
 
     <?php } else { ?>
  <div class="page-wrapper">

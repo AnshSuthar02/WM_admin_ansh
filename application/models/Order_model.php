@@ -273,7 +273,7 @@ class Order_model extends CI_Model
 	}
 	public function TotalOrdersUser()
 	{
-		$this->db->select('*');
+		$this->db->select('*');	
 		$this->db->from('orders');
 		$this->db->where('uid', $this->login_id);
 		$query = $this->db->get();
@@ -299,17 +299,17 @@ class Order_model extends CI_Model
 	}
 
 	public function TotalLeadsTodayUser()
-{
-    $today = date('Y-m-d'); // Get today's date
-    
-    $this->db->select('*');
-    $this->db->from('leads');
-    $this->db->where('DATE(create_at)', $today); // Compare the date portion of 'create_at' with today's date
-    $this->db->where('emp_id', $this->login_id);
-    
-    $query = $this->db->get();
-    return $query->num_rows();
-}
+	{
+		$today = date('Y-m-d'); // Get today's date
+		
+		$this->db->select('*');
+		$this->db->from('leads');
+		$this->db->where('DATE(create_at)', $today); // Compare the date portion of 'create_at' with today's date
+		$this->db->where('emp_id', $this->login_id);
+		
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
 
 
 	public function TotalOrdersPendingUser()
