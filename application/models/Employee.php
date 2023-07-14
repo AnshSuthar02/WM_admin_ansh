@@ -174,4 +174,34 @@ class Employee extends CI_Model
 		$query = $this->db->get('employees');
 		return $query->result();
 	}
+
+	public function insert_writer($data) {
+        // Insert the data into the employees table
+        $this->db->insert('employees', $data);
+    }
+
+	public function getWriters()
+{
+    $this->db->select('id, name, email');
+    $this->db->from('employees');
+    $this->db->where('role_id', 6);
+	$this->db->where('flag',0);
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+public function is_email_exists($email) {
+	$this->db->where('email', $email);
+	$query = $this->db->get('employees');
+	return $query->num_rows() > 0;
+}
+
+// public function getEmployees()
+// {
+// 	$this->db->where('role_id', 6);
+// 	$this->db->where('flag', 0);
+// 	$query = $this->db->get('employees');
+// 	return $query->result_array();
+// }
+
 }
