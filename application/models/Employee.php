@@ -196,12 +196,27 @@ public function is_email_exists($email) {
 	return $query->num_rows() > 0;
 }
 
-// public function getEmployees()
-// {
-// 	$this->db->where('role_id', 6);
-// 	$this->db->where('flag', 0);
-// 	$query = $this->db->get('employees');
-// 	return $query->result_array();
-// }
+public function getsubWritersfortl($tl_id)
+{
+    $this->db->select('id, name, email');
+    $this->db->from('employees');
+    $this->db->where('role_id', 7);
+    $this->db->where('tl_id', $tl_id);
+    $this->db->where('flag', 0);
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+public function getsubWriters()
+{
+	$this->db->select('id, name, email');
+    $this->db->from('employees');
+    $this->db->where('role_id', 7);
+    $this->db->where('flag', 0);
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+
 
 }

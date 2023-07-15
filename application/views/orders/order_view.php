@@ -1532,11 +1532,11 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                                                <div class="form-group has-warning m-b-40">
                                                                                     <label class="control-label">Select Employee</label>
                                                                                     <select name="writer_name_new" class="form-control" required>
-                                                                                                <option value="">Select an employee</option>
-                                                                                                <?php foreach ($writerTL as $employee) : ?>
-                                                                                                    <option value="<?php echo $employee['id']; ?>" <?php if (@$obj['writer_name_new'] == $employee['id']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select>
+                                                                                        <option value="">Select an employee</option>
+                                                                                        <?php foreach ($writerTL as $employee) : ?>
+                                                                                            <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $obj['wid']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
+                                                                                        <?php endforeach; ?>
+                                                                                    </select>
                                                                                 </div>
                                                                             </div>
                                                                             <!-- / Delivery Date Time -->
