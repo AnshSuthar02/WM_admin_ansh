@@ -26,7 +26,7 @@ if (!empty($edit_data[3])) {
 } else {
 	$auth_page = $auth_page_old;
 }
-if (in_array($auth_page, $result)) {
+
 ?>
 	<!DOCTYPE html>
 	<html>
@@ -76,6 +76,3 @@ if (in_array($auth_page, $result)) {
 	</html>
 	<?php } ?>
 
-<?php } else {
-	redirect('User_authentication/dashboard');
-} ?>

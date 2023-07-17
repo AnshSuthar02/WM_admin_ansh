@@ -2101,10 +2101,77 @@ public function emailindusial()
     }
 
     redirect($_SERVER['HTTP_REFERER']); // Redirect to the same page
+
 }
 
+ public function orderchat($order_id = NULL)
+ {
+	$data['title'] = 'Edit Order';
+	$id = $this->uri->segment('3');
+
+	$query = $this->db->get_where("orders", array("order_id" => $order_id));
+	$data['current'] = $query->result();
+	$id = $data['current'][0]->id;
+
+	if (isset($data['current'][0]->order_id)) :
+		$data['id'] = $data['current'][0]->id;
+	endif;
+
+	if (isset($data['current'][0]->wid)) :
+		$data['wid'] = $data['current'][0]->wid;
+	endif;
+
+	if (isset($data['current'][0]->swid)) :
+		$data['swid'] = $data['current'][0]->swid;
+	endif;
+
+	if (isset($data['current'][0]->order_id)) :
+		$data['order_id'] = $data['current'][0]->order_id;
+	endif;
+
+	// get Sub write name approve this order  
+	if (isset($data['current'][0]->swid)) :
+		$data['user_id'] = $data['current'][0]->swid;
+		$query 			 = $this->db->get_where("employees", array("id" => $data['user_id']));
+		$userRecord 	 = $query->result();
+		if (isset($userRecord) && !empty($userRecord)) {
+			$data['user_name'] = $userRecord[0]->name;
+		}
+
+	endif;
+
+
+	
+
+	// echo '<pre>'; print_r($data); exit;
+	$this->template->load('template', 'message/message_box', $data);
+}
+
+public function insertOrdermessage()
+{
+	$url = $this->input->post('url');
+	$data = array(
+		'sender_id' => $this->input->post('login_id'),
+		'recivere_id' => $this->input->post('swid'),
+		'message' => $this->input->post('description'),
+		'order_id' => $this->input->post('id')
+	);
+
+	$run = $this->order_model->insertorderMessage($data);
+
+	if ($run == TRUE) {
+		echo '<script>window.location.href = "'.$url.'";</script>';
+	} else {
+		// Handle the error case
+	}
+}
+
+
+
+	
+}
 	
 
 
 
-}
+

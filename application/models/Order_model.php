@@ -1616,4 +1616,10 @@ public function feedback_list_all()
 
 		return $query;
 	}
+
+	public function insertOrdermessage($data)
+	{
+		$this->db->insert('order_chat', $data);
+		return ;
+	}
 }

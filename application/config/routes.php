@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// $route['orders/orderchat'] = 'orders/orderchat';
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -52,3 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'User_authentication';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+$route['message'] = 'Message';
+$route['sent'] = 'Message/sendMessage';
+$route['getmessage'] = 'Message/getMessage';
