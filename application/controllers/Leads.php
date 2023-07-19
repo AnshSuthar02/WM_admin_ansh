@@ -833,4 +833,31 @@ class Leads extends CI_Controller
         $this->db->where('id', $id);
         $this->db->delete('leads');
     }
+
+    public function callstatusaddwrite()
+    {
+        $login_id = $this->session->userdata['logged_in']['id'];
+        $data     = $this->input->post();
+        $backurl  = $this->input->post('backurl');
+
+        unset($data['backurl']);
+
+        date_default_timezone_set("Europe/London");
+        $data['created_on'] = date("Y-m-d h:i:s A");
+        $data['created_by'] = $login_id;
+
+        if ($data['description']) {
+            $result = $this->call_insert($data);
+            if ($result == TRUE) {
+                // $this->session->set_flashdata('success', 'Calls Added Successfully !');
+                // redirect($backurl, 'refresh');
+            } else {
+                // $this->session->set_flashdata('failed', 'Insertion Failed');
+                // redirect($backurl, 'refresh');
+            }
+        } else {
+            // $this->session->set_flashdata('failed', 'Insertion Failed');
+            // redirect($backurl, 'refresh');
+        }
+    }
 }

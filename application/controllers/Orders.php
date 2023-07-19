@@ -1977,7 +1977,7 @@ public function emailindusial()
 		$this->template->load('template', 'orders/feedback_view', $data);
 	}
 
-	public function Writer_Tl()
+	public function Write_tl()
 	{
 		$this->load->model('employee');
 	
@@ -2147,24 +2147,7 @@ public function emailindusial()
 	$this->template->load('template', 'message/message_box', $data);
 }
 
-public function insertOrdermessage()
-{
-	$url = $this->input->post('url');
-	$data = array(
-		'sender_id' => $this->input->post('login_id'),
-		'recivere_id' => $this->input->post('swid'),
-		'message' => $this->input->post('description'),
-		'order_id' => $this->input->post('id')
-	);
 
-	$run = $this->order_model->insertorderMessage($data);
-
-	if ($run == TRUE) {
-		echo '<script>window.location.href = "'.$url.'";</script>';
-	} else {
-		// Handle the error case
-	}
-}
 
 
 

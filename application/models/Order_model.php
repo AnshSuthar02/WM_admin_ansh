@@ -1617,9 +1617,26 @@ public function feedback_list_all()
 		return $query;
 	}
 
-	public function insertOrdermessage($data)
-	{
-		$this->db->insert('order_chat', $data);
-		return ;
-	}
+	public function insertOrderChatMessage($formData) {
+        // Assuming you have a table named "order_chat" in your database to store the chat messages
+        // Adjust the table name and column names as needed
+        $data = array(
+            'sender_id' => $formData['sender_id'],
+            'receiver_id' => $formData['reciever_id'],
+            'order_id' => $formData['order_id'],
+            'message' => $formData['message']
+            // Add other chat message fields as needed
+        );
+
+        // Insert the data into the "order_chat" table
+        $this->db->insert('order_chat', $data);
+
+        // Check if the insertion was successful and return the inserted chat message ID (assuming you have an auto-increment primary key)
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        } else {
+            return false; // Return false to indicate failure
+        }
+    }
+
 }
