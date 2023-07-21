@@ -883,19 +883,7 @@ $data = explode('?', $currentURL);
                 });
             });
 
-            $(document).on('click', '.call_modal', function() {
-                var lead_id = $(this).attr("data-id");
-                $.ajax({
-                    type: "POST",
-                    url: '<?php echo base_url(); ?>index.php/Leads/get_call_list',
-                    data: {
-                        lead_id: lead_id,
-                    },
-                    success: function(response) {
-                        $('.call_message').html(response);
-                    }
-                });
-            });
+           
 
             $(document).on('click', '#send_message', function() {
                 var lead_id = $(this).closest("div.m_form").find("input[name='lead_id']").val();

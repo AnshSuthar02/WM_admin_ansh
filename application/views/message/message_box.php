@@ -38,6 +38,13 @@ $current_page = current_url();
     .col-md-6 {
         margin-bottom: 10px;
     }
+
+    @media (min-width: 992px)
+    {
+    .modal-lg, .modal-xl {
+    max-width: 1000px;
+    max-height:100%
+}}
     
 </style>
 
@@ -93,74 +100,47 @@ $current_page = current_url();
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
-
-        <div class="modal-dialog modal-lg" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <!-- <h4 class="modal-title" id="exampleModalLabel1">Call Status Update</h4>  -->
-                                                        <h4> leads id </h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true"></span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-
-                                                        <div class="row col-md-12">
-                                                            <div class="card-body" style="height:200px; overflow-y: auto; background-color:white;">
-                                                                <div class="message mCustomScrollbar" data-mcs-theme="minimal-dark">
-                                                                    <div class="call_message">
-                                                                        <div class="d-flex flex-row justify-content-start">
-                                                                        <div>
-                                                                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Hi</p>
-                                                                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">How are you...???</p>
-                                                                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">What are you doing tomorrow? Can we come up a bar?</p>
-                                                                            <p class="small ms-3 mb-3 rounded-3 text-muted">23:58</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="d-flex flex-row justify-content-end mb-4 pt-1">
-                                                                        <div>
-                                                                            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Hiii, I'm good.</p>
-                                                                            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">How are you doing?</p>
-                                                                            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Long time no see! Tomorrow</p>
-                                                                            <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:06</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="d-flex flex-row justify-content-start">
-                                                                        <div>
-                                                                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Hi</p>
-                                                                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">How are you...???</p>
-                                                                            <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">What are you doing tomorrow? Can we come up a bar?</p>
-                                                                            <p class="small ms-3 mb-3 rounded-3 text-muted">23:58</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-footer">
-                                                                <!-- <form class="form-horizontal mobile-display" role="form" method="post" action="<?php echo base_url(); ?>index.php/Leads/callstatusadd" enctype="multipart/form-data"> -->
-                                                                <div class="row col-md-12 m_form" id="m_form">
-                                                                    <div class="row col-md-12">
-                                                                        <div class="col-md-12 col-sm-12">
-                                                                            <input type="hidden" name="backurl" value="">
-                                                                            <input type="hidden" class="m_lead_id" name="order_id" value="<?= $id ?>">
-                                                                            <?php if($role_id == 6){ ?>
-                                                                                <input type="hidden" class="" name="reciever_id" value="<?= $swid ?>">
-                                                                            <?php } elseif($role_id==7 ){?>
-                                                                                <input type="hidden" class="" name="reciever_id" value="<?= $wid ?>">
-                                                                            <?php } ?>
-                                                                            <div style="display:flex">
-                                                                                <textarea type="text" id="m_des" placeholder="Type message" name="description" class="form-control" rows="2" value="" autofocus autocomplete="off" style="resize: none;"></textarea>
-                                                                                <button id="send_message" type="submit"><i class="fas fa-paper-plane"></i></button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- </form> -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+        <div class="modal-dialog modal-lg" role="document" style="hight:100%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h4 class="modal-title" id="exampleModalLabel1">Call Status Update</h4>  -->
+                <h4> leads id </h4>
+                
+            </div>
+            <div class="modal-body"> <!-- Added missing opening tag -->
+                <div class="row col-md-12" >
+                    <div class="card-body" style="height:350px; overflow-y: auto; background-color:white;">
+                        <div class="message mCustomScrollbar" data-mcs-theme="minimal-dark">
+                            <div class="call_message">
+                                <!-- Display messages will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <!-- <form class="form-horizontal mobile-display" role="form" method="post" action="<?php echo base_url(); ?>index.php/Leads/callstatusadd" enctype="multipart/form-data"> -->
+                        <div class="row col-md-12 m_form" id="m_form">
+                            <div class="row col-md-12">
+                                <div class="col-md-12 col-sm-12">
+                                    <input type="hidden" name="backurl" value="">
+                                    <input type="hidden" class="m_lead_id" name="order_id" value="<?= $id ?>">
+                                    <?php if($role_id == 6){ ?>
+                                        <input type="text" class="" name="reciever_id" value="<?= $swid ?>">
+                                    <?php } elseif($role_id==7 ){?>
+                                        <input type="hidden" class="" name="reciever_id" value="<?= $wid ?>">
+                                    <?php } ?>
+                                    <div style="display:flex">
+                                        <textarea type="text" id="m_des" placeholder="Type message" name="description" class="form-control" rows="2" value="" autofocus autocomplete="off" style="resize: none;"></textarea>
+                                        <button id="send_message" type="button"><i class="fas fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+            </div> <!-- Added missing closing tag -->
         </div>
+    </div>
     </div>
     <!-- ============================================================== -->
     <!-- End Page Content -->
@@ -208,37 +188,73 @@ document.getElementById("messageForm").addEventListener("submit", sendMessage);
 
 </script>
 
-
 <script>
-    $(document).on('click', '#send_message', function() {
-        var order_id = $(this).closest("div.m_form").find("input[name='order_id']").val();
-        var description = $(this).closest("div.m_form").find("textarea[name='description']").val();
-        var reciever_id = $(this).closest("div.m_form").find("input[name='reciever_id']").val();
-
-        // Log data to the browser console
-        console.log("order_id:", order_id);
-        console.log("description:", description);
-        console.log("reciever_id:", reciever_id);
-
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url(); ?>index.php/Leads/callstatusaddwrite',
-            data: {
-                order_id: order_id,
-                description: description,
-                reciever_id: reciever_id,
-            },
-            success: function(response) {
-                console.log("AJAX response:", response);
-                // Handle the AJAX response here if needed
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX error:", error);
-                // Handle AJAX errors here if needed
+        $(document).ready(function() {
+            // Function to fetch and display messages from the server
+            function fetchMessages() {
+                var order_id = $('input[name="order_id"]').val();
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo base_url(); ?>index.php/Leads/get_call_listwriter',
+                    data: {
+                        order_id: order_id,
+                    },
+                    success: function(response) {
+                        $('.call_message').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", error);
+                        // Handle AJAX errors here if needed
+                    }
+                });
             }
+
+            // Fetch and display messages on page load
+            fetchMessages();
+
+            // Function to send a message to the server
+            function sendMessage() {
+                var order_id = $('input[name="order_id"]').val();
+                var description = $('textarea[name="description"]').val();
+                var reciever_id = $('input[name="reciever_id"]').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo base_url(); ?>index.php/Leads/callstatusaddwrite',
+                    data: {
+                        order_id: order_id,
+                        description: description,
+                        reciever_id: reciever_id,
+                    },
+                    success: function(response) {
+                        // Clear the textarea after sending the message
+                        $('textarea[name="description"]').val('');
+                        // Fetch and display updated messages after sending
+                        fetchMessages();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX error:", error);
+                        // Handle AJAX errors here if needed
+                    }
+                });
+            }
+
+            // Send message when the "send_message" button is clicked
+            $('#send_message').on('click', function() {
+                sendMessage();
+            });
+
+            // Send message when pressing the "Enter" key in the textarea
+            $('textarea[name="description"]').on('keydown', function(event) {
+                if (event.which == 13 && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
         });
-    });
-</script>
+    </script>
+
+    
 
 
 

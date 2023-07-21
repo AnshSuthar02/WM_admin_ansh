@@ -860,4 +860,107 @@ class Leads extends CI_Controller
             // redirect($backurl, 'refresh');
         }
     }
+
+
+    public function get_call_listwriter($id = '')
+    {
+        
+        $user_id = $this->session->userdata['logged_in']['id'];
+        if (empty($id)) {
+            $order_id = $_POST['order_id'];
+        }
+        $this->db->select('calls.*, employees.name as ename');
+        $this->db->from('calls');
+        $this->db->join('employees', 'calls.created_by = employees.id', 'left');
+        if (!empty($id)) {
+            $this->db->where('calls.order_id', $order_id);
+        }
+        $call_lists = $this->db->get()->result_array();
+
+        if (isset($call_lists) && !empty($call_lists)) {
+            $html = '';
+            $html .= '<ul>';
+            foreach ($call_lists as $call_list) {
+                if ($call_list['lead_id'] == $id) {
+                    $html .= '<div class="col-md-12" >';
+                    if ($call_list['created_by'] == $user_id) {
+                        $html .= '<li class="msg-right" style="text-align:end!important   display: flex;
+                        flex-direction: column;
+                        align-items: flex-end;
+                        margin: 5px 0;
+                        background-color: #DCF8C6;
+                        padding: 8px 12px;
+                        border-radius: 10px 0 10px 10px;
+                        font-size: 14px;
+                        max-width: 100%; 
+                        margin: 0; /* Remove margin to fit the whole width */
+                        white-space: pre-wrap; 
+                         text-align: right;">';
+
+
+                        $html .= "<div class='msg-left-sub'>";
+                        $html .= '<div class="msg-desc" style="white-space: pre-wrap;">';
+                        $html .= '<pre>';
+                        $html .= $call_list['description'];
+                        $html .= '</pre>';
+                        $html .= '</div>';
+                        $html .= '<small style="color: #888;">';
+                        $html .= date('d-M-y h:i:s A', strtotime($call_list['created_on']));
+                        $html .= ' ';
+                        $html .= '<b style=" font-weight: bold;">';
+                        // $html .= $call_list['ename'];
+                        $html .= 'You';
+                        $html .= '</b>';
+                        $html .= '</small>';
+                        $html .= '</div>';
+                        $html .= '</li>';
+                        $html .= '</br>';
+                    } else {
+                        $html .= '<li class="msg-left" style="
+                        flex-direction: column;
+                        align-items: flex-end;
+                        margin: 5px 0;
+                        background-color: #DDB3B3;
+                        padding: 8px 12px;
+                        border-radius: 10px 0 10px 10px;
+                        font-size: 14px;
+                        margin: 0; /* Remove margin to fit the whole width */
+                        white-space: pre-wrap; 
+                        "
+                        
+                        
+                        
+                        >';
+                        $html .= "<div class='msg-left-sub'>";
+                        $html .= '<div class="msg-desc">';
+                        $html .= '<pre>';
+                        $html .= $call_list['description'];
+                        $html .= '</pre>';
+                        $html .= '</div>';
+                        $html .= '<small>';
+                        $html .= date('d-M-y h:i:s A', strtotime($call_list['created_on']));
+                        $html .= ' ';
+                        $html .= '<b>';
+                        $html .= $call_list['ename'];
+                        $html .= '</b>';
+                        $html .= '</small>';
+                        $html .= '</div>';
+                        $html .= '</li>';
+                        $html .= '</br>';
+                    }
+                    $html .= "</div>";
+                } else {
+                    $html .= '<div class="col-md-12">';
+                    $html .= "</div>";
+                }
+            }
+            $html .= "</ul>";
+
+            echo $html;
+            die();
+        }
+    }
+
+    
+
 }
