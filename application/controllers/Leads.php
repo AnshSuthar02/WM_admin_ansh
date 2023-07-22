@@ -839,6 +839,7 @@ class Leads extends CI_Controller
         $login_id = $this->session->userdata['logged_in']['id'];
         $data     = $this->input->post();
         $backurl  = $this->input->post('backurl');
+      
 
         unset($data['backurl']);
 
@@ -862,80 +863,218 @@ class Leads extends CI_Controller
     }
 
 
-    public function get_call_listwriter($id = '')
+
+
+        public function get_call_listwriter($id = '')
+{
+    $user_id = $this->session->userdata['logged_in']['id'];
+    if (empty($id)) {
+        $order_id = $_POST['order_id'];
+    }
+    $this->db->select('calls.*, employees.name as ename');
+    $this->db->from('calls');
+    $this->db->join('employees', 'calls.created_by = employees.id', 'left');
+    if (!empty($id)) {
+        $this->db->where('calls.order_id', $order_id);
+    }
+    $call_lists = $this->db->get()->result_array();
+
+
+    if (isset($call_lists) && !empty($call_lists)) {
+        $html = '';
+        $html .= '<style>';
+        $html .= 'ul.no-bullets { list-style-type: none; }';
+        $html .= '</style>';
+        $html .= '<ul class="no-bullets">';
+        foreach ($call_lists as $call_list) {
+            if ($call_list['lead_id'] == $id) {
+                $html .= '<div class="col-md-12">';
+                if ($call_list['created_by'] == $user_id) {
+                    $html .= '<li class="msg-right" style="text-align:end!important;display: flex;flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DCF8C6;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;max-width: 100%;margin: 0;white-space: pre-wrap;text-align: right;">';
+                    $html .= "<div class='msg-left-sub'>";
+                    $html .= '<div class="msg-desc" style="white-space: pre-wrap;">';
+                    $html .= '<pre>';
+                    $html .= $call_list['description'];
+                    if (!empty($call_list['file'])) {
+                        $html .= '<a style="text-align:end!important;display: flex;flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DCF8C6;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;max-width: 100%;margin: 0;white-space: pre-wrap;text-align: right;" href="' . $call_list['file'] . '" target="_blank">' .  $call_list['file'] . ' <i class="fas fa-download"></i></a>';
+                        // If you want to display an icon instead of a link, you can use an icon library like Font Awesome:
+                    }
+                    $html .= '</pre>';
+                    $html .= '</div>';
+                    $html .= '<small style="color: #888;">';
+                    $html .= date('d-M-y h:i:s A', strtotime($call_list['created_on']));
+                    $html .= ' ';
+                    $html .= '<b  style=" font-weight: bold;">';
+                    // $html .= $call_list['ename'];
+                    $html .= 'You';
+                    $html .= '</b>';
+                    $html .= '</small>';
+                   
+                    $html .= '</div>';
+                    $html .= '</li>';
+                    $html .= '</br>';
+                    // Check if the file field is not empty and display the file
+                   
+                    $html .= '</br>';
+                } else {
+                    $html .= '<li class="msg-left" style="flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DDB3B3;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;margin: 0;white-space: pre-wrap;">';
+                    $html .= "<div class='msg-left-sub'>";
+                    $html .= '<div class="msg-desc">';
+                    $html .= '<pre>';
+                    $html .= $call_list['description'];
+                    $html .= '</pre>';
+                    if (!empty($call_list['file'])) {
+                        $html .= '<a  style="flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DDB3B3;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;margin: 0;white-space: pre-wrap;" " href="' . $call_list['file'] . '" target="_blank">' .  $call_list['file'] . ' <i class="fas fa-download"></i></a>';
+                        // If you want to display an icon instead of a link, you can use an icon library like Font Awesome:
+                    }
+                    $html .= '</div>';
+                    $html .= '<small>';
+                    $html .= date('d-M-y h:i:s A', strtotime($call_list['created_on']));
+                    $html .= ' ';
+                    $html .= '<b>';
+                    $html .= $call_list['ename'];
+                    $html .= '</b>';
+                    $html .= '</small>';
+                    $html .= '</div>';
+                    $html .= '</li>';
+                    $html .= '</br>';
+                    // Check if the file field is not empty and display the file
+                   
+                    $html .= '</br>';
+                }
+                $html .= "</div>";
+            } else {
+                $html .= '<div class="col-md-12">';
+                $html .= "</div>";
+            }
+        }
+        $html .= "</ul>";
+
+        echo $html;
+        die();
+    }
+}
+
+public function callstatusaddwritecint()
+{
+    $login_id = $this->session->userdata['logged_in']['id'];
+    $data = $this->input->post();
+    $backurl = $this->input->post('backurl');
+
+    unset($data['backurl']);
+
+    date_default_timezone_set("Europe/London");
+    $data['created_on'] = date("Y-m-d h:i:s A");
+    $data['created_by'] = $login_id;
+    $file = $data['file'] ;
+    if (isset($_FILES[$file]) && $_FILES[$file]['error'] === UPLOAD_ERR_OK) {
+        // Specify the absolute server path to the "uploads" directory
+        $uploadDir = base_url().'/uploads_old';
+
+        // Generate a unique file name to prevent conflicts
+        $originalFileName = basename($_FILES[$file]['name']);
+        $extension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+        $newFileName = uniqid() . '.' . $extension;
+        $targetFilePath = $uploadDir . $newFileName;
+
+        // Move the uploaded file to the destination directory
+        if (move_uploaded_file($_FILES[$file]['tmp_name'], $targetFilePath)) {
+            $data['file'] =  base_url() .'/uploads_old/' . $newFileName; // Store the file URL in the database
+        } else {
+            // Handle file upload error here if needed
+        }
+    }
+    $data['file'] =  base_url() .'/uploads_old/' . $data['file'];
+    // Rest of your code...
+    // Assuming you have a function call_insert_c() to insert data into the database.
+    if ($data['description']) {
+        $result = $this->call_insert_c($data);
+        if ($result == TRUE) {
+            // $this->session->set_flashdata('success', 'Calls Added Successfully !');
+            // redirect($backurl, 'refresh');
+        } else {
+            // $this->session->set_flashdata('failed', 'Insertion Failed');
+            // redirect($backurl, 'refresh');
+        }
+    } else {
+        // $this->session->set_flashdata('failed', 'Insertion Failed');
+        // redirect($backurl, 'refresh');
+    }
+}
+
+
+    public function call_insert_c($data)
     {
-        
+        $this->db->insert('clintchat', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function get_call_listwriterc($id = '')
+    {
         $user_id = $this->session->userdata['logged_in']['id'];
         if (empty($id)) {
             $order_id = $_POST['order_id'];
         }
-        $this->db->select('calls.*, employees.name as ename');
-        $this->db->from('calls');
-        $this->db->join('employees', 'calls.created_by = employees.id', 'left');
+        $this->db->select('clintchat.*, employees.name as ename');
+        $this->db->from('clintchat');
+        $this->db->join('employees', 'clintchat.created_by = employees.id', 'left');
         if (!empty($id)) {
-            $this->db->where('calls.order_id', $order_id);
+            $this->db->where('clintchat.order_id', $order_id);
         }
         $call_lists = $this->db->get()->result_array();
-
+    
+    
         if (isset($call_lists) && !empty($call_lists)) {
             $html = '';
-            $html .= '<ul>';
+            $html .= '<style>';
+            $html .= 'ul.no-bullets { list-style-type: none; }';
+            $html .= '</style>';
+            $html .= '<ul class="no-bullets">';
             foreach ($call_lists as $call_list) {
                 if ($call_list['lead_id'] == $id) {
-                    $html .= '<div class="col-md-12" >';
+                    $html .= '<div class="col-md-12">';
                     if ($call_list['created_by'] == $user_id) {
-                        $html .= '<li class="msg-right" style="text-align:end!important   display: flex;
-                        flex-direction: column;
-                        align-items: flex-end;
-                        margin: 5px 0;
-                        background-color: #DCF8C6;
-                        padding: 8px 12px;
-                        border-radius: 10px 0 10px 10px;
-                        font-size: 14px;
-                        max-width: 100%; 
-                        margin: 0; /* Remove margin to fit the whole width */
-                        white-space: pre-wrap; 
-                         text-align: right;">';
-
-
+                        $html .= '<li class="msg-right" style="text-align:end!important;display: flex;flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DCF8C6;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;max-width: 100%;margin: 0;white-space: pre-wrap;text-align: right;">';
                         $html .= "<div class='msg-left-sub'>";
                         $html .= '<div class="msg-desc" style="white-space: pre-wrap;">';
                         $html .= '<pre>';
                         $html .= $call_list['description'];
+                        if (!empty($call_list['file'])) {
+                            $html .= '<a style="text-align:end!important;display: flex;flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DCF8C6;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;max-width: 100%;margin: 0;white-space: pre-wrap;text-align: right;" href="' . $call_list['file'] . '" target="_blank">' .  $call_list['file'] . ' <i class="fas fa-download"></i></a>';
+                            // If you want to display an icon instead of a link, you can use an icon library like Font Awesome:
+                        }
                         $html .= '</pre>';
                         $html .= '</div>';
                         $html .= '<small style="color: #888;">';
                         $html .= date('d-M-y h:i:s A', strtotime($call_list['created_on']));
                         $html .= ' ';
-                        $html .= '<b style=" font-weight: bold;">';
+                        $html .= '<b  style=" font-weight: bold;">';
                         // $html .= $call_list['ename'];
                         $html .= 'You';
                         $html .= '</b>';
                         $html .= '</small>';
+                       
                         $html .= '</div>';
                         $html .= '</li>';
                         $html .= '</br>';
+                        // Check if the file field is not empty and display the file
+                       
+                        $html .= '</br>';
                     } else {
-                        $html .= '<li class="msg-left" style="
-                        flex-direction: column;
-                        align-items: flex-end;
-                        margin: 5px 0;
-                        background-color: #DDB3B3;
-                        padding: 8px 12px;
-                        border-radius: 10px 0 10px 10px;
-                        font-size: 14px;
-                        margin: 0; /* Remove margin to fit the whole width */
-                        white-space: pre-wrap; 
-                        "
-                        
-                        
-                        
-                        >';
+                        $html .= '<li class="msg-left" style="flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DDB3B3;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;margin: 0;white-space: pre-wrap;">';
                         $html .= "<div class='msg-left-sub'>";
                         $html .= '<div class="msg-desc">';
                         $html .= '<pre>';
                         $html .= $call_list['description'];
                         $html .= '</pre>';
+                        if (!empty($call_list['file'])) {
+                            $html .= '<a  style="flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DDB3B3;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;margin: 0;white-space: pre-wrap;" " href="' . $call_list['file'] . '" target="_blank">' .  $call_list['file'] . ' <i class="fas fa-download"></i></a>';
+                            // If you want to display an icon instead of a link, you can use an icon library like Font Awesome:
+                        }
                         $html .= '</div>';
                         $html .= '<small>';
                         $html .= date('d-M-y h:i:s A', strtotime($call_list['created_on']));
@@ -947,6 +1086,9 @@ class Leads extends CI_Controller
                         $html .= '</div>';
                         $html .= '</li>';
                         $html .= '</br>';
+                        // Check if the file field is not empty and display the file
+                       
+                        $html .= '</br>';
                     }
                     $html .= "</div>";
                 } else {
@@ -955,12 +1097,14 @@ class Leads extends CI_Controller
                 }
             }
             $html .= "</ul>";
-
+    
             echo $html;
             die();
         }
     }
 
+    }
+
     
 
-}
+

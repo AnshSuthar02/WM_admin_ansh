@@ -112,7 +112,7 @@ $current_page = current_url();
         <div class="modal-content">
             <div class="modal-header">
                 <!-- <h4 class="modal-title" id="exampleModalLabel1">Call Status Update</h4>  -->
-                <h4> Chat<?= $order_id ?> </h4>
+                <h4> Chat  <?= $order_id ?> </h4>
             </div>
             <div class="modal-body"> <!-- Added missing opening tag -->
                 <div class="row col-md-12" >
@@ -128,26 +128,21 @@ $current_page = current_url();
                         <div class="row col-md-12 m_form" id="m_form">
                             <div class="row col-md-12">
                                 <div class="col-md-12 col-sm-12">
-                                    <input type="hidden" name="backurl" value="">
-                                    <input type="hidden" class="m_lead_id" name="order_id" value="<?= $id ?>">
-                                    <?php if($role_id == 6){ ?>
-                                        <input type="text" class="" name="reciever_id" value="<?= $swid ?>">
-                                    <?php } elseif($role_id==7 ){?>
-                                        <input type="hidden" class="" name="reciever_id" value="<?= $wid ?>">
-                                    <?php } ?>
+                                    <!-- ... Rest of your code ... -->
                                     <div style="display:flex">
                                         <textarea type="text" id="m_des" placeholder="Type message" name="description" class="form-control" rows="2" value="" autofocus autocomplete="off" style="resize: none;"></textarea>
                                         <button id="send_message" type="button"><i class="fas fa-paper-plane"></i></button>
                                         <div class="file-attachment-btn">
                                             <label for="file-input">
-                                            <i class="fas fa-paperclip"></i>
+                                                <i class="fas fa-paperclip"></i>
                                             </label>
-                                            <input id="file-input" type="file" name="file[]" multiple="multiple" style="display: none;">
+                                            <input id="file-input" type="file" name="files" style=";">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <!-- </form> -->
                     </div>
                 </div>
@@ -172,7 +167,7 @@ $current_page = current_url();
                 var order_id = $('input[name="order_id"]').val();
                 $.ajax({
                     type: "POST",
-                    url: '<?php echo base_url(); ?>index.php/Leads/get_call_listwriter',
+                    url: '<?php echo base_url(); ?>index.php/Leads/get_call_listwriterc',
                     data: {
                         order_id: order_id,
                     },
@@ -191,55 +186,57 @@ $current_page = current_url();
 
             // Function to send a message to the server
            function sendMessage() {
-    var order_id = $('input[name="order_id"]').val();
-    var description = $('textarea[name="description"]').val();
-    var reciever_id = $('input[name="reciever_id"]').val();
-    var files = $('input[name="file[]"]')[0].files; // Get the files from the file input
+            var order_id = $('input[name="order_id"]').val();
+            var description = $('textarea[name="description"]').val();
+            var reciever_id = $('input[name="reciever_id"]').val();
+            var fileInput = document.getElementById('file-input');
+            var file = fileInput.files[0];
+            var fileName = file.name;
 
-    var formData = new FormData();
-    formData.append('order_id', order_id);
-    formData.append('description', description);
-    formData.append('reciever_id', reciever_id);
+            var formData = new FormData();
+            formData.append('order_id', order_id);
+            formData.append('description', description);
+            formData.append('reciever_id', reciever_id);
 
-    for (var i = 0; i < files.length; i++) {
-        formData.append('files[]', files[i]);
-    }
+                formData.append('file', fileName);
 
-    // Log the data being sent in the AJAX request
-    console.log('Data to be sent:',  files);
+            // Log the data being sent in the AJAX request
+            // Log the data being sent in the AJAX request
+            console.log('Data to be sent:',  fileName);
 
-    $.ajax({
-        type: "POST",
-        url: '<?php echo base_url(); ?>index.php/Leads/callstatusaddwrite',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            // Clear the textarea after sending the message
-            $('textarea[name="description"]').val('');
-            // Fetch and display updated messages after sending
-            fetchMessages();
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX error:", error);
-            // Handle AJAX errors here if needed
-        }
-    });
-}
 
-            // Send message when the "send_message" button is clicked
-            $('#send_message').on('click', function() {
-                sendMessage();
-            });
-
-            // Send message when pressing the "Enter" key in the textarea
-            $('textarea[name="description"]').on('keydown', function(event) {
-                if (event.which == 13 && !event.shiftKey) {
-                    event.preventDefault();
-                    sendMessage();
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url(); ?>index.php/Leads/callstatusaddwritecint',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Clear the textarea after sending the message
+                    $('textarea[name="description"]').val('');
+                    // Fetch and display updated messages after sending
+                    fetchMessages();
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX error:", error);
+                    // Handle AJAX errors here if needed
                 }
             });
+        }
+
+        // Send message when the "send_message" button is clicked
+        $('#send_message').on('click', function() {
+            sendMessage();
         });
+
+        // Send message when pressing the "Enter" key in the textarea
+        $('textarea[name="description"]').on('keydown', function(event) {
+            if (event.which == 13 && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    });
     </script>
 
  

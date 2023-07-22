@@ -2147,6 +2147,45 @@ public function emailindusial()
 	$this->template->load('template', 'message/message_box', $data);
 }
 
+public function orderchatc($order_id = NULL)
+{
+   $data['title'] = 'Edit Order';
+   $id = $this->uri->segment('3');
+
+   $query = $this->db->get_where("orders", array("order_id" => $order_id));
+   $data['current'] = $query->result();
+   $id = $data['current'][0]->id;
+
+   if (isset($data['current'][0]->order_id)) :
+	   $data['id'] = $data['current'][0]->id;
+   endif;
+
+   if (isset($data['current'][0]->wid)) :
+	   $data['wid'] = $data['current'][0]->wid;
+   endif;
+
+   if (isset($data['current'][0]->swid)) :
+	   $data['swid'] = $data['current'][0]->swid;
+   endif;
+
+   if (isset($data['current'][0]->order_id)) :
+	   $data['order_id'] = $data['current'][0]->order_id;
+   endif;
+
+   // get Sub write name approve this order  
+   if (isset($data['current'][0]->swid)) :
+	   $data['user_id'] = $data['current'][0]->swid;
+	   $query 			 = $this->db->get_where("employees", array("id" => $data['user_id']));
+	   $userRecord 	 = $query->result();
+	   if (isset($userRecord) && !empty($userRecord)) {
+		   $data['user_name'] = $userRecord[0]->name;
+	   }
+
+   endif;
+   // echo '<pre>'; print_r($data); exit;
+   $this->template->load('template', 'message/clintwriter_chatbox', $data);
+}
+
 
 
 

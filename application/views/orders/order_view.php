@@ -1066,6 +1066,10 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                     <i style="color:#fff;" class="fa fa-comment"></i>
                                                 </a>
 
+                                                <a href="<?php echo base_url(); ?>index.php/Orders/orderchat/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
+                                                    <i style="color:red;" class="fa fa-comment"></i>
+                                                </a>
+
                                                
                                                 <!-- / Mark Job Failed -->
 
