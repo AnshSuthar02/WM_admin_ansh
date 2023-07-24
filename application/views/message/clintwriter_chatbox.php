@@ -136,7 +136,7 @@ $current_page = current_url();
                                             <label for="file-input">
                                                 <i class="fas fa-paperclip"></i>
                                             </label>
-                                            <input id="file-input" type="file" name="files" style=";">
+                                            <input id="file-input" type="file" name="files[]" style=";">
                                         </div>
                                     </div>
                                 </div>
@@ -185,25 +185,24 @@ $current_page = current_url();
             fetchMessages();
 
             // Function to send a message to the server
-           function sendMessage() {
+                    function sendMessage() {
             var order_id = $('input[name="order_id"]').val();
             var description = $('textarea[name="description"]').val();
             var reciever_id = $('input[name="reciever_id"]').val();
             var fileInput = document.getElementById('file-input');
-            var file = fileInput.files[0];
-            var fileName = file.name;
+            var files = fileInput.files;
 
             var formData = new FormData();
             formData.append('order_id', order_id);
             formData.append('description', description);
             formData.append('reciever_id', reciever_id);
 
-                formData.append('file', fileName);
+            for (var i = 0; i < files.length; i++) {
+                formData.append('files[]', files[i]);
+            }
 
             // Log the data being sent in the AJAX request
-            // Log the data being sent in the AJAX request
-            console.log('Data to be sent:',  fileName);
-
+            console.log('Data to be sent:', files);
 
             $.ajax({
                 type: "POST",
@@ -211,18 +210,19 @@ $current_page = current_url();
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                     // Clear the textarea after sending the message
                     $('textarea[name="description"]').val('');
                     // Fetch and display updated messages after sending
                     fetchMessages();
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("AJAX error:", error);
                     // Handle AJAX errors here if needed
                 }
             });
         }
+
 
         // Send message when the "send_message" button is clicked
         $('#send_message').on('click', function() {

@@ -966,27 +966,10 @@ public function callstatusaddwritecint()
     date_default_timezone_set("Europe/London");
     $data['created_on'] = date("Y-m-d h:i:s A");
     $data['created_by'] = $login_id;
-    $file = $data['file'] ;
-    if (isset($_FILES[$file]) && $_FILES[$file]['error'] === UPLOAD_ERR_OK) {
-        // Specify the absolute server path to the "uploads" directory
-        $uploadDir = base_url().'/uploads_old';
 
-        // Generate a unique file name to prevent conflicts
-        $originalFileName = basename($_FILES[$file]['name']);
-        $extension = pathinfo($originalFileName, PATHINFO_EXTENSION);
-        $newFileName = uniqid() . '.' . $extension;
-        $targetFilePath = $uploadDir . $newFileName;
+    
 
-        // Move the uploaded file to the destination directory
-        if (move_uploaded_file($_FILES[$file]['tmp_name'], $targetFilePath)) {
-            $data['file'] =  base_url() .'/uploads_old/' . $newFileName; // Store the file URL in the database
-        } else {
-            // Handle file upload error here if needed
-        }
-    }
-    $data['file'] =  base_url() .'/uploads_old/' . $data['file'];
-    // Rest of your code...
-    // Assuming you have a function call_insert_c() to insert data into the database.
+    
     if ($data['description']) {
         $result = $this->call_insert_c($data);
         if ($result == TRUE) {
@@ -1001,7 +984,6 @@ public function callstatusaddwritecint()
         // redirect($backurl, 'refresh');
     }
 }
-
 
     public function call_insert_c($data)
     {
