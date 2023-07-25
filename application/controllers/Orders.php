@@ -239,8 +239,11 @@ public function emailindusial()
 	
 		$data['all_customers'] = $this->order_model->getAllCustomers();
 		$data['OrderIDs'] = $this->order_model->getOrderIDs();
+		$data['getOrderIDsw'] = $this->order_model->getOrderIDsw();
 	
 		if ($this->input->get()) {
+
+			if($role_id == 1 || $role_id == 2|| $role_id == 3|| $role_id == 4 ||$role_id == 5){
 			if ($this->input->get('notify') == "yes") {
 				$this->order_model->feedback__notify_update();
 			}
@@ -259,6 +262,21 @@ public function emailindusial()
 			$data['upto_date'] = $this->input->get('upto_date');
 			$data['customer_id'] = $this->input->get('customer_id');
 			$data['orders'] = $this->order_model->order_list_by_filter($conditions);
+			}
+			else
+			{
+				$conditions['per_page'] = $config["per_page"];
+				$conditions['page'] = $page;
+				$conditions['status'] = $this->input->get('status');
+				$conditions['swid'] = $this->input->get('swid');
+				$conditions['order_id'] = $this->input->get('order_id');
+				$conditions['order_date_filter'] = $this->input->get('order_date_filter');
+				$conditions['from_date'] = date('Y-m-d', strtotime($this->input->get('from_date')));
+				$conditions['upto_date'] = date('Y-m-d', strtotime($this->input->get('upto_date')));
+				$data['from_date'] = $this->input->get('from_date');
+				$data['upto_date'] = $this->input->get('upto_date');
+				$data['orders'] = $this->order_model->order_list_by_filter_writer	($conditions);
+			}
 		} else {
 			$online_order = 0;
 			if ($role_id == 2) {

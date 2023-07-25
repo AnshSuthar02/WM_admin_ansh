@@ -597,7 +597,144 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
             <div class="accordion" id="accordionExample">
                 <div class="card m-b-0">
                     <div class="card-body">
-                        <?php if($role_id != '2') { ?>
+                    <?php if($role_id == '6') { ?>
+                        <form method="get" id="filterForm">
+                            <div class="row">
+
+                                    <div class="col-md-3 col-sm-3">
+                                        <select name="order_id" class="form-control select2 ">
+                                            <option value="0"> Search By Order Id</option>
+                                            <?php
+                                            if ($getOrderIDsw) : ?>
+                                                <?php
+                                                foreach ($getOrderIDsw as $value) : ?>
+
+                                                    <option value="<?= $value['order_id'] ?>"><?= $value['order_id'] ?></option>
+                                                <?php endforeach;  ?>
+                                            <?php else : ?>
+                                                <option value="0">No result</option>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+
+                                <div class="col-md-3 col-sm-3">
+                                    <input type="text" data-date-formate="dd-mm-yyyy" name="from_date" class="form-control mdate" value="<?php echo @$from_date; ?>" placeholder="From Date">
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input type="text" data-date-formate="dd-mm-yyyy" name="upto_date" class="form-control mdate" value="<?php echo @$upto_date; ?>" placeholder="Upto Date">
+                                </div>
+                            </div>
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="row mt-3">
+                                    <div class="col-md-3 col-sm-3">
+                                        <select class="form-control" name="order_date_filter">
+                                            <option value="order_date">Order Date</option>
+                                            <option value="delivery_date">Delivery Date</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <select class="form-control" name="status">
+                                            <option value="">Select Order Status</option>
+                                            <option value="Pending">Pending</option>
+                                             <option value="Hold Work">Hold Work</option>
+                                            <option value="In Progress">In Progress</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="Delivered">Delivered</option>
+                                            <option value="Feedback">Feedback</option>
+                                            <option value="Feedback Delivered">Feedback Delivered</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                            <option value="Draft Ready">Draft Ready</option>
+                                            <option value="Draft Delivered">Draft Delivered</option>
+                                            <option value="Other">Other</option>
+                                            <option value="initiated">initiated</option>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="col-md-3 col-sm-3" style='display:none'>
+                                        <select id='purpose' class="form-control purpose" name="filter_check">
+                                            <option value="writer">Writer Name</option>
+                                        </select>
+                                    </div>
+                                   
+
+                                    <div class="col-md-3 col-sm-3" id='business' >
+                                        <select name="writer_name" class="form-control" required>
+                                            <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                                            echo "selected";
+                                                        } ?>>Select Writer </option>
+                                            <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                                            echo "selected";
+                                                        } ?>>team 1</option>
+                                            <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                                            echo "selected";
+                                                        } ?>>team 2</option>
+                                            <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                                            echo "selected";
+                                                        } ?>>team 3</option>
+                                            <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                                            echo "selected";
+                                                        } ?>>team 4</option>
+                                            <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                                            echo "selected";
+                                                        } ?>>team 5</option>
+                                            <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                                            echo "selected";
+                                                        } ?>>team 6</option>
+                                            <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                                            echo "selected";
+                                                        } ?>>team 7</option>
+                                            <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                                            echo "selected";
+                                                        } ?>>team 8</option>
+                                            <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                                            echo "selected";
+                                                        } ?>>team  9</option>
+                                            <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                                        } ?>>team 10</option>
+                                            <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                            } ?>>team 11</option>
+
+                                            <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                            } ?>>team 12</option>
+                                             <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                                                                                } ?>>team 13</option>
+                                        </select>
+                                    </div> -->
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
+                                    <br>
+
+                                    <input type="submit" class="btn btn-primary" value="Search" />
+
+                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
+
+                                    <a href="<?php echo $data[0] ?>" class="btn btn-danger"> Reset</a>
+
+                                    <label class="control-label" style="visibility: hidden;"> Grade</label>
+
+                                    <button style="background-color: green; color:white;" id="headingOne" class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Show Filters
+                                    </button>
+                                </div>
+
+                                <?php if ($role_id == 1) { ?>
+                                    <div class="col-md-6 col-sm-6" style="text-align: right;">
+                                        <label class="control-label" style="visibility: hidden;">Hidden</label>
+                                        <br>
+                                        <a href="<?php echo base_url('index.php/Orders/ordersCSV'); ?>" class="btn btn-success" type="button" style="border:none; background-color: red; color:white;">
+                                            Export
+                                        </a>
+                                    </div>
+                                <?php } ?>
+
+                            </div>
+                        </form>
+                    <?php } ?>
+
+                        <?php if($role_id != '2' && $role_id != '6'&& $role_id == '7') { ?>
                         <form method="get" id="filterForm">
                             <div class="row">
                                 
@@ -643,7 +780,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     </div>
                                     <?php }?>
 
-                                <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5') { ?>
+                                <?php if ($role_id == '1' || $role_id == '3' || $role_id == '4' || $role_id == '5' || $role_id == '6'  ) { ?>
                                     <div class="col-md-3 col-sm-3">
                                         <select name="order_id" class="form-control select2 ">
                                             <option value="0"> Search By Order Id</option>
@@ -831,8 +968,8 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     <?php
                                     $i = 1;
                                     foreach ($orders as $obj) { ?>
-                                   <?php
-                                      
+                                   <?php 
+                                        
                                       if ($obj['c_is_fail'] == 1 && $obj['is_fail'] == 1) {
                                         $class = "red-background";
                                     } elseif ($obj['c_is_fail'] == 1 && $obj['is_fail'] == 0) {
@@ -840,9 +977,9 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     } else {
                                         $class = "";  // No background color
                                     }
-
-
+                                       }
                                      ?>
+                                     
 
                                     <style>
                                             .lite-blue-background {

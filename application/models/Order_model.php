@@ -1056,6 +1056,47 @@ public function feedback_list_all()
 		}
 
 
+			public function order_list_by_filter_writer($conditions) {
+				// Define your base query
+				$this->db->select('*');
+				$this->db->from('orders');
+				$this->db->where('wid' , $this->login_id);
+		
+				// Apply filters based on the conditions
+			
+		
+				if (!empty($conditions['order_id'])) {
+					$this->db->where('order_id', $conditions['order_id']);
+				}
+				if ($conditions['status'] != '') {
+					$this->db->where('orders.projectstatus', $conditions['status']);
+				}
+
+				if ($conditions['swid'] != '') {
+					$this->db->where('orders.swid', $conditions['swid']);
+				}
+
+				if ($conditions['order_date_filter'] == 'order_date') {
+					if ($conditions['from_date'] != '1970-01-01')
+						$this->db->where('orders.order_date >=', $conditions['from_date']);
+					if ($conditions['upto_date'] != '1970-01-01')
+						$this->db->where('orders.order_date <=', $conditions['upto_date']);
+				} else {
+					if ($conditions['from_date'] != '1970-01-01')
+						$this->db->where('orders.delivery_date >=', $conditions['from_date']);
+					if ($conditions['upto_date'] != '1970-01-01')
+						$this->db->where('orders.delivery_date <=', $conditions['upto_date']);
+				}
+		
+				
+		
+				// Add pagination
+				
+		
+				// Execute the query and return the results
+				return $this->db->get()->result_array();
+			}
+		
 
 	public function order_list_by_filter($conditions)
 	{
@@ -1193,6 +1234,20 @@ public function feedback_list_all()
 		$result = $this->db->select('id, order_id')->from('orders')->where('flag','0')->order_by('id','desc')->get()->result_array();
 		return $result;
 	}
+
+	function getOrderIDsw()
+{
+	$login_id = @$this->session->userdata['logged_in']['id'];
+    $result = $this->db->select('id, order_id')
+                       ->from('orders')
+                       ->where('flag', '0')
+                       ->where('wid', $login_id) // Adding condition for writer ID
+                       ->order_by('id', 'desc')
+                       ->get()
+                       ->result_array();
+
+    return $result;
+}
 
 	function getCategories()
 	{
