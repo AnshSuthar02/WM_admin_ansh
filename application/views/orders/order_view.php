@@ -538,7 +538,7 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
     <!-- ============================================================== -->
     <div class="container-fluid">
 
-
+    <div class="successs_mesg" style="display: none;">asdsdsdsa</div>
         <?php if ($this->session->flashdata('success')) : ?>
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
@@ -734,7 +734,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                         </form>
                     <?php } ?>
 
-                        <?php if($role_id != '2' && $role_id != '6'&& $role_id == '7') { ?>
                         <form method="get" id="filterForm">
                             <div class="row">
                                 
@@ -919,7 +918,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
                             </div>
                         </form>
-                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -977,7 +975,6 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                     } else {
                                         $class = "";  // No background color
                                     }
-                                       }
                                      ?>
                                      
 
@@ -1165,6 +1162,12 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
                                                             <i class="fa fa-envelope"></i>
                                                         </a>
                                                     <?php } ?>
+                                                       <a class="btn btn-xs btn-<?= $btn_class ?> btn-sm m-1 sendmail"   >
+                                                       <input type="hidden" value = "<?= $obj['id'] ?>" name='id'>
+                                                       <input type="checkbox" id="master"  >
+                                                       <input type="checkbox" class="sub_chk" checked checked value="<?php echo $obj['id']; ?>" />
+                                                            <i class="fa fa-envelope"></i>
+                                                        </a>
 
                                                     <?php if (($obj['projectstatus'] != 'Feedback Delivered') || ($obj['paymentstatus'] != 'Completed')) { ?>
                                                         <?php if ($role_id == 3 || $role_id == 4 || $role_id == 5) { ?>
@@ -3094,6 +3097,46 @@ $role_id        = $this->session->userdata['logged_in']['role_id'];
 
            
            </script>
+<script src="<?php echo base_url(); ?>assets/node_modules/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        jQuery('#master').on('click', function(e) {
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk").prop('checked', true);
+            } else {
+                $(".sub_chk").prop('checked', false);
+            }
+        });
+        jQuery('.sendmail').on('click', function(e) {
+            var allVals = [];
+            $(".sub_chk:checked").each(function() {
+                allVals.push($(this).val());
+            });
+            if (allVals.length <= 0) {
+                alert("Please select row.");
+            } else {
+                WRN_PROFILE_DELETE = "Are you sure you want to send all selected order into mail?";
+                var check = confirm(WRN_PROFILE_DELETE);
+                if (check == true) {
+                    var join_selected_values = allVals.join(",");
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>index.php/Orders/sendMail",
+                        cache: false,
+                        data: 'ids=' + join_selected_values,
+                        success: function(response) {
+                            $(".successs_mesg").html(response);
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+
 
 
                                                

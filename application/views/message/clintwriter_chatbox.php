@@ -134,14 +134,47 @@ $current_page = current_url();
                                         <button id="send_message" type="button"><i class="fas fa-paper-plane"></i></button>
                                         <div class="file-attachment-btn">
                                             <label for="file-input">
-                                                <i class="fas fa-paperclip"></i>
+                                            <i class="fas fa-paperclip"></i>
                                             </label>
-                                            <input id="file-input" type="file" name="files[]" style=";">
+                                            <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModalw" title="Order Edit">
+                                                <i style="color:#fff;" class="fas fa-paperclip"></i>
+                                            </a>
+                                            <div class="modal fade bd-example-modal-xl" id="editModalw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl">
+                                                    
+                                                    <div class="modal-content" style="width: 80%;">
+                                                        <div class="modal-header">
+                                                            <h3 class="modal-title" id="exampleModalLabel">
+                                                                <a href="<?php echo base_url(); ?>index.php/Orders/edit/" target="_blank">
+                                                                    <i class="fa fa-external-link"></i>
+                                                                </a>
+                                                                 Update Order <a href=""> <span style="color:lightsalmon"> Order ID : </span></a>
+                                                            </h3>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/leads/writefile/" enctype="multipart/form-data">
+                                                        <input type="hidden" class="m_lead_id" name="order_id" value="<?= $id ?>">
+                                                            <?php if($role_id == 6){ ?>
+                                                                <input type="text" class="" name="reciever_id" value="<?= $swid ?>">
+                                                            <?php } elseif($role_id==7 ){?>
+                                                                <input type="hidden" class="" name="reciever_id" value="<?= $wid ?>">
+                                                            <?php } ?>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+                                                                    <label class="custom-file-upload">
+                                                                        <input type="file" class="filepond" name="file_call[]" multiple data-max-file-size="3MB" data-max-files="3" onchange="displaySelectedFiles(event)" />
+                                                                        <span>Choose Files</span>
+                                                                    </label>
+                                                                    <div id="selected-files-container"></div>
+                                                                </div>
+                                                                <button type="submit" id="" class="btn btn-primary btn-block">Update</button>
+                                                            </div>
+                                                           
+                                                        </form>
+                                                    </div>
+                                                 </div>
+                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- </form> -->
                     </div>

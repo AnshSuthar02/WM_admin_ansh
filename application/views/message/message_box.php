@@ -8,6 +8,40 @@ $current_page = current_url();
 ?>
 
 <style>
+    .custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+#selected-files-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.selected-file {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.selected-file-name {
+    margin-right: 10px;
+}
+
+.selected-file-delete {
+    color: red;
+    cursor: pointer;
+}
+
     fieldset.scheduler-border {
         border-radius: 8px;
         border: 2px groove #ddd !important;
@@ -142,6 +176,49 @@ $current_page = current_url();
                                             <label for="file-input">
                                             <i class="fas fa-paperclip"></i>
                                             </label>
+                                            <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModalw" title="Order Edit">
+                                                        <i style="color:#fff;" class="fas fa-paperclip"></i>
+                                                        </a>
+                                                        <div class="modal fade bd-example-modal-xl" id="editModalw" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl">
+                                                        
+                                                         <div class="modal-content" style="width: 80%;">
+                                                            <div class="modal-header">
+                                                                <h3 class="modal-title" id="exampleModalLabel">
+                                                                    <a href="<?php echo base_url(); ?>index.php/Orders/edit/" target="_blank">
+                                                                        <i class="fa fa-external-link"></i>
+                                                                    </a>
+                                                                     Update Order <a href=""> <span style="color:lightsalmon"> Order ID : </span></a>
+
+                                                                </h3>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/leads/writefile/" enctype="multipart/form-data">
+                                                            <input type="hidden" class="m_lead_id" name="order_id" value="<?= $id ?>">
+                                                                <?php if($role_id == 6){ ?>
+                                                                    <input type="text" class="" name="reciever_id" value="<?= $swid ?>">
+                                                                <?php } elseif($role_id==7 ){?>
+                                                                    <input type="hidden" class="" name="reciever_id" value="<?= $wid ?>">
+                                                                <?php } ?>
+                                                                <div class="modal-body">
+                                                                    <div class="card-body">
+                                                                        <label class="custom-file-upload">
+                                                                            <input type="file" class="filepond" name="file_call[]" multiple data-max-file-size="3MB" data-max-files="3" onchange="displaySelectedFiles(event)" />
+                                                                            <span>Choose Files</span>
+                                                                        </label>
+                                                                        <div id="selected-files-container"></div>
+                                                                    </div>
+                                                                    <button type="submit" id="" class="btn btn-primary btn-block">Update</button>
+                                                                </div>
+                                                               
+                                                            </form>
+
+
+                                                                </div> 
+                                                            </div> 
+                                                        </div> 
+                                                    </div>  
+                                                </div>   
                                             <input id="file-input" type="file" name="file[]" multiple="multiple" style="display: none;">
                                         </div>
                                     </div>
@@ -243,6 +320,35 @@ $current_page = current_url();
     </script>
 
  
+<script>
+    function displaySelectedFiles(event) {
+        const container = document.getElementById('selected-files-container');
+        container.innerHTML = '';
+
+        const files = event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            const fileDiv = document.createElement('div');
+            fileDiv.classList.add('selected-file');
+
+            const fileNameSpan = document.createElement('span');
+            fileNameSpan.classList.add('selected-file-name');
+            fileNameSpan.textContent = file.name;
+
+            const deleteSpan = document.createElement('span');
+            deleteSpan.classList.add('selected-file-delete');
+            deleteSpan.textContent = 'Delete';
+            deleteSpan.addEventListener('click', () => {
+                container.removeChild(fileDiv);
+            });
+
+            fileDiv.appendChild(fileNameSpan);
+            fileDiv.appendChild(deleteSpan);
+            container.appendChild(fileDiv);
+        }
+    }
+</script>
 
     
 

@@ -284,7 +284,9 @@ class Leads extends CI_Controller
         return $query->result_array();
     }
 
-       public function convert_lead()
+
+    
+    public function convert_lead()
     {
         $login_id = $this->session->userdata['logged_in']['id'];
     
@@ -308,7 +310,7 @@ class Leads extends CI_Controller
             $userData = array();
             if (empty($user_record)) {
                 $userData['role_id']    = 2;
-                $userData['password']   = md5('User@123');
+                $userData['password']   = md5('user@123');
                 $userData['created_by'] = $_POST['emp_id'];
                 if (isset($_POST['user_name']) && !empty($_POST['user_name'])) {
                     $userData['name'] = $_POST['user_name'];
@@ -445,7 +447,7 @@ class Leads extends CI_Controller
     
             if (empty($user_record)) {
                 $userData['role_id'] = 2;
-                $userData['password'] = md5('User@123');
+                $userData['password'] = md5('user@123');
                 $userData['created_by'] = $_POST['emp_id'];
                 if (isset($_POST['user_name']) && !empty($_POST['user_name'])) {
                     $userData['name'] = $_POST['user_name'];
@@ -524,7 +526,7 @@ class Leads extends CI_Controller
                 $orderData['discount_per']   = 0;
                 $orderData['amount']         = $_POST['price'];
                 $orderData['paymentstatus']  = 'Pending';
-                $orderData['projectstatus']  = 'Pending';
+                $orderData['projectstatus']  = 'Other';
                 $orderData['order_type']     = 'Back-End';
                 $orderData['created_by']     = $login_id;
     
@@ -967,6 +969,29 @@ public function callstatusaddwritecint()
     $data['created_on'] = date("Y-m-d h:i:s A");
     $data['created_by'] = $login_id;
 
+    if ($_FILES['files']['name'] != '') {
+        $output = '';
+        $config['upload_path'] = './uploads';
+        $config['allowed_types'] = 'gif|jpg|png'; // Change 'allowed_type' to 'allowed_types'
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        
+        for ($i = 0; $i < count($_FILES['files']['name']); $i++) {
+
+            $_FILES['file']['name'] = $_FILES["files"]["name"][$i];
+            $_FILES['file']['type'] = $_FILES["files"]["type"][$i];
+            $_FILES['file']['tmp_name'] = $_FILES["files"]["tmp_name"][$i];
+            $_FILES['file']['error'] = $_FILES["files"]["error"][$i];
+            $_FILES['file']['size'] = $_FILES["files"]["size"][$i];
+
+            if($this->upload->do_upload('file'))
+            {
+                $data['file'] = $this->upload->data();
+                $output = base_url().'/upload'.$data['file_name'];
+            }
+            // Handle file upload logic here for each file
+        }
+    }
     
 
     
@@ -1084,6 +1109,75 @@ public function callstatusaddwritecint()
             die();
         }
     }
+
+    public function writefile()
+    {
+        $login_id = $this->session->userdata['logged_in']['id'];
+        $data = $this->input->post();
+        $backurl = $this->input->post('backurl');
+    
+        // Unset the 'backurl' from the data array
+        unset($data['backurl']);
+    
+        // Create a new array to store the data
+        $newData = array(
+            'created_on' => date("Y-m-d h:i:s A"), // Assuming you want to store the current timestamp
+            'created_by' => $login_id,
+            'order_id' => $this->input->post('order_id'), // Assuming 'order_id' is the correct field name
+        );
+    
+        // Merge the $data array with the $newData array
+        $data = array_merge($data, $newData);
+    
+        // File upload handling
+        if (!empty($_FILES['file_call']['name'])) {
+            $config = array(
+                'upload_path' => './uploads/',
+                'allowed_types' => '*',
+                'max_size' => '50000',
+            );
+    
+            // Load the upload library
+            $this->load->library('upload', $config);
+    
+            foreach ($_FILES['file_call']['name'] as $i => $file_name) {
+                $_FILES['file']['name']     = $_FILES['file_call']['name'][$i];
+                $_FILES['file']['type']     = $_FILES['file_call']['type'][$i];
+                $_FILES['file']['tmp_name'] = $_FILES['file_call']['tmp_name'][$i];
+                $_FILES['file']['error']    = $_FILES['file_call']['error'][$i];
+                $_FILES['file']['size']     = $_FILES['file_call']['size'][$i];
+    
+                if ($this->upload->do_upload('file')) {
+                    $uploadData = $this->upload->data();
+                    $filename = $uploadData['file_name'];
+                    $picture = base_url('uploads/' . $filename);
+                } else {
+                    $picture = '';
+                }
+    
+                $data['file'] = $picture; // Store the filename directly without JSON encoding
+    
+                // Assuming you have a model to handle database operations, update the following line accordingly
+                $this->db->insert('clintchat', $data);
+    
+                if ($this->db->affected_rows() > 0) {
+                    // File uploaded and data inserted successfully
+                    // You may perform additional actions here if needed
+                } else {
+                    // Error occurred while inserting data
+                    // You may handle the error scenario here
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+
+    
+
+
 
     }
 
