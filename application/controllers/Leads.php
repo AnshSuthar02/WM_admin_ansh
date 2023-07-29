@@ -735,17 +735,17 @@ class Leads extends CI_Controller
         }
     }
 
-    public function get_call_list($id = '')
+    public function get_call_list($order_id = '')
     {
         $user_id = $this->session->userdata['logged_in']['id'];
-        if (empty($id)) {
-            $id = $_POST['lead_id'];
+        if (empty($order_id)) {
+            $order_id = $_POST['order_id'];
         }
         $this->db->select('calls.*, employees.name as ename');
         $this->db->from('calls');
         $this->db->join('employees', 'calls.created_by = employees.id', 'left');
-        if (!empty($id)) {
-            $this->db->where('calls.lead_id', $id);
+        if (!empty($order_id)) {
+            $this->db->where('calls.order_id', $order_id);
         }
         $call_lists = $this->db->get()->result_array();
 
@@ -848,6 +848,7 @@ class Leads extends CI_Controller
         date_default_timezone_set("Europe/London");
         $data['created_on'] = date("Y-m-d h:i:s A");
         $data['created_by'] = $login_id;
+        $data['is_read'] = 1;
 
         if ($data['description']) {
             $result = $this->call_insert($data);
@@ -867,16 +868,16 @@ class Leads extends CI_Controller
 
 
 
-        public function get_call_listwriter($id = '')
+        public function get_call_listwriter($order_id = '')
 {
     $user_id = $this->session->userdata['logged_in']['id'];
-    if (empty($id)) {
+    if (empty($order_id)) {
         $order_id = $_POST['order_id'];
     }
     $this->db->select('calls.*, employees.name as ename');
     $this->db->from('calls');
     $this->db->join('employees', 'calls.created_by = employees.id', 'left');
-    if (!empty($id)) {
+    if (!empty($order_id)) {
         $this->db->where('calls.order_id', $order_id);
     }
     $call_lists = $this->db->get()->result_array();
@@ -1114,7 +1115,7 @@ public function callstatusaddwritecint()
     {
         $login_id = $this->session->userdata['logged_in']['id'];
         $data = $this->input->post();
-        $backurl = $this->input->post('backurl');
+        $backurl = $this->input->post('u');
     
         // Unset the 'backurl' from the data array
         unset($data['backurl']);
@@ -1124,6 +1125,7 @@ public function callstatusaddwritecint()
             'created_on' => date("Y-m-d h:i:s A"), // Assuming you want to store the current timestamp
             'created_by' => $login_id,
             'order_id' => $this->input->post('order_id'), // Assuming 'order_id' is the correct field name
+            'is_read' => 1, // Assuming 'order_id' is the correct field name
         );
     
         // Merge the $data array with the $newData array
@@ -1158,7 +1160,7 @@ public function callstatusaddwritecint()
                 $data['file'] = $picture; // Store the filename directly without JSON encoding
     
                 // Assuming you have a model to handle database operations, update the following line accordingly
-                $this->db->insert('clintchat', $data);
+                $this->db->insert('calls', $data);
     
                 if ($this->db->affected_rows() > 0) {
                     // File uploaded and data inserted successfully
@@ -1170,8 +1172,9 @@ public function callstatusaddwritecint()
             }
         }
     }
-    
-    
+   
+    // After all the operations are complete, redirect back to the same URL with the data as parameters
+
     
     
 

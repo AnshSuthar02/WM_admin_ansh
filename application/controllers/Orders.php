@@ -96,6 +96,8 @@ class Orders extends CI_Controller
 		$this->template->load('template', 'feedbackall', $data);
 	}
 
+	
+
 public function emailindusial()
 	{
 		$data = $this->input->post();
@@ -290,6 +292,8 @@ public function emailindusial()
 				$data['orders'] = $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
 			}
 		}
+
+		echo print_r() $data['orders']; exit;
 	
 		// Load other data needed for the view
 		$data['categories'] = $this->order_model->getCategories();
@@ -2159,9 +2163,11 @@ public function emailindusial()
 	endif;
 
 
+	$data['writer_noti'] = $this->order_model->writer_notification();
+
 	
 
-	// echo '<pre>'; print_r($data); exit;
+	// echo '<pre>'; print_r($data['writer_noti']); exit;
 	$this->template->load('template', 'message/message_box', $data);
 }
 
@@ -2177,6 +2183,9 @@ public function orderchatc($order_id = NULL)
    if (isset($data['current'][0]->order_id)) :
 	   $data['id'] = $data['current'][0]->id;
    endif;
+
+
+
 
    if (isset($data['current'][0]->wid)) :
 	   $data['wid'] = $data['current'][0]->wid;
@@ -2204,12 +2213,41 @@ public function orderchatc($order_id = NULL)
    $this->template->load('template', 'message/clintwriter_chatbox', $data);
 }
 
+public function updateCallsData($order_code)
+{
+	$login_id = $this->session->userdata['logged_in']['id'];
+    // Assuming you have the $login_id variable defined or retrieved from your authentication system
+
+    // Load the database library (if not autoloaded)
+    // $this->load->database();
+
+    // Build the update query using Query Builder
+    $this->db->set('is_read', 0); // Set the 'is_read' column to 0
+    $this->db->where('order_code', $order_code); // Use the provided $order_code to identify the row(s) to update
+    $this->db->where('created_by !=', $login_id); // Add condition to check created_by is not equal to $login_id
+    $this->db->update('calls'); // Execute the update query
+
+    // You can check the result of the update operation if needed
+    // $result = $this->db->affected_rows();
+
+    // Construct the URL for redirect
+    $redirect_url = base_url('index.php/Orders/orderchat/'. $order_code);
+
+    // Redirect to the desired URL
+    redirect($redirect_url);
+}
+
+
+
+
 
 
 
 
 	
 }
+
+
 	
 
 

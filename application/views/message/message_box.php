@@ -164,6 +164,7 @@ $current_page = current_url();
                                 <div class="col-md-12 col-sm-12">
                                     <input type="hidden" name="backurl" value="">
                                     <input type="hidden" class="m_lead_id" name="order_id" value="<?= $id ?>">
+                                    <input type="hidden"  name="order_code" value="<?= $order_id ?>">
                                     <?php if($role_id == 6){ ?>
                                         <input type="text" class="" name="reciever_id" value="<?= $swid ?>">
                                     <?php } elseif($role_id==7 ){?>
@@ -269,6 +270,7 @@ $current_page = current_url();
             // Function to send a message to the server
            function sendMessage() {
     var order_id = $('input[name="order_id"]').val();
+    var order_code = $('input[name="order_code"]').val();
     var description = $('textarea[name="description"]').val();
     var reciever_id = $('input[name="reciever_id"]').val();
     var files = $('input[name="file[]"]')[0].files; // Get the files from the file input
@@ -277,13 +279,14 @@ $current_page = current_url();
     formData.append('order_id', order_id);
     formData.append('description', description);
     formData.append('reciever_id', reciever_id);
+    formData.append('order_code', order_code);
 
     for (var i = 0; i < files.length; i++) {
         formData.append('files[]', files[i]);
     }
 
     // Log the data being sent in the AJAX request
-    console.log('Data to be sent:',  files);
+    console.log('Data to be sent:',  order_code);
 
     $.ajax({
         type: "POST",

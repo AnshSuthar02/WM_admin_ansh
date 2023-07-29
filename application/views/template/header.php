@@ -7,6 +7,7 @@ $notification_orders = $base . 'index.php/Orders/feedbackall';
 $this->load->model('order_model');
 $notify_url = $base . 'index.php/Orders/feedback';
 $notification = $this->order_model->feedback_notification();
+$notificationw = $this->order_model->writer_notification();
 
 $user_details = $this->session->userdata('logged_in');
 
@@ -587,6 +588,93 @@ if (isset($this->session->userdata['logged_in'])) {
 
 
                             </div>
+                        </li><li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"> 
+                                 <span class="badge badge-primary  navbar-badge btn" style="margin-top: -8px;border-radius:42%;background-color: #00bf5e"> <i style="font-size:20px;" class="fa fa-bell"></i> <sup style="color: #fff;"> <?php echo sizeof($notification); ?></sup></span>
+                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end mailbox animated bounceInDown">
+                               <ul>
+                                <span class="dropdown-item dropdown-header"><?php echo sizeof($notification); ?> Feedback Message</span>
+                                <?php
+                                $distinctNotifications = array_unique(array_column($notification, 'order_id')); // Retrieve distinct notifications based on order_id
+                                
+                                foreach ($distinctNotifications as $order_id) {
+                                    $notify = null;
+                                    foreach ($notification as $item) {
+                                        if ($item['order_id'] == $order_id) {
+                                            $notify = $item;
+                                            break;
+                                        }
+                                    }
+                                    if ($notify) {
+                                ?>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="<?php echo $notify_url ?>/<?php echo $notify['order_id']; ?>/notify" class="dropdown-item">
+                                        <?= $notify['code']; ?>  <?= $notify['title']; ?>
+                                    </a>
+                                <?php
+                                    }
+                                }
+                                ?>
+                                <div class="dropdown-divider"></div>
+                                <a href="<?= $notification_orders ?>/notify" class="dropdown-item dropdown-footer">See All Notifications</a>
+                            </ul>
+
+
+
+
+
+
+
+                            </div>
+                        </li>
+
+						<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"> 
+                                 <span class="badge badge-primary  navbar-badge btn" style="margin-top: -8px;border-radius:42%;background-color: #00bf5e"> <i style="font-size:20px;" class="fa fa-bell"></i> <sup style="color: #fff;"> <?php echo sizeof($notificationw); ?></sup></span>
+                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end mailbox animated bounceInDown">
+							<ul>
+					<span class="dropdown-item dropdown-header"><?= sizeof($notificationw); ?> Feedback Message</span>
+					<?php
+					// Retrieve distinct notifications based on order_code
+					$distinctNotificationsw = array_unique(array_column($notificationw, 'order_code'));
+
+					foreach ($distinctNotificationsw as $order_code) {
+						$notify = null;
+						// Replace 'your_login_id' with the actual login ID or retrieve it from your authentication system
+						// Assuming you have a $logged_in_user variable that holds the ID of the currently logged-in user
+						foreach ($notificationw as $item) {
+							if ($item['order_code'] == $order_code && $item['created_by'] !=  $user_id) {
+								$notify = $item;
+								break;
+							}
+						}
+						
+						if ($notify) {
+							?>
+							<div class="dropdown-divider"></div>
+							<a href="<?= base_url() ?>Orders/updateCallsData/<?= $notify['order_code']; ?>" class="dropdown-item">
+								<?= $notify['order_code']; ?>
+							</a>
+							<?php
+						}
+					}
+					?>
+    <div class="dropdown-divider"></div>
+    <a href="<?= $notification_orders ?>/notify" class="dropdown-item dropdown-footer">See All Notifications</a>
+</ul>
+
+
+
+
+
+
+                            </div>
                         </li>
                         <!-- ============================================================== -->
                         <!-- End Comment -->
@@ -631,5 +719,26 @@ if (isset($this->session->userdata['logged_in'])) {
             });
         </script>
         
-       
+       <script>
+		$(document).ready(function() {
+	// When a notification is clicked, update the is_read field and redirect the user to the order chat page
+		$('.dropdown-item').click(function() {
+			var notification_id = $(this).data('notification-id');
+
+			$.ajax({
+				url: '<?= base_url('notifications/update_read') ?>',
+				type: 'POST',
+				data: {
+					notification_id: notification_id
+				},
+				success: function(response) {
+					if (response.success) {
+						// Redirect the user to the order chat page
+						window.location.href = '<?= base_url('orders/orderchat/') ?>' + response.order_code;
+					}
+				}
+			});
+		});
+	});
+	   </script>
         

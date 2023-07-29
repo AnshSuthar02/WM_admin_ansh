@@ -1694,4 +1694,23 @@ public function feedback_list_all()
         }
     }
 
+// Assuming this function is part of a CodeIgniter model or controller
+
+public function writer_notification()
+{
+    // Load the database library if not already loaded
+	$login_id = $this->session->userdata['logged_in']['id'];
+	$this->db->select('*');
+	$this->db->from('calls');
+	if ($this->role_id == '2') {
+		$this->db->where('calls.created_by', $login_id);
+	}
+	$this->db->where('calls.is_read', '1');
+	$this->db->order_by("calls.id", "desc");
+	$query =  $this->db->get()->result_array();
+	return $query;
+}
+
+
+
 }
