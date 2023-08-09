@@ -1194,12 +1194,12 @@ public function feedback_list_all()
 	function deleteorder($id)
 	{
 		$this->db->where('id', $id);
-		// if ($this->db->delete('orders')) {
-		// 	$this->db->where('detail_id', $id);
-		// 	if ($this->db->delete('files_db')) {
-		// 		return true;
-		// 	}
-		// }
+		if ($this->db->delete('orders')) {
+			$this->db->where('detail_id', $id);
+			if ($this->db->delete('files_db')) {
+				return true;
+			}
+		}
 	}
 
 	function deleteorderFile($id)

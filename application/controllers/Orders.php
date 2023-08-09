@@ -293,7 +293,7 @@ public function emailindusial()
 			}
 		}
 
-		echo print_r() $data['orders']; exit;
+	
 	
 		// Load other data needed for the view
 		$data['categories'] = $this->order_model->getCategories();
